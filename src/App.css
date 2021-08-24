@@ -1,38 +1,758 @@
-.App {
-  text-align: center;
+/********************/
+/* UserRegister css */
+/********************/
+
+.one-row-register{
+    padding: 10px;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.but1-register{
+    padding: 10px;
+    margin-bottom: 10px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+h2{
+    text-align: center;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.div-form-register{
+    box-shadow: 1px 1px 5px 5px lightgrey;
+    margin-top: 50px;
+    margin-bottom: 50px;
 }
 
-.App-link {
-  color: #61dafb;
+.notification{
+    color: red;
+    height: 30px;
+    font-weight: normal;
+    font-size: 12px;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+iframe{
+    border: 0px;
+    width: 600px;
+    height: 450px;
+}
+
+.ggmap{
+    width: 370px;
+    height: 300px;
+}
+
+
+/*************/
+/* Login css */
+/*************/
+
+
+.one-row-login{
+    padding: 30px;
+    margin-bottom: 40px;
+}
+
+.but1-login{
+    height: 50px;
+    margin-top: 5px;
+}
+
+h2{
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.div-form-login{
+    box-shadow: 1px 1px 5px 5px lightgrey;
+    margin-top: 50px;
+}
+
+.btn-link{
+    text-decoration: none;
+    border: 1px solid;
+    border-radius: 2%;
+    margin-bottom: 20px;
+    padding: 15px;
+}
+
+.div-left-login{
+    border-right: 1px solid black;
+}
+
+.div-right-login{
+    margin-top: 40px;
+}
+
+/**************/
+/* Header css */
+/**************/
+
+.entity{
+    margin-top: 10px;
+}
+
+.mainlogo{
+    width: 100px;
+    height: 50px;
+}
+
+/***************/
+/* Google Maps */
+/***************/
+.ggmap-addr-btn{
+    width: 30px;
+    height: 30px;
+    display: inline-block;
+}
+
+#find-location-btn{
+    margin-left: 23px;
+    background: url('./icons/find-location.png') no-repeat;
+    background-size: 32px 30px;
+}
+
+#my-location-btn{
+    background: url('./icons/my-location.png') no-repeat;
+    background-size: 32px 30px;
+}
+
+/*********/
+/* Admin */
+/*********/
+
+.noti-request{
+    background: red;
+    padding: 0px 5px;
+    color: white;
+    font-weight: bolder;
+    font-size: 12;
+    border-radius: 5px;
+}
+
+.admin-header{
+    margin-bottom: 10px;
+    background-color: lightcyan;
+    padding: 10px 0px;
+    border-radius: 10px;
+}
+
+.admin-logout a{
+    margin-top: 300px;
+    background-color: lightcyan;
+}
+
+.admin-logout a:hover{
+    background-color: red;
+}
+
+.admin-btn-accept, .admin-btn-reject{
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    padding: 0px 17px 0px 0px;
+}
+
+.admin-text{
+    font-size: 20px;
+    font-weight: bolder;
+    color: deepskyblue;
+    background: url('./icons/icon-admin.png') no-repeat;
+    background-size: 50px 30px;
+    padding-left: 40px;
+}
+
+.div-left-admin, .admin-content, .admin-form-browser, .div-convenient{
+    box-shadow: lightgrey 0.5px 0.5px 2.5px 2.5px;
+    border-radius: 10px;
+    margin-top: 3px;
+    margin-bottom: 10px;
+}
+
+.div-right-admin{
+    max-height: 700px;
+    overflow-y: scroll;
+}
+
+.button-conv-update{
+    padding: 5px 5px;
+    background-color: #337ab7;
+    border: 0px;
+    border-radius: 10px;
+    margin-left: 60px;
+    color: white
+}
+
+.button-conv-delete{
+    padding: 5px 5px;
+    background-color: rgb(248, 125, 54);
+    border: 0px;
+    border-radius: 10px;
+    margin-left: 5px;
+    color: white;
+}
+
+.button-conv-add{
+    padding: 5px 15px;
+    background-color: #29eb10;
+    border: 0px;
+    border-radius: 10px;
+    margin-left: 60px;
+    color: white
+}
+
+.button-conv-cancel{
+    width: 32px;
+    height: 30px;
+    background: url('./icons/icon-close.png') no-repeat;
+    background-size: 32px 30px;
+    border: 0px;
+    border-radius: 10px;
+    margin-left: 5px;
+    padding: 8px;
+}
+
+.icons-conv{
+    width: 40px;
+    height: 30px;
+}
+
+.rows{
+    padding: 10px 0px 10px 0px;
+    border-bottom: 1px solid lightgray;
+}
+
+.rows input{
+    border: none;
+}
+
+#input-add-conv-tag{
+    border: 1px solid lightgray
+}
+
+.bolder{
+    font-size: 15px;
+    font-weight: bolder;
+    border-bottom: 5px solid lightgray;
+    background-color: white;
+}
+
+.rows input[type=file], #add-icon-conv{
+    display: none;
+}
+
+.form-add-conv{
+    padding: 10px 0px 10px 0px;
+    display: none;
+}
+
+@keyframes show {
+    from {top: -50px; z-index: -1}
+    to {top: 0px; z-index: 0}
+}
+
+.add-visible{
+    padding-top: 10px;
+    display: inline;
+    animation: show 2s;
+}
+
+.btn-add-conv{
+    width: 30px;
+    height: 30px;
+    margin-top: 15px;
+    background: url('./icons/add-convenient.png') no-repeat;
+    background-size: 30px 30px;
+    border: none;
+}
+
+.title{
+    background-color: rgb(248, 125, 54);
+    border-radius: 10px;
+    color: white
+}
+
+/********/
+/* Host */
+/********/
+
+
+.host-logo{
+    height: 100px;
+}
+
+.host-logo img{
+    width: 200px;
+    height: 100px;
+    padding: 0px;
+}
+
+
+.host-controller-child{
+    font-size: 15px;
+    text-align: center;
+    /*border: 1px solid;*/
+    padding: 38px 0px;
+    color: black;
+}
+
+.host-controller-child:hover{
+    text-decoration: none;
+    border-bottom: 3px solid;
+    color: rgb(95, 250, 224);
+    font-weight: bold;
+}
+
+.host-controller-child-active{
+    border-bottom: 3px solid;
+    color: rgb(95, 250, 224);
+    font-weight: bold;
+}
+
+
+/* width */
+.div-right-admin::-webkit-scrollbar {
+    width: 20px;
+}
+  
+/* Track */
+.div-right-admin::-webkit-scrollbar-track {
+    box-shadow: inset 0 0 5px grey; 
+    border-radius: 10px;
+}
+   
+/* Handle */
+.div-right-admin::-webkit-scrollbar-thumb {
+    background: #f76767; 
+    border-radius: 10px;
+}
+  
+/* Handle on hover */
+.div-right-admin::-webkit-scrollbar-thumb:hover {
+    background: red; 
+}
+
+.host-update-form{
+    position: relative
+}
+
+.bg-host-update-form{
+    opacity: 0.2;
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: url('./img/default-background.png');
+}
+
+.content-host-update-form{
+    position: relative;
+}
+
+#logo-host{
+    display: none;
+}
+
+.img-logo{
+    width: 200px;
+    height: 130px;
+}
+
+.host-btn-submit{
+    background-color: rgb(95, 250, 224);
+    color: white;
+    font-weight: bolder;
+}
+
+.host-control{
+    border-radius: 10px;
+    margin-top: 10px;
+    padding: 20px 0px 10px 0px;
+    background-color:rgb(95, 250, 224);
+}
+
+.host-control .btn-add-room button{
+    padding: 5px 10px;
+    border-radius: 10px;
+    background-color: white;
+    border: 5px solid rgb(248, 125, 54);
+    font-weight: bolder;
+    margin-top: -10px;
+    margin-left: 45px;
+}
+
+.host-control input, select{
+    border: none;
+}
+
+.host-control input[type=text]{
+    width: 50px;
+    border: none;
+}
+
+.host-control input:focus{
+    outline: none;
+}
+
+.control-element{
+    margin-left: 10px;
+    display: inline;
+    padding: 10px 5px;
+    border-radius: 10px;
+    background-color: white;
+}
+
+.title-add-room{
+    font-size: 20px;
+    font-style: oblique;
+    margin-top: 20px;
+    font-family: Stencil Std, fantasy;
+}
+
+.add-room-visible{
+    position: absolute;
+    margin-top: 180px;
+    margin-bottom: 20px;
+    visibility: visible;
+    z-index: 5;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: rgb(248, 125, 54) 1px 1px 5px 5px;
+}
+
+.add-room-hidden{
+    z-index: 0;
+    visibility: hidden;
+}
+
+.room-body-visible{
+    opacity: 1;
+    z-index: 5;
+}
+
+.room-body-hidden{
+    opacity: 0.2;
+    z-index: 0;
+}
+
+
+.checkbox{
+    width: 20px;
+    height: 20px;
+    display: inline-block;
+}
+
+.value-checkbox{
+    margin-left: 3px;
+    position: relative;
+    top: -5px;
+}
+
+.icon-checkbox{
+    width: 20px;
+    height: 20px;
+    margin-left: 3px;
+    position: relative;
+    top: -6px;
+}
+
+#room-img{
+    display: none;
+}
+
+.host-icon-add-img{
+    border: 5px dashed #ff006f;
+    width: 110px;
+    height: 110px;
+    border-radius: 5px;
+    margin-top: 10px;
+}
+
+.host-icon-preview{
+    width: 110px;
+    height: 110px;
+    margin-top: 10px;
+    position: relative;
+}
+
+.btn-remove-img{
+    width: 20px;
+    height: 20px;
+    position: absolute;
+    top: 8px;
+    right: 18px;
+    border-radius: 50%;
+    background: url('./icons/icon-close.png') no-repeat;
+    background-size: 20px 20px;
+    border: none;
+    background-color: white;
+}
+
+.btn-submit-add-room, .btn-close-add-room{
+    margin-left: 10px;
+    width: 70px;
+    padding: 10px;
+    border-radius: 20px;
+    background: white;
+    color: black;
+    border: 3px solid black;
+    font-weight: bolder;
+    margin-bottom: 20px;
+}
+
+.btn-submit-add-room{
+    margin-left: 50px;
+}
+
+.btn-submit-add-room:hover, .btn-close-add-room:hover{
+    background: black;
+    color:white;
+}
+
+
+/********/
+/* Home */
+/********/
+
+.header-home{
+   padding: 10px 0px;
+}
+
+.content-home{
+    background-size: 100% 100%;
+}
+
+.home-background{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: url('./img/default-background.png') ;
+    z-index: -10;
+}
+
+.control-home{
+    padding: 20px 0px;
+}
+
+.control-home .control-element{
+    margin-left: 32px;
+}
+
+.control-home input, select{
+    border: none;
+}
+
+.control-home input[type=text]{
+    width: 50px;
+}
+
+.control-element-range{
+    margin-top: 20px;
+    margin-left: 30px;
+    border-radius: 10px;
+    background-color: white;
+    box-shadow: lightgrey 0.5px 0.5px 2.5px 2.5px;
+    width: 1048px;
+    padding: 10px;
+}
+
+.control-home input:focus, select:focus{
+    outline: none;
+}
+
+.control-home .control-element{
+    box-shadow: lightgrey 0.5px 0.5px 2.5px 2.5px;
+}
+
+.control-element-btn-find{
+    margin-top: 10px;
+    padding: 0px;
+}
+
+.control-element-btn-find button{
+    width: 95px;
+    height: 120px;
+    border-radius: 20px;
+    box-shadow: lightgrey 0.5px 0.5px 2.5px 2.5px;
+    font-weight: bolder;
+    font-size: 18px;
+    border: none;
+    background-color: rgb(0, 174, 255);
+    color: white;
+}
+
+.Pagination{
+    padding: 8px 0px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.Pagination a{
+    border: 1px solid rgba(107, 202, 247, 0.514);
+    color: rgb(0, 174, 255);
+    padding: 8px 15px;
+    background-color: white;
+}
+
+.Pagination a:hover{
+    text-decoration: none;
+    background-color: rgb(0, 174, 255);
+    color: white;
+}
+
+.PaginationActive a{
+    text-decoration: none;
+    background-color: rgb(0, 174, 255);
+    color: white;
+}
+
+.show-content .control-element1 select{
+    width: 100px;
+    margin-left: 10px;
+}
+
+.show-content .control-element1{
+    text-align: center;
+    margin-top: 10px;
+    padding: 5px 0px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: lightgrey 0.5px 0.5px 2.5px 2.5px;
+}
+
+.home-row-info{
+    background-color: white;
+    box-shadow: lightgray 0.5px 0.5px 2.5px 2.5px;
+    border-radius: 20px;
+    margin: 10px 0px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.home-image-info, .home-detail-info{
+    padding: 0px;
+    height: 250px;
+}
+
+.home-image-info img{
+    display: inline-block;
+    width: 280px;
+    height: 250px;
+    border-radius: 20px;
+}
+
+.home-info-name{
+    font-size: 22px;
+    font-weight: bolder;
+    border-bottom: 0.1px solid rgba(211, 211, 211, 0.5);
+    padding: 10px;
+}
+
+.home-info-address, .home-info-evaluate, .home-info-price{
+    font-size: 17px;
+    padding: 5px 20px;
+    border-bottom: 0.1px solid rgba(211, 211, 211, 0.5);
+}
+
+.home-info-price input{
+    border: none;
+    outline: none;
+}
+
+.home-info-showmoredetail{
+    padding: 7px 20px;
+}
+
+.glyphicon-map-marker{
+    color: red;
+}
+
+.glyphicon-star{
+    color: rgba(240, 240, 30, 0.753);
+}
+
+.button {
+    padding: 10px 15px;
+    text-align: center;
+    cursor: pointer;
+    outline: none;
+    color: #fff;
+    background-color: #04AA6D;
+    border: none;
+    border-radius: 10px;
+    box-shadow: 5px 5px #999;
+}
+  
+.button:hover {background-color: #00f808}
+  
+.button:active {
+    background-color: #00f808;
+    box-shadow: 1px 1px #666;
+    transform: translateY(4px);
+}
+
+.home-more-info-content .ggmap{
+    width: 1090px;
+    height: 400px;
+    padding: 0px;
+}
+
+.showinfo-tabs{
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.home-more-info-content{
+    padding: 0px;
+}
+
+.home-remove-more-detail{
+    font-size: 25px;
+    margin-top: 10px;
+    cursor: pointer;
+}
+
+.home-more-detail-none{
+    display: none;
+}
+
+.home-more-detail-visible{
+    animation: 1.5s slideDown;
+    display: block;
+}
+
+@keyframes slideDown {
+	0% {
+		transform: translateY(-200px);
+        visibility: hidden;
+        z-index: -10;
+	}
+	100% {
+		transform: translateY(0%);
+	}		
+}
+
+.home-more-info-content img{
+    display: inline-block;
+    width: 200px;
+    height: 150px;
+    margin-left: 15px;
+    margin-bottom: 15px;
+    border-radius: 15px;
+}
+
+.home-conv-info{
+    padding: 10px;
+    height: 40px;
+}
+
+.home-conv-info span{
+    font-size: 25px;
+}
+
+.home-conv-info p{
+    display: inline;
+}
+
+h4{
+    font-style: oblique;
 }

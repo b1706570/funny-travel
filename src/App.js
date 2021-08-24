@@ -1,23 +1,27 @@
-import logo from './logo.svg';
 import './App.css';
+import Login from './pages/Login';
+import Home from './pages/Home';
+import UserRegister from './pages/UserRegister';
+import HostRegister from './pages/HostRegister';
+import Admin from './pages/Admin';
+import Host from './pages/Host';
+import HostInfo from './pages/HostInfo';
+import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+    <Router>
+      <Switch>
+        <Route exact path="/" component={Home} />
+        <Route exact path="/login" component={Login} />
+        <Route exact path="/register" component={UserRegister} />
+        <Route exact path="/host/register" component={HostRegister} />
+        <Route exact path="/admin" component={Admin} />
+        <Route exact path={"/host/" + localStorage.getItem('username') + "/"} component={Host} />
+        <Route exact path={"/host/" + localStorage.getItem('username') + "/personalinfo"} component={HostInfo} />
+      </Switch>
+    </Router>
     </div>
   );
 }
