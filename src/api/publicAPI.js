@@ -41,4 +41,26 @@ export default class publicAPI {
                 console.log(error);
             })
     }
+
+    getComment(params) {
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getcomment.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    pushComment(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/pushcomment.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
 }

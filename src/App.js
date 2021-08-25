@@ -18,7 +18,7 @@ function App() {
         <Route exact path="/register" component={UserRegister} />
         <Route exact path="/host/register" component={HostRegister} />
         <Route exact path="/admin" component={Admin} />
-        <Route exact path={"/host/" + localStorage.getItem('username') + "/"} component={Host} />
+        <Route exact path={"/host/" + localStorage.getItem('username')} component={Host} />
         <Route exact path={"/host/" + localStorage.getItem('username') + "/personalinfo"} component={HostInfo} />
       </Switch>
     </Router>

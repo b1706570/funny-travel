@@ -3,6 +3,7 @@ import NumberFormat from 'react-number-format';
 import ShowAddressInMaps from './ShowAddressInMaps';
 import config from '../config.json';
 import { Link } from 'react-router-dom';
+import Comment from './Comment';
 
 export class DetailInfoTab extends Component {
     render() {
@@ -47,6 +48,13 @@ export class DetailInfoTab extends Component {
                 </div>
             )
         }
+        else if (this.props.tab_index === 2) {
+            return (
+                <div className="col-md-12 home-more-info-content">
+                    <Comment id_host={this.props.id_host} />
+                </div>
+            )
+        }
     }
 }
 
@@ -56,6 +64,7 @@ export default class ShowInfo extends Component {
         this.state = {
             listImg: [],
             listConv: [],
+            id: "",
             name: "",
             address: "",
             lat: this.props.item.latitude,
@@ -78,6 +87,7 @@ export default class ShowInfo extends Component {
         arrConv = Array.from(new Set(arrConv));
         this.setState({
             listImg: arrImg,
+            id: this.props.item.id_host,
             name: this.props.item.company_name,
             address: this.props.item.address_host,
             lat: this.props.item.latitude,
@@ -145,7 +155,7 @@ export default class ShowInfo extends Component {
                             <span className="glyphicon glyphicon-remove home-remove-more-detail" aria-hidden="true" onClick={this.HideMoreDetail}></span>
                         </div>
                     </div>
-                    <DetailInfoTab tab_index={this.state.tab} lat={this.state.lat} long={this.state.long} arrImage={this.state.listImg} listConv={this.props.listConv} ConvAvailable={this.state.listConv} />
+                    <DetailInfoTab tab_index={this.state.tab} id_host={this.state.id} lat={this.state.lat} long={this.state.long} arrImage={this.state.listImg} listConv={this.props.listConv} ConvAvailable={this.state.listConv} />
                 </div>
             </div>
         )

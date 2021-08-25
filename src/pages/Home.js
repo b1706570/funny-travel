@@ -1,9 +1,10 @@
 import React, { Component } from 'react';
 import Footer from '../component/Footer';
 import Header from '../component/Header';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import publicAPI from '../api/publicAPI';
 import ShowInfo from '../component/ShowInfo';
+import NumberFormat from 'react-number-format';
 
 export default class Home extends Component {
     constructor(props) {
@@ -224,6 +225,10 @@ export default class Home extends Component {
     }
 
     render() {
+        if(localStorage.getItem('type') === "host")
+            return <Redirect to={"/host/" + localStorage.getItem('username')} />
+        if(localStorage.getItem('type') === "admin")
+            return <Redirect to="/admin" />
         var listHost = this.state.listHost;
         return (
             <div>
@@ -266,7 +271,7 @@ export default class Home extends Component {
                                         }
                                     </select>
                                 </div>
-                                <div className="control-element-range"><label>Giá mỗi đêm: {this.state.price_of_condition}</label>
+                                <div className="control-element-range"><label>Giá mỗi đêm: <NumberFormat thousandSeparator={true} value={this.state.price_of_condition} readOnly></NumberFormat></label>
                                     <input type="range" name="price_of_condition" step="50000" min={this.state.min_price} max={this.state.max_price} value={this.state.price_of_condition} onChange={this.ChangeHandler} />
                                 </div>
                             </div>
