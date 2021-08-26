@@ -126,6 +126,7 @@ export default class ShowInfo extends Component {
         else if (this.state.tab === 2) class_comment += "active";
         return (
             <div className="home-row-info col-md-12">
+                <Link to={"/detail-host/" + this.props.item.id_host}>
                 <div className="home-image-info col-md-3">
                     <img src={config.ServerURL + "/" + this.state.listImg[0]} alt="Ảnh của khách sạn" />
                 </div>
@@ -142,6 +143,7 @@ export default class ShowInfo extends Component {
                     </p>
                     <p className="home-info-showmoredetail col-md-12"><button className="button" onClick={this.ShowMoreDetail}>Xem thêm thông tin</button></p>
                 </div>
+                </Link>
                 <div className={this.state.moreinfo_statement}>
                     <div className="col-md-5 col-md-offset-7 showinfo-tabs">
                         <div className="col-md-11">

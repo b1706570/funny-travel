@@ -57,7 +57,7 @@ export default class publicAPI {
         const api = axios.create({baseURL: this.baseURL});
         return api.post('/pushcomment.php', params)
             .then(response =>{
-                return response.data;
+                return response.data[0];
             })
             .catch(error =>{
                 console.log(error);

@@ -6,7 +6,9 @@ import HostRegister from './pages/HostRegister';
 import Admin from './pages/Admin';
 import Host from './pages/Host';
 import HostInfo from './pages/HostInfo';
+import DetailHost from './pages/DetailHost';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
+
 
 function App() {
   return (
@@ -20,6 +22,7 @@ function App() {
         <Route exact path="/admin" component={Admin} />
         <Route exact path={"/host/" + localStorage.getItem('username')} component={Host} />
         <Route exact path={"/host/" + localStorage.getItem('username') + "/personalinfo"} component={HostInfo} />
+        <Route exact path="/detail-host/:id" component={DetailHost} />
       </Switch>
     </Router>
     </div>

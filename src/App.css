@@ -86,12 +86,20 @@ h2{
 /**************/
 
 .entity{
-    margin-top: 10px;
+    margin-top: 40px;
+    padding-right: 10px;
+    padding-left: 10px;
+}
+
+.logo{
+    margin-top: 0px;
+    padding: 0px;
 }
 
 .mainlogo{
-    width: 100px;
-    height: 50px;
+    width: 120px;
+    height: 100px;
+    padding: 0px;
 }
 
 /***************/
@@ -514,6 +522,8 @@ h2{
 
 .header-home{
    padding: 10px 0px;
+   height: 120px;
+   background-color: white;
 }
 
 .content-home{
@@ -622,6 +632,10 @@ h2{
     margin: 10px 0px;
     padding-top: 5px;
     padding-bottom: 5px;
+}
+
+.home-row-info a{
+    color: black;
 }
 
 .home-image-info, .home-detail-info{
@@ -842,4 +856,38 @@ h4{
 .home-add-comment .star-nonactive{
     background: url('./icons/whitestar.png');
     background-size: 100% 100%;
+}
+
+.home-row-comment .home-img-comment{
+    width: 200px;
+    height: 200px;
+    margin-left: 30px;
+}
+
+.home-div-comment{
+    border: 1px solid;
+    max-height: 1000px;
+    overflow-y: scroll;
+}
+
+/* width */
+.home-div-comment::-webkit-scrollbar {
+    width: 10px;
+}
+  
+/* Track */
+.home-div-comment::-webkit-scrollbar-track {
+    box-shadow: none; 
+    border-radius: 10px;
+}
+   
+/* Handle */
+.home-div-comment::-webkit-scrollbar-thumb {
+    background: rgba(255, 0, 0, 0.664); 
+    border-radius: 10px;
+}
+  
+/* Handle on hover */
+.home-div-comment::-webkit-scrollbar-thumb:hover {
+    background: red; 
 }
