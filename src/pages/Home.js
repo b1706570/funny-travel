@@ -291,7 +291,7 @@ export default class Home extends Component {
                                 </div>
                                 <div className="col-md-12">
                                     {
-                                        listHost.map((item) => <ShowInfo key={item.id_host} item={item} listConv={this.state.listConv} />)
+                                        listHost.map((item) => <ShowInfo key={item.id_host} item={item} listConv={this.state.listConv} checkin={this.state.checkin_of_condition} checkout={this.state.checkout_of_condition} />)
                                     }
                                 </div>
                                 <div className="col-md-12">

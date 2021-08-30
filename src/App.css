@@ -15,10 +15,16 @@ h2{
     text-align: center;
 }
 
+
 .div-form-register{
-    box-shadow: 1px 1px 5px 5px lightgrey;
     margin-top: 50px;
     margin-bottom: 50px;
+    box-shadow: 1px 1px 5px 5px lightgray;
+    background: linear-gradient(to bottom, #ffff99 0%, #ff0066 100%);
+}
+
+.div-form-register input[type=text], .div-form-register input[type=password]{
+    background: none;
 }
 
 .notification{
@@ -35,7 +41,7 @@ iframe{
 }
 
 .ggmap{
-    width: 370px;
+    width: 380px;
     height: 300px;
 }
 
@@ -61,8 +67,20 @@ h2{
 }
 
 .div-form-login{
-    box-shadow: 1px 1px 5px 5px lightgrey;
-    margin-top: 50px;
+    margin-top: 100px;
+    background: linear-gradient(to bottom, #ff99cc 0%, #33ccff 100%);;
+}
+
+.div-form-login input[type=text], .div-form-login input[type=password]{
+    background: none;
+}
+
+.login-background{
+    width: 100%;
+    height: 100%;
+    position: fixed;
+    background: url('./img/background-login.png');
+    background-size: 120% 120%;
 }
 
 .btn-link{
@@ -524,6 +542,7 @@ h2{
    padding: 10px 0px;
    height: 120px;
    background-color: white;
+   box-shadow: 0px 0px 7px 0px lightgray;
 }
 
 .content-home{
@@ -890,4 +909,159 @@ h4{
 /* Handle on hover */
 .home-div-comment::-webkit-scrollbar-thumb:hover {
     background: red; 
+}
+
+
+/***************/
+/* Detail Home */
+/***************/
+
+.common-info-detail label{
+    font-size: 25px;
+    margin-right: 20px;
+}
+
+
+.detail-div-left{
+    width: 70%;
+    border: 1px solid red;
+    display: inline-block;
+}
+
+.detail-div-right{
+    display: inline;
+    width: 30%;
+    float: right;
+    position: sticky;
+    top: 0;
+}
+
+.room-detail{
+    padding: 15px;
+    border-bottom: 1px solid rgba(211, 211, 211, 0.863);
+}
+
+.content-room-detail{
+    font-size: 16px;
+}
+
+.content-room-detail input[type=text]{
+    border: none;
+    font-weight: bolder;
+    background: none;
+    width: 120px;
+}
+
+.content-room-detail input[type=text]:focus {
+    outline: none;
+}
+
+.content-room-detail div{
+    padding-bottom: 10px;
+}
+
+.item{
+    height: 300px;
+}
+
+.item img{
+    height: 100% !important;
+    width: 100% !important;
+}
+
+.content-room-detail .price-room-detail{
+    border: 1px solid;
+    background-color: #218503;
+    border-radius: 20px;
+    color:white;
+    padding: 20px 0px 20px 15px;
+    font-size: 18px;
+    margin-bottom: 15px;
+}
+
+.imagePagination{
+    padding: 0px;
+    margin-top: 10px;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+}
+
+.imagePagination div{
+    display: inline;
+    margin: 0px 2px 0px 2px;
+}
+
+.imagePagination img{
+    width: 40px;
+    height: 40px;
+}
+
+.imagePagination .activate{
+    border: 4px solid red;
+}
+
+@keyframes activeSlideImage{
+    0%{
+        opacity: 0.5;
+    }
+    100%{
+        opacity: 1;
+    }
+}
+
+.active{
+    animation: activeSlideImage 3s;
+}
+
+.available{
+    display: inline;
+    padding: 2px 10px 5px 10px;
+    color: white;
+    background-color: rgb(0, 238, 0);
+    border-radius: 20px;
+}
+
+.unavailable{
+    display: inline;
+    padding: 2px 10px 5px 10px;
+    color: white;
+    background-color: red;
+    border-radius: 20px;
+}
+
+.booking-room{
+    padding: 70px 8px 5px 8px;
+    background: url('./icons/booking-room.png') no-repeat;
+    background-size: 100% 70%;
+    margin-top: 210px;
+}
+
+.detail-div-right .home-div-comment{
+    max-height: 600px;
+}
+
+.room-conv-detail{
+    margin-top: 30px;
+    border-top: 0.5px solid;
+    display: inline-block;
+    width: 75%;
+    height: 58px;
+    overflow: hidden;
+    padding: 35px 0px 0px 0px;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+}
+
+.more-detail-conv{
+    padding: 0px;
+    display: inline-block;
+    margin-top: 65px;
+    color:rgb(0, 181, 253);
+    text-decoration: underline;
+}
+
+.more-detail-conv:hover{
+    cursor: pointer;
+    color:rgb(0, 122, 204)
 }

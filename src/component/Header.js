@@ -37,19 +37,18 @@ export default class Header extends Component {
                     <div className="logo col-md-1 col-md-offset-1"><img className="mainlogo" src={logo} alt="logo trang web"></img></div>
                     <div className="btn col-md-1 entity">Gần bạn</div>
                     <div className="col-md-2 col-md-offset-6 entity">
-                            <div className="col-md-5 col-md-offset-1">
-                                <Link className="btn btn-primary" to='/login'>Đăng nhập</Link>
+                        <div className="col-md-5 col-md-offset-1">
+                            <Link className="btn btn-primary" to='/login'>Đăng nhập</Link>
+                        </div>
+                        <div className="col-md-6">
+                            <div className="dropdown">
+                                <button className="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Đăng kí</button>
+                                <ul className="dropdown-menu">
+                                    <li><Link to="/register">Bạn tìm kiếm địa điểm du lịch?</Link></li>
+                                    <li><Link to="/host/register">Bạn là người cung cấp dịch vụ?</Link></li>
+                                </ul>
                             </div>
-                            <div className="col-md-6">
-                                <div className="dropdown">
-                                    <button className="btn btn-danger dropdown-toggle" type="button" data-toggle="dropdown">Đăng kí</button>
-                                    <ul className="dropdown-menu">
-                                        <li><Link to="/register">Bạn tìm kiếm địa điểm du lịch?</Link></li>
-                                        <li><Link to="/host/register">Bạn là người cung cấp dịch vụ?</Link></li>
-                                    </ul>
-                                </div>
-                            </div>
-                        
+                        </div>
                     </div>
                 </div>
             )

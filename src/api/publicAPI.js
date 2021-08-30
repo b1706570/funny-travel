@@ -63,4 +63,26 @@ export default class publicAPI {
                 console.log(error);
             })
     }
+
+    getCommonInfoHost(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getcommoninfohost.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    getRoomUnavailable(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getbookingschedule.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
 }

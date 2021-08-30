@@ -22,7 +22,7 @@ function App() {
         <Route exact path="/admin" component={Admin} />
         <Route exact path={"/host/" + localStorage.getItem('username')} component={Host} />
         <Route exact path={"/host/" + localStorage.getItem('username') + "/personalinfo"} component={HostInfo} />
-        <Route exact path="/detail-host/:id" component={DetailHost} />
+        <Route exact path="/rooms/:id" component={DetailHost} />
       </Switch>
     </Router>
     </div>
