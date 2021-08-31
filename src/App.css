@@ -916,16 +916,52 @@ h4{
 /* Detail Home */
 /***************/
 
-.common-info-detail label{
-    font-size: 25px;
-    margin-right: 20px;
+.common-info-detail{
+    padding: 0px;
 }
 
+.common-info-detail label{
+    font-size: 25px;
+    margin-right: 10px;
+}
+
+.common-info-detail div{
+    padding: 0px;
+    text-decoration: underline;
+}
+
+.second-header-home-detail{
+    margin-top: 10px;
+    margin-bottom: 10px;
+    padding: 0px;
+    border: 1px solid;
+}
+
+
+.map-in-detail-host .ggmap{
+    width: 100%;
+    height: 500px;
+    border-radius: 20px;
+    z-index: 0;
+}
+
+.detail-div-left-default{
+    width: 70%;
+    border: 1px solid red;
+    display: inline-block;
+    margin-left: 15%;
+    padding: 0px;
+}
 
 .detail-div-left{
     width: 70%;
     border: 1px solid red;
     display: inline-block;
+    padding: 0px;
+}
+
+.detail-div-right-default{
+    display: none;
 }
 
 .detail-div-right{
@@ -934,6 +970,29 @@ h4{
     float: right;
     position: sticky;
     top: 0;
+}
+
+.detail-div-right .home-div-comment{
+    border-radius: 10px;
+}
+
+.control-detail-host div{
+    display: inline;
+}
+
+.control-detail-host label{
+    margin-left: 10px;
+}
+
+.control-detail-host input[type=date]{
+    padding: 0px;
+    margin: 0px 10px;
+    border-top: none;
+    border-left: none;
+}
+
+.control-detail-host input[type=date]:focus{
+    outline: none;
 }
 
 .room-detail{
@@ -1053,7 +1112,7 @@ h4{
     text-overflow: ellipsis;
 }
 
-.more-detail-conv{
+.more-detail-conv-btn{
     padding: 0px;
     display: inline-block;
     margin-top: 65px;
@@ -1061,7 +1120,68 @@ h4{
     text-decoration: underline;
 }
 
-.more-detail-conv:hover{
+.more-detail-conv-btn:hover{
     cursor: pointer;
     color:rgb(0, 122, 204)
+}
+
+.div-more-detail-conv{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    position: fixed;
+    background-color: rgba(228, 228, 228, 0.897);
+    z-index: 5;
+    visibility: visible;
+    animation: show-detail-conv 1.5s;
+}
+
+.div-more-detail-conv-hidden{
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    position: fixed;
+    background-color: rgba(228, 228, 228, 0.897);
+    z-index: -5;
+    visibility: hidden;
+}
+
+@keyframes show-detail-conv {
+    0%{
+        width: 0%;
+        height: 0%;
+        margin: 50%;
+    }
+    100%{
+        width: 100%;
+        height: 100%;
+        margin: 0%;
+    }
+}
+
+.div-content-more-detail-conv{
+    width: 60%;
+    height: 80%;
+    margin: 5% 20%;
+    border-radius: 20px;
+    background-color: white;
+    box-shadow: 0.5px 0.5px 2.5px 2.5px gray;
+}
+
+.home-detail-conv-info{
+    padding: 25px 10px;
+    height: 50px;
+}
+
+.home-detail-conv-info span{
+    font-size: 25px;
+}
+
+.home-detail-conv-info p{
+    display: inline;
+}
+
+.hidden-detail-conv{
+    font-size: 50px;
+    padding-left: 1%;
 }

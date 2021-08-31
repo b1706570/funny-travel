@@ -9,6 +9,7 @@ import config from '../config.json';
 import NumberFormat from 'react-number-format';
 import Footer from '../component/Footer';
 import Comment from '../component/Comment';
+import ShowAddressInMaps from '../component/ShowAddressInMaps';
 
 
 export class ImageSlider extends Component {
@@ -117,6 +118,7 @@ export default class DetailHost extends Component {
             listRooms: [],
             listRoomUnavailable: [],
             listConv: [],
+            listConvInDetail: [],
             checkin_date: "",
             checkout_date: "",
             id_host: "",
@@ -129,10 +131,15 @@ export default class DetailHost extends Component {
             latitude: "",
             longtitude: "",
             point: "(Chưa có đánh giá)",
+            class_listConv: "div-more-detail-conv-hidden",
+            class_div_left: "detail-div-left-default",
+            class_div_right: "detail-div-right-default",
         }
         this.getCommonInfoHost = this.getCommonInfoHost.bind(this);
         this.getRoomUnavailable = this.getRoomUnavailable.bind(this);
         this.getAllConvenients = this.getAllConvenients.bind(this);
+        this.ChangeConvInMoreDetail = this.ChangeConvInMoreDetail.bind(this);
+        this.HiddenMoreDetail = this.HiddenMoreDetail.bind(this);
     }
 
     componentDidMount() {
@@ -209,6 +216,22 @@ export default class DetailHost extends Component {
             })
     }
 
+    ChangeConvInMoreDetail(index) {
+        let data = this.state.listRooms;
+        this.setState({
+            listConvInDetail: data[index].convenients_room,
+            class_listConv: "div-more-detail-conv",
+        })
+        document.body.style.overflow = "hidden";
+    }
+
+    HiddenMoreDetail = () => {
+        this.setState({
+            class_listConv: "div-more-detail-conv-hidden",
+        })
+        document.body.style.overflow = "visible";
+    }
+
     render() {
         if (localStorage.getItem('type') === "host")
             return <Redirect to={"/host/" + localStorage.getItem('username')} />
@@ -218,18 +241,30 @@ export default class DetailHost extends Component {
         return (
             <div>
                 <div className="col-md-12 header-home"><Header /></div>
-                <div className="col-md-12">This is control row</div>
-                <div className="col-md-8 col-md-offset-2">
-                    <div className="col-md-12 common-info-detail">
-                        <label>{this.state.company}</label>
-                        <span>{this.state.point}</span>
-                    </div>
+                <div className="col-md-8 col-md-offset-2 second-header-home-detail">
                     <div className="col-md-12">
-                        {this.state.address}
+                        <div className="col-md-7 col-md-offset-5 control-detail-host">
+                            <div><label>Nhận phòng: </label>
+                                <input type="date" name="checkin_of_condition" value={this.state.checkin_of_condition} onChange={this.ChangeHandler} />
+                            </div>
+                            <div><label>Trả phòng:  </label>
+                                <input type="date" name="checkout_of_condition" value={this.state.checkout_of_condition} onChange={this.ChangeHandler} />
+                            </div>
+                            <div>
+                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                            </div>
+                        </div>
+                        <div className="col-md-12 common-info-detail">
+                            <label>{this.state.company}</label>
+                            <span>{this.state.point}</span>
+                            <div className="col-md-12">
+                                {this.state.address}
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div className="col-md-12">
-                    <div className="detail-div-left">
+                    <div className={this.state.class_div_left}>
                         {
                             this.state.listRooms.map((room, index) => {
                                 if (this.state.listRoomUnavailable.indexOf(room.id_room) === -1) {
@@ -249,13 +284,14 @@ export default class DetailHost extends Component {
                                                     {
                                                         this.state.listConv.map((conv, index) => {
                                                             if (room.convenients_room.indexOf(conv.id_conv) !== -1) {
-                                                                return (<span key={index}>{conv.name_conv + ", "}</span>)
+                                                                return (<span key={index}>{conv.name_conv + ", "}</span>);
                                                             }
+                                                            else return null;
                                                         })
                                                     }
 
                                                 </div>
-                                                <span className="more-detail-conv">(xem thêm)</span>
+                                                <span className="more-detail-conv-btn" onClick={this.ChangeConvInMoreDetail.bind(this, index)}>(xem thêm)</span>
                                             </div>
                                             <div className="col-md-1 booking-room">
                                                 Đặt phòng
@@ -280,13 +316,14 @@ export default class DetailHost extends Component {
                                                     {
                                                         this.state.listConv.map((conv, index) => {
                                                             if (room.convenients_room.indexOf(conv.id_conv) !== -1) {
-                                                                return (<span key={index}>{conv.name_conv + ", "}</span>)
+                                                                return (<span key={index}>{conv.name_conv + ", "}</span>);
                                                             }
+                                                            else return null;
                                                         })
                                                     }
 
                                                 </div>
-                                                <span className="more-detail-conv">(xem thêm)</span>
+                                                <span className="more-detail-conv-btn" onClick={this.ChangeConvInMoreDetail.bind(this, index)}>(xem thêm)</span>
                                             </div>
                                             <div className="col-md-1 booking-room">
                                                 Đặt phòng
@@ -297,11 +334,39 @@ export default class DetailHost extends Component {
                             })
                         }
                     </div>
-                    <div className="detail-div-right">
+                    <div className={this.state.class_div_right}>
                         <Comment id_host={this.props.match.params.id} />
                     </div>
                 </div>
+                <div className="col-md-12 map-in-detail-host">
+                    <ShowAddressInMaps key={this.state.latitude} lat={this.state.latitude} long={this.state.longtitude} />
+                </div>
                 <div className="col-md-12"><Footer /></div>
+                <div className={this.state.class_listConv}>
+                    <div className="div-content-more-detail-conv">
+                        <div className="hidden-detail-conv"><span className="glyphicon glyphicon glyphicon-remove-circle" onClick={this.HiddenMoreDetail}></span></div>
+                        {
+                            this.state.listConv.map((item, index) => {
+                                if (this.state.listConvInDetail.indexOf(item.id_conv) === -1) {
+                                    return (<div key={index} className="home-detail-conv-info col-md-4">
+                                        <span className="glyphicon glyphicon glyphicon-unchecked" ></span>
+                                        <img className="icon-checkbox" src={config.ServerURL + "/" + item.icon_conv} alt="Icon" />
+                                        <p className="value-checkbox">{item.name_conv}</p>
+                                    </div>)
+                                }
+                                else {
+                                    return (
+                                        <div key={index} className="home-detail-conv-info col-md-4">
+                                            <span className="glyphicon glyphicon glyphicon-check" ></span>
+                                            <img className="icon-checkbox" src={config.ServerURL + "/" + item.icon_conv} alt="Icon" />
+                                            <p className="value-checkbox">{item.name_conv}</p>
+                                        </div>
+                                    )
+                                }
+                            })
+                        }
+                    </div>
+                </div>
             </div>
         )
     }
