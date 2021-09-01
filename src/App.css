@@ -934,7 +934,6 @@ h4{
     margin-top: 10px;
     margin-bottom: 10px;
     padding: 0px;
-    border: 1px solid;
 }
 
 
@@ -947,7 +946,6 @@ h4{
 
 .detail-div-left-default{
     width: 70%;
-    border: 1px solid red;
     display: inline-block;
     margin-left: 15%;
     padding: 0px;
@@ -955,7 +953,6 @@ h4{
 
 .detail-div-left{
     width: 70%;
-    border: 1px solid red;
     display: inline-block;
     padding: 0px;
 }
@@ -972,6 +969,7 @@ h4{
     top: 0;
 }
 
+
 .detail-div-right .home-div-comment{
     border-radius: 10px;
 }
@@ -986,7 +984,7 @@ h4{
 
 .control-detail-host input[type=date]{
     padding: 0px;
-    margin: 0px 10px;
+    margin: 0px 7px;
     border-top: none;
     border-left: none;
 }
@@ -995,9 +993,20 @@ h4{
     outline: none;
 }
 
+.control-detail-host .glyphicon-search{
+    border: 1px solid;
+    font-size: 15px;
+    padding: 8px;
+    border-radius: 50%;
+    background-color: rgb(255, 83, 112);
+    color: white;
+}
+
 .room-detail{
     padding: 15px;
-    border-bottom: 1px solid rgba(211, 211, 211, 0.863);
+    border-radius: 20px;
+    margin-bottom: 15px;
+    box-shadow: 1px 1px 4px 4px rgba(211, 211, 211, 0.863);
 }
 
 .content-room-detail{
@@ -1184,4 +1193,15 @@ h4{
 .hidden-detail-conv{
     font-size: 50px;
     padding-left: 1%;
+}
+
+.btn-show-comment{
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    top: 190px;
+    right: 30px;
+    background: url('./icons/show-comment.png') no-repeat;
+    background-size: 38px 38px;
 }

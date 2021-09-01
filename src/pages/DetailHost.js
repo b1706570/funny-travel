@@ -140,6 +140,7 @@ export default class DetailHost extends Component {
         this.getAllConvenients = this.getAllConvenients.bind(this);
         this.ChangeConvInMoreDetail = this.ChangeConvInMoreDetail.bind(this);
         this.HiddenMoreDetail = this.HiddenMoreDetail.bind(this);
+        this.ShowORHideCmt = this.ShowORHideCmt.bind(this);
     }
 
     componentDidMount() {
@@ -232,6 +233,21 @@ export default class DetailHost extends Component {
         document.body.style.overflow = "visible";
     }
 
+    ShowORHideCmt(){
+        if(this.state.class_div_left === "detail-div-left-default"){
+            this.setState({
+                class_div_left: "detail-div-left",
+                class_div_right: "detail-div-right",
+            })
+        }
+        else{
+            this.setState({
+                class_div_left: "detail-div-left-default",
+                class_div_right: "detail-div-right-default",
+            })
+        }
+    }
+
     render() {
         if (localStorage.getItem('type') === "host")
             return <Redirect to={"/host/" + localStorage.getItem('username')} />
@@ -244,14 +260,14 @@ export default class DetailHost extends Component {
                 <div className="col-md-8 col-md-offset-2 second-header-home-detail">
                     <div className="col-md-12">
                         <div className="col-md-7 col-md-offset-5 control-detail-host">
-                            <div><label>Nhận phòng: </label>
+                            <div><label>Nhận phòng:</label>
                                 <input type="date" name="checkin_of_condition" value={this.state.checkin_of_condition} onChange={this.ChangeHandler} />
                             </div>
-                            <div><label>Trả phòng:  </label>
+                            <div><label>Trả phòng:</label>
                                 <input type="date" name="checkout_of_condition" value={this.state.checkout_of_condition} onChange={this.ChangeHandler} />
                             </div>
                             <div>
-                                <span class="glyphicon glyphicon-search" aria-hidden="true"></span>
+                                <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
                             </div>
                         </div>
                         <div className="col-md-12 common-info-detail">
@@ -367,6 +383,7 @@ export default class DetailHost extends Component {
                         }
                     </div>
                 </div>
+                <div className="btn-show-comment" onClick={this.ShowORHideCmt}></div>
             </div>
         )
     }
