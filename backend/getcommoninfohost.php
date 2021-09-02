@@ -1,7 +1,7 @@
 <?php
     include 'default.php';
     $response = [];
-    $sql = "SELECT `fullname_host`, `company_name`, `email_host`, `phone_host`, `address_host`, `logo_host`, `latitude`, `longtitude` FROM `host` WHERE `id_host`=".$_POST['id_host'];
+    $sql = "SELECT `id_host`, `fullname_host`, `company_name`, `email_host`, `phone_host`, `address_host`, `logo_host`, `latitude`, `longtitude` FROM `host` WHERE `id_host`=".$_POST['id_host'];
     $result = $connect ->query($sql);
     $row = $result->fetch_assoc();
     $response['common_info'] = $row;

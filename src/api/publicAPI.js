@@ -85,4 +85,15 @@ export default class publicAPI {
                 console.log(error);
             })
     }
+
+    getRoomByID(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getrooms.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
 }

@@ -1205,3 +1205,71 @@ h4{
     background: url('./icons/show-comment.png') no-repeat;
     background-size: 38px 38px;
 }
+
+/****************/
+/* Booking Room */
+/****************/
+
+.header-book-room{
+    height: 120px;
+    box-shadow: 0px 0px 5px 0px lightgray;
+}
+
+.header-book-room img{
+    margin: 10px 110px;
+    width: 120px;
+    height: 100px;
+}
+
+.book-room-div-left{
+    width: 50%;
+    border: 1px solid;
+    display: inline-block;
+    padding-top: 80px;
+}
+
+.book-room-div-right{
+    width: 40%;
+    margin-left: 10%;
+    border: 1px solid;
+    display: block;
+    float: right;
+}
+
+.book-room-div-left .title-bold{
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.book-room-div-left .title-large{
+    font-size: 23px;
+    border: none;
+    display: inline;
+}
+
+.book-room-div-left label{
+    padding: 10px 10px;
+    display: block;
+    font-size: 20px;
+    border-top: 1px solid rgba(211, 211, 211, 0.781);
+    margin-top: 10px;
+}
+
+.book-room-div-left span{
+    font-size: 23px;
+    margin-right: 20px;
+    padding: 10px;
+    border-radius: 50%;
+}
+
+.book-room-div-left span:hover{
+    color: white;
+    background-color: rgb(255, 83, 112);
+}
+
+.book-room-div-right label{
+    padding: 10px 10px;
+    display: block;
+    font-size: 20px;
+    margin-top: 10px;
+}

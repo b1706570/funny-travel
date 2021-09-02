@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import logo from '../img/logo.png';
 import queryString from 'query-string';
 import { Redirect } from 'react-router';
-import { Link } from 'react-router-dom';
 import Header from '../component/Header';
 import publicAPI from '../api/publicAPI';
 import config from '../config.json';
@@ -76,14 +75,14 @@ export class ImageSlider extends Component {
                         })
                     }
                 </div>
-                <Link className="left carousel-control" to="" data-slide="prev" onClick={this.PreviousImage} >
+                <a className="left carousel-control" href="#previous" data-slide="prev" onClick={this.PreviousImage} >
                     <span className="glyphicon glyphicon-chevron-left"></span>
                     <span className="sr-only">Previous</span>
-                </Link>
-                <Link className="right carousel-control" to="" data-slide="next" onClick={this.NextImage} >
+                </a>
+                <a className="right carousel-control" href="#next" data-slide="next" onClick={this.NextImage} >
                     <span className="glyphicon glyphicon-chevron-right"></span>
                     <span className="sr-only">Next</span>
-                </Link>
+                </a>
                 <div className="col-md-12">
                     <div className="imagePagination">
                         {
@@ -134,6 +133,7 @@ export default class DetailHost extends Component {
             class_listConv: "div-more-detail-conv-hidden",
             class_div_left: "detail-div-left-default",
             class_div_right: "detail-div-right-default",
+            redirect: "",
         }
         this.getCommonInfoHost = this.getCommonInfoHost.bind(this);
         this.getRoomUnavailable = this.getRoomUnavailable.bind(this);
@@ -141,6 +141,7 @@ export default class DetailHost extends Component {
         this.ChangeConvInMoreDetail = this.ChangeConvInMoreDetail.bind(this);
         this.HiddenMoreDetail = this.HiddenMoreDetail.bind(this);
         this.ShowORHideCmt = this.ShowORHideCmt.bind(this);
+        this.ChangeDateHandler = this.ChangeDateHandler.bind(this);
     }
 
     componentDidMount() {
@@ -163,6 +164,7 @@ export default class DetailHost extends Component {
     }
 
     getCommonInfoHost() {
+        let search = queryString.parse(this.props.location.search)
         let params = new FormData();
         params.append("id_host", this.props.match.params.id);
         const api = new publicAPI();
@@ -190,6 +192,8 @@ export default class DetailHost extends Component {
                     logo: common_info.logo_host,
                     latitude: common_info.latitude,
                     longtitude: common_info.longtitude,
+                    checkin_date: search.check_in,
+                    checkout_date: search.check_out,
                 })
                 if (response.point.point !== null) {
                     this.setState({
@@ -248,25 +252,49 @@ export default class DetailHost extends Component {
         }
     }
 
+    ChangeDateHandler = (e) =>{
+        var name = e.target.name;
+        var value = e.target.value;
+        this.setState({ [name]: value });
+    }
+
+    CheckRoomavailable = () =>{
+        this.props.history.push("/rooms/" + this.state.id_host + "?check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date);
+        window.location.reload();
+    }
+
+    BookingRoom = (id_room) =>{
+        if(localStorage.getItem("iduser") === null){
+            alert("Bạn phải đăng nhập trước khi đặt phòng!");
+        }
+        else{
+            this.setState({
+                redirect: "/rooms/book?roomID=" + id_room + "&check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date,
+            })
+        }    
+    }
+
     render() {
         if (localStorage.getItem('type') === "host")
             return <Redirect to={"/host/" + localStorage.getItem('username')} />
         if (localStorage.getItem('type') === "admin")
             return <Redirect to="/admin" />
+        if (this.state.redirect !== "")
+            return <Redirect to={this.state.redirect} />
         var type_room = ['Phòng đơn', 'Phòng đôi', 'Phòng tập thể', 'Phòng gia đình', 'Mini house', 'Home stay'];
         return (
-            <div>
+            <div key={this.state.checkin_date + this.state.checkout_date}>
                 <div className="col-md-12 header-home"><Header /></div>
                 <div className="col-md-8 col-md-offset-2 second-header-home-detail">
                     <div className="col-md-12">
                         <div className="col-md-7 col-md-offset-5 control-detail-host">
                             <div><label>Nhận phòng:</label>
-                                <input type="date" name="checkin_of_condition" value={this.state.checkin_of_condition} onChange={this.ChangeHandler} />
+                                <input type="date" name="checkin_date" value={this.state.checkin_date} onChange={this.ChangeDateHandler} />
                             </div>
                             <div><label>Trả phòng:</label>
-                                <input type="date" name="checkout_of_condition" value={this.state.checkout_of_condition} onChange={this.ChangeHandler} />
+                                <input type="date" name="checkout_date" value={this.state.checkout_date} onChange={this.ChangeDateHandler} />
                             </div>
-                            <div>
+                            <div onClick={this.CheckRoomavailable}>
                                 <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
                             </div>
                         </div>
@@ -274,7 +302,7 @@ export default class DetailHost extends Component {
                             <label>{this.state.company}</label>
                             <span>{this.state.point}</span>
                             <div className="col-md-12">
-                                {this.state.address}
+                                <a href="#map">{this.state.address}</a>
                             </div>
                         </div>
                     </div>
@@ -309,7 +337,7 @@ export default class DetailHost extends Component {
                                                 </div>
                                                 <span className="more-detail-conv-btn" onClick={this.ChangeConvInMoreDetail.bind(this, index)}>(xem thêm)</span>
                                             </div>
-                                            <div className="col-md-1 booking-room">
+                                            <div onClick={this.BookingRoom.bind(this, room.id_room)} className="col-md-1 booking-room">
                                                 Đặt phòng
                                             </div>
                                         </div>
@@ -341,7 +369,7 @@ export default class DetailHost extends Component {
                                                 </div>
                                                 <span className="more-detail-conv-btn" onClick={this.ChangeConvInMoreDetail.bind(this, index)}>(xem thêm)</span>
                                             </div>
-                                            <div className="col-md-1 booking-room">
+                                            <div onClick={this.BookingRoom.bind(this, room.id_room)} className="col-md-1 booking-room">
                                                 Đặt phòng
                                             </div>
                                         </div>
@@ -354,7 +382,7 @@ export default class DetailHost extends Component {
                         <Comment id_host={this.props.match.params.id} />
                     </div>
                 </div>
-                <div className="col-md-12 map-in-detail-host">
+                <div id="map" className="col-md-12 map-in-detail-host">
                     <ShowAddressInMaps key={this.state.latitude} lat={this.state.latitude} long={this.state.longtitude} />
                 </div>
                 <div className="col-md-12"><Footer /></div>
