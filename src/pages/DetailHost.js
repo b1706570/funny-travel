@@ -269,7 +269,7 @@ export default class DetailHost extends Component {
         }
         else{
             this.setState({
-                redirect: "/rooms/book?roomID=" + id_room + "&check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date,
+                redirect: "/rooms/book?roomID=" + id_room + "&hostID=" + this.state.id_host + "&check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date,
             })
         }    
     }

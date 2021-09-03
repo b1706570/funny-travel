@@ -1223,7 +1223,6 @@ h4{
 
 .book-room-div-left{
     width: 50%;
-    border: 1px solid;
     display: inline-block;
     padding-top: 80px;
 }
@@ -1231,15 +1230,28 @@ h4{
 .book-room-div-right{
     width: 40%;
     margin-left: 10%;
-    border: 1px solid;
+    border: 1px solid rgba(211, 211, 211, 0.781);
     display: block;
     float: right;
+    margin-top: 150px;
+    border-radius: 10px;
 }
 
 .book-room-div-left .title-bold{
     font-size: 15px;
     font-weight: bold;
 }
+
+.book-room-div-left p input[type=date]{
+    display: inline-block;
+    width: 100%;
+    border: none;
+}
+
+.book-room-div-left p input[type=date]:focus{
+    outline: none;
+}
+
 
 .book-room-div-left .title-large{
     font-size: 23px;
@@ -1272,4 +1284,17 @@ h4{
     display: block;
     font-size: 20px;
     margin-top: 10px;
+    border-top: 1px solid rgba(211, 211, 211, 0.781);
+}
+
+.book-room-div-right .name-host{
+    font-size: 20px;
+    font-weight: bold;
+    text-decoration: none;
+}
+
+.book-room-div-right p{
+    font-size: 15px;
+    font-weight: bolder;
+    text-decoration: underline;
 }

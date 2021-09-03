@@ -3,14 +3,14 @@ import queryString from 'query-string';
 import publicAPI from '../api/publicAPI';
 import Footer from '../component/Footer';
 import logo from '../img/logo.png';
-import { setCacheNameDetails } from 'workbox-core';
 
 export default class RoomBooking extends Component {
     constructor(props){
         super(props);
         this.state = {
-            checkin: "--/--/--",
-            checkout: "--/--/--",
+            host_id: "",
+            host_name: "",
+            host_address: "",
             checkin_date: "",
             checkout_date: "",
             room_id: "",
@@ -21,6 +21,7 @@ export default class RoomBooking extends Component {
             member_id: "",
             number_night: 0,
         }
+        this.DateChange = this.DateChange.bind(this);
     }
 
     componentDidMount(){
@@ -33,6 +34,7 @@ export default class RoomBooking extends Component {
                 this.setState({
                     checkin_date: search.check_in,
                     checkout_date: search.check_out,
+                    host_id: search.hostID,
                     room_id: search.roomID,
                     room_price: response[0].price_room,
                     room_name: response[0].name_room,
@@ -44,17 +46,41 @@ export default class RoomBooking extends Component {
             .catch(error =>{
                 console.log(error);
             })
+        
+        let params1 = new FormData();
+        params1.append("id", search.hostID);
+        api.gethostbyID(params1)
+            .then(response =>{
+                this.setState({
+                    host_name: response.company_name,
+                    host_address: response.address_host,
+                })
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+
         if(search.check_in !== "" && search.check_out !== ""){
             var date_start = Date.parse(search.check_in);
             var date_end = Date.parse(search.check_out);
             this.setState({ 
-                checkin: search.check_in,
-                checkout: search.check_out,
+                number_night: (date_end - date_start) / 86400000
             });
         }
     }
 
+    DateChange = (e) =>{
+        if(e.target.name === "checkin_date"){
+            this.props.history.push("/rooms/book?roomID=" + this.state.room_id + "&hostID=" + this.state.host_id + "&check_in=" + e.target.value + "&check_out=" + this.state.checkout_date)
+        }
+        if(e.target.name === "checkout_date"){
+            this.props.history.push("/rooms/book?roomID=" + this.state.room_id + "&hostID=" + this.state.host_id + "&check_in=" + this.state.checkin_date + "&check_out=" + e.target.value)
+        }
+        window.location.reload();
+    }
+
     render() {
+        var priceFormat = new Intl.NumberFormat();
         return (
             <div>
                 <div className="col-md-12 header-book-room">
@@ -71,11 +97,11 @@ export default class RoomBooking extends Component {
                         </div>
                         <div className="col-md-12">
                             <p className="title-bold">Ngày nhận phòng</p>
-                            <p>{this.state.checkin}</p>
+                            <p><input type="date" name="checkin_date" value={this.state.checkin_date} onChange={this.DateChange} /></p>
                         </div>
                         <div className="col-md-12">
-                            <p className="title-bold">Ngày Trả phòng</p>
-                            <p>{this.state.checkout}</p>
+                            <p className="title-bold">Ngày trả phòng</p>
+                            <p><input type="date" name="checkout_date" value={this.state.checkout_date} onChange={this.DateChange} /></p>
                         </div>
                         <div className="col-md-12">
                             <p className="title-bold">Tên phòng</p>
@@ -101,10 +127,20 @@ export default class RoomBooking extends Component {
                     </div>
                     <div className="book-room-div-right">
                         <div className="col-md-12">
+                            <p className="name-host">{this.state.host_name} - Phòng {this.state.room_name}</p>
+                            <div>{this.state.host_address}</div>
+                            <div>Số lượng: {this.state.room_capacity} người</div>
+                            <div>Thời gian: {this.state.checkin_date} * {this.state.checkout_date}</div>
+                            <div>({this.state.number_night} đêm)</div>
+                        </div>
+                        <div className="col-md-12">
                             <label>Chi tiết giá</label>
                         </div>
                         <div className="col-md-12">
-                            <p></p>
+                            <div className="col-md-7">{priceFormat.format(this.state.room_price)} X {this.state.number_night} đêm</div>
+                            <div className="col-md-5">{priceFormat.format(this.state.room_price * this.state.number_night)} (VND)</div>
+                            <p className="col-md-7">Tổng cộng:</p>
+                            <p className="col-md-5">{priceFormat.format(this.state.room_price * this.state.number_night)} (VND)</p>
                         </div>
                     </div>
                 </div>

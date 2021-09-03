@@ -20,6 +20,17 @@ export default class publicAPI {
             })
     }
 
+    gethostbyID(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/gethostbyID.php', params)
+        .then(response =>{
+            return response.data[0];
+        })
+        .catch(error =>{
+            console.log(error);
+        }) 
+    }
+
     getAllConvenient() {
         const api = axios.create({ baseURL: this.baseURL });
         return api.post('/getconvenient.php')
