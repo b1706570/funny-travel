@@ -1298,3 +1298,24 @@ h4{
     font-weight: bolder;
     text-decoration: underline;
 }
+
+.paypal-btn{
+    margin-top: 10px;
+    padding-left: 20px;
+}
+
+.paypal-btn button:active{
+    outline: none;
+    border: none;
+}
+
+.payment-not-available-btn{
+    border: 1px solid;
+    width: 97%;
+    height: 45px;
+    border-radius: 40px;
+    background: url('./icons/bg-paypal-btn.png') no-repeat;
+    background-size: 30% 50%;
+    background-position: center;
+    background-color: black;
+}

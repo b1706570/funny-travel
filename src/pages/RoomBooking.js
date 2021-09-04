@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import queryString from 'query-string';
 import publicAPI from '../api/publicAPI';
+import Paypal from '../component/Paypal';
 import Footer from '../component/Footer';
 import logo from '../img/logo.png';
 
@@ -14,12 +15,15 @@ export default class RoomBooking extends Component {
             checkin_date: "",
             checkout_date: "",
             room_id: "",
-            room_price: "",
+            room_price: 0,
+            price_USD: 0,
             room_name: "",
             room_type: "",
             room_capacity: "",
+            host_paypal_id: "",
             member_id: "",
             number_night: 0,
+            available: true,
         }
         this.DateChange = this.DateChange.bind(this);
     }
@@ -37,6 +41,7 @@ export default class RoomBooking extends Component {
                     host_id: search.hostID,
                     room_id: search.roomID,
                     room_price: response[0].price_room,
+                    price_USD: response[0].price_room / 22000,
                     room_name: response[0].name_room,
                     room_type: response[0].type_room,
                     room_capacity: response[0].capacity_room,
@@ -54,6 +59,7 @@ export default class RoomBooking extends Component {
                 this.setState({
                     host_name: response.company_name,
                     host_address: response.address_host,
+                    host_paypal_id: response.paypal_id,
                 })
             })
             .catch(error =>{
@@ -67,6 +73,26 @@ export default class RoomBooking extends Component {
                 number_night: (date_end - date_start) / 86400000
             });
         }
+
+        this.CheckRoomAvailable();
+    }
+
+    CheckRoomAvailable(){
+        let search = queryString.parse(this.props.location.search);
+        let params = new FormData();
+        params.append("checkin", search.check_in);
+        params.append("checkout", search.check_out);
+        const api = new publicAPI();
+        api.getRoomUnavailable(params)
+            .then(response => {
+                var listRoomUnavailable = response;
+                if(listRoomUnavailable.indexOf(search.roomID) !== -1 || search.check_in === "" || search.check_out === ""){
+                    this.setState({ available: false });
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
     }
 
     DateChange = (e) =>{
@@ -78,6 +104,7 @@ export default class RoomBooking extends Component {
         }
         window.location.reload();
     }
+    
 
     render() {
         var priceFormat = new Intl.NumberFormat();
@@ -141,6 +168,16 @@ export default class RoomBooking extends Component {
                             <div className="col-md-5">{priceFormat.format(this.state.room_price * this.state.number_night)} (VND)</div>
                             <p className="col-md-7">Tổng cộng:</p>
                             <p className="col-md-5">{priceFormat.format(this.state.room_price * this.state.number_night)} (VND)</p>
+                            <p className="col-md-5 col-md-offset-7">~{priceFormat.format(this.state.price_USD * this.state.number_night)} (USD)</p>
+                        </div>
+                        <div className="col-md-12 paypal-btn">
+                            {
+                                this.state.available ? (
+                                    <Paypal client={this.state.host_paypal_id} total={parseFloat(this.state.price_USD * this.state.number_night).toFixed(2)}/>
+                                ) : (
+                                    <button className="payment-not-available-btn"></button>
+                                )
+                            }
                         </div>
                     </div>
                 </div>
