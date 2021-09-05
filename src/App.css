@@ -1233,7 +1233,8 @@ h4{
     border: 1px solid rgba(211, 211, 211, 0.781);
     display: block;
     float: right;
-    margin-top: 150px;
+    margin-top: 130px;
+    padding: 20px 0px;
     border-radius: 10px;
 }
 
@@ -1310,12 +1311,78 @@ h4{
 }
 
 .payment-not-available-btn{
-    border: 1px solid;
-    width: 97%;
+    width: 100%;
     height: 45px;
     border-radius: 40px;
-    background: url('./icons/bg-paypal-btn.png') no-repeat;
-    background-size: 30% 50%;
-    background-position: center;
     background-color: black;
+    border: none;
+    color: white;
+}
+
+.payment-available-btn{
+    color: white;
+    width: 100%;
+    height: 45px;
+    border-radius: 40px;
+    background-color: rgb(255, 83, 112);
+    border: none;
+}
+
+.noti-payment-visible{
+    display: inline;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    display: flex;
+    visibility: visible;
+    top: 50%;
+    animation: show-noti-payment 1s;
+}
+
+@keyframes show-noti-payment {
+    0%{ top: 0%}
+    100%{ top: 50%}
+}
+
+
+.noti-payment-visible div{
+    padding: 20px 50px;
+    background-color: rgb(204, 252, 192);
+    border-radius: 5px;
+    color:rgb(51, 80, 51)
+}
+
+.noti-payment-visible div button{
+    font-size: 15px;
+}
+
+.noti-payment-hidden{
+    visibility: hidden;
+}
+
+.paypal-btn span{
+    display: block;
+}
+
+.payment-way{
+    margin-top: 10px;
+}
+
+.payment-way label{
+    display: inline;
+    font-size: 15px;  
+    border: none;
+}
+
+.payment-way p{
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.payment-way-hidden{
+    display: none;
+}
+
+.payment-way-visible{
+    display: block;
 }

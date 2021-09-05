@@ -22,14 +22,14 @@ export default class Paypal extends React.Component {
             // => sometimes it may take about 0.5 second for everything to get set, or for the button to appear
         }
  
-        let env = 'sandbox'; // you can set here to 'production' for production
+        //let env = 'sandbox'; // you can set here to 'production' for production
         let currency = 'USD'; // or you can set this value from your props or state
         let total = this.props.total; // same as above, this is the total amount (based on currency) to be paid by using Paypal express checkout
         // Document on Paypal's currency code: https://developer.paypal.com/docs/classic/api/currency_codes/
  
         const client = {
-            sandbox:    this.props.client,
-            production: 'PRODUCT-ID',
+            sandbox: this.props.client,
+            production: this.props.client,
         }
         // In order to get production's app-ID, you will have to send your app to Paypal for approval first
         // For sandbox app-ID (after logging into your developer account, please locate the "REST API apps" section, click "Create App"):
@@ -39,7 +39,7 @@ export default class Paypal extends React.Component {
  
         // NB. You can also have many Paypal express checkout buttons on page, just pass in the correct amount and they will work!
         return (
-            <PaypalExpressBtn env={env} client={client} currency={currency} total={total} onError={onError} onSuccess={onSuccess} onCancel={onCancel} style={{size: 'responsive',}} />
+            <PaypalExpressBtn  client={client} currency={currency} total={total} onError={onError} onSuccess={onSuccess} onCancel={onCancel} style={{size: 'responsive',}} />
         );
     }
 }
