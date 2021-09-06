@@ -107,4 +107,15 @@ export default class publicAPI {
                 console.log(error);
             })
     }
+
+    BookingRoom(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/addbookingroom.php', params)
+            .then(response =>{
+                return response.data[0].code;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
 }

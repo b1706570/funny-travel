@@ -4,7 +4,7 @@ import publicAPI from '../api/publicAPI';
 import Paypal from '../component/Paypal';
 import Footer from '../component/Footer';
 import logo from '../img/logo.png';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export default class RoomBooking extends Component {
     constructor(props) {
@@ -31,8 +31,17 @@ export default class RoomBooking extends Component {
             class_noti_payment: "noti-payment-hidden",
             class_payment_way: "payment-way-hidden",
             paypal: true,
+            direct: '',
         }
+
+        this.CheckRoomAvailable = this.CheckRoomAvailable.bind(this);
         this.DateChange = this.DateChange.bind(this);
+        this.RoomNotAvailableNoti = this.CheckRoomAvailable.bind(this);
+        this.ChoosePaymentWay = this.ChoosePaymentWay.bind(this);
+        this.HiddenNoti = this.HiddenNoti.bind(this);
+        this.ChangePaymentWay = this.ChangePaymentWay.bind(this);
+        this.PaymentSuccess = this.PaymentSuccess.bind(this);
+        this.PaymentError = this.PaymentError.bind(this);
     }
 
 
@@ -88,8 +97,7 @@ export default class RoomBooking extends Component {
         this.CheckRoomAvailable();
     }
 
-
-    CheckRoomAvailable() {
+    CheckRoomAvailable = () =>{
         let search = queryString.parse(this.props.location.search);
         let params = new FormData();
         params.append("checkin", search.check_in);
@@ -130,12 +138,13 @@ export default class RoomBooking extends Component {
             class_noti_payment: "noti-payment-visible",
             class_payment_way: "payment-way-visible",
         })
+        document.body.style.overflow= "hidden";
     }
 
     HiddenNoti = () => {
         this.setState({ class_noti_payment: "noti-payment-hidden" });
+        document.body.style.overflow= "visible";
     }
-
 
     ChangePaymentWay = (way) =>{
         if(way === "paypal"){
@@ -146,13 +155,38 @@ export default class RoomBooking extends Component {
         }
     }
 
+    PaymentSuccess = () =>{
+        let params = new FormData();
+        params.append("id_member", localStorage.getItem("iduser"));
+        params.append("id_room", this.state.room_id);
+        params.append("checkin", this.state.checkin_date);
+        params.append("checkout", this.state.checkout_date);
+        params.append("deposit", this.state.room_price * 0.1);
+        const api = new publicAPI();
+        api.BookingRoom(params)
+            .then(response =>{
+                if(response === 200){
+                    alert("Đặt phòng thành công! Bạn có thể xem thông tin ở trang thông tin cá nhân.");
+                    this.setState({ direct: "/PersonalInfomation" })
+                }
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    PaymentError = () =>{
+        alert("Thanh toán thất bại! Xin thử lại vào một thời điểm khác");
+    }
 
     render() {
+        if(this.state.direct !== "")
+            return <Redirect to={this.state.direct} />
         var priceFormat = new Intl.NumberFormat();
         var deposit = parseFloat(this.state.price_USD * this.state.number_night * 0.1).toFixed(2);
         deposit = parseFloat(deposit);
         return (
-            <div key={1}>
+            <div key={this.state.host_paypal_id}>
                 <div className="col-md-12 header-book-room">
                     <img src={logo} alt="logo-web" />
                 </div>
@@ -233,14 +267,14 @@ export default class RoomBooking extends Component {
                                 <div className="payment-way">
                                     {
                                         this.state.paypal ? (
-                                            <Paypal client={this.state.host_paypal_id} total={deposit}/>
+                                            <Paypal client={this.state.host_paypal_id} total={deposit} success={this.PaymentSuccess} error={this.PaymentError}/>
                                         ) : (
                                             <div>
                                                 <p><label>Số tài khoản:</label> {this.state.host_number_bank}</p>
                                                 <p><label>Ngân hàng:</label> {this.state.host_branch_name}</p>
                                                 <p><label>Chủ tài khoản:</label> {this.state.host_owner_account}</p>
                                                 <p><label>Số tiền cần chuyển:</label> {priceFormat.format(this.state.room_price * this.state.number_night * 0.1)} (VND)</p>
-                                                <button className="btn btn-warning">Xác nhận</button>
+                                                <button className="btn btn-warning" onClick={this.PaymentSuccess}>Xác nhận & Thanh toán</button>
                                             </div>
                                         )
                                     }
