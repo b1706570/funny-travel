@@ -100,8 +100,9 @@ export default class HostRegister extends Component {
         this.state.txtHostname !== '' &&
         this.state.usernameAvailable === true){
             let data = document.getElementById("user_register_form")
-            let params=new FormData(data);
-            params.append("type","host")
+            let params = new FormData(data);
+            params.append("type", "host");
+            params.append("state", "new");
             const api = new userAPI();
             api.register(params)
             .then(response =>{

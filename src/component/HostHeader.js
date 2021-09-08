@@ -11,6 +11,7 @@ export default class HostHeader extends Component {
             my_url: "/host/"+localStorage.getItem("username"),
             logoURL: logo,
         }
+        this.Logout = this.Logout.bind(this);
     }
 
     componentDidMount = () =>{
@@ -28,24 +29,32 @@ export default class HostHeader extends Component {
         })
     }
 
+    Logout(){
+        localStorage.removeItem("iduser");
+        localStorage.removeItem("type");
+        localStorage.removeItem("username");
+    }
+
     render() {
-        var list_class_controller=["col-md-2 host-controller-child",
+        var list_class_controller=["col-md-1 host-controller-child",
                                     "col-md-2 host-controller-child",
+                                    "col-md-1 host-controller-child",
                                     "col-md-2 host-controller-child",
-                                    "col-md-2 host-controller-child",
-                                    "col-md-4 host-controller-child",]
+                                    "col-md-3 host-controller-child",
+                                    "col-md-2 host-controller-child",]
         list_class_controller[this.props.hostActive] += " host-controller-child-active";
         return (
             <div>
                 <div className="host-logo col-md-2 col-md-offset-1">
                     <img src={this.state.logoURL} alt="logo-host" />
                 </div>
-                <div className="host-controller col-md-5 col-md-offset-3">
+                <div className="host-controller col-md-6 col-md-offset-3">
                     <Link className={list_class_controller[0]} to={this.state.my_url + "/"}>Phòng</Link>
                     <Link className={list_class_controller[1]} to="#">Đặt trước</Link>
-                    <Link className={list_class_controller[2]} to="#">Tin nhắn</Link>
-                    <Link className={list_class_controller[3]} to="#">Quản trị</Link>
+                    <Link className={list_class_controller[3]} to={this.state.my_url + "/addbranch"}>Thêm chi nhánh</Link>
                     <Link className={list_class_controller[4]} to={this.state.my_url + "/personalinfo"}>Cập nhật thông tin</Link>
+                    <Link className={list_class_controller[2]} to="#">Quản trị</Link>
+                    <Link className={list_class_controller[5]} to="#" onClick={this.Logout}><span className="glyphicon glyphicon-log-out"></span> Đăng xuất</Link>
                 </div>
             </div>
         )

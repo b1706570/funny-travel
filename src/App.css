@@ -533,6 +533,17 @@ h2{
     color:white;
 }
 
+.div-form-register-host{
+    margin-top: 50px;
+    margin-bottom: 50px;
+    box-shadow: 1px 1px 5px 5px lightgray;
+    background: linear-gradient(to bottom, white 0%, rgb(95, 250, 224) 100%);
+}
+
+.div-form-register-host input[type=text], .div-form-register-host input[type=password]{
+    background: none;
+}
+
 
 /********/
 /* Home */

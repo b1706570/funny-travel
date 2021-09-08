@@ -56,4 +56,26 @@ export default class hostAPI{
             console.log(error);
         })
     }
+
+    getRoomByHostId(params){
+        const api = new axios.create({baseURL: this.baseURL});
+        return api.post("/getroombyhostid.php", params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    getBranch(params){
+        const api = new axios.create({ baseURL: this.baseURL });
+        return api.post("/getbranchhost.php", params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
 }

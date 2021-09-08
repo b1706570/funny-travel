@@ -13,6 +13,7 @@ export default class AcceptForm extends Component {
             txtAddress: this.props.data.address,
             txtLat: this.props.data.latitude,
             txtLng: this.props.data.longtitude,
+            txtState: this.props.data.state,
             txtID: this.props.data.id_proposal,
         };
         this.handleSubmit=this.handleSubmit.bind(this);
@@ -89,6 +90,7 @@ export default class AcceptForm extends Component {
             let data = document.getElementById("host-browser-form")
             let params=new FormData(data);
             params.append("index",this.state.txtID);
+            params.append("state", this.state.txtState);
             const api = new adminAPI();
             api.acceptproposal(params)
             .then(response =>{

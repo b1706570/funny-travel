@@ -17,9 +17,18 @@
         }
     }
     else if($_POST['type']=="accept"){
-        $password=md5($_POST['txtPassword']);
-        $sql="INSERT INTO `host`(`fullname_host`, `company_name`, `email_host`, `password`, `phone_host`, `address_host`,`latitude`,`longtitude`) 
-        VALUES ('".$_POST['txtFullname']."','".$_POST['txtHostname']."','".$_POST['txtGmail']."','".$password."',".$_POST['txtPhonenumber'].",'".$_POST['txtAddress']."',".$_POST['txtLat'].",".$_POST['txtLng'].")";
+        if($_POST['state'] == "new"){
+            $password=md5($_POST['txtPassword']);
+            $sql="INSERT INTO `host`(`fullname_host`, `company_name`, `email_host`, `password`, `phone_host`, `address_host`,`latitude`,`longtitude`) 
+            VALUES ('".$_POST['txtFullname']."','".$_POST['txtHostname']."','".$_POST['txtGmail']."','".$password."',".$_POST['txtPhonenumber'].",'".$_POST['txtAddress']."',".$_POST['txtLat'].",".$_POST['txtLng'].")";
+        }
+        else{
+            $result1=$connect->query("SELECT `password` FROM `host` WHERE `email_host`='".$_POST['txtGmail']."'");
+            $r=$result1->fetch_assoc();
+            $password=$r['password'];
+            $sql="INSERT INTO `host`(`fullname_host`, `company_name`, `email_host`, `password`, `phone_host`, `address_host`,`latitude`,`longtitude`) 
+            VALUES ('".$_POST['txtFullname']."','".$_POST['txtHostname']."','".$_POST['txtGmail']."','".$password."',".$_POST['txtPhonenumber'].",'".$_POST['txtAddress']."',".$_POST['txtLat'].",".$_POST['txtLng'].")";
+        }
         $sql1="DELETE FROM `proposal` WHERE `id_proposal`=".$_POST['index'];
         if($connect->query($sql) && $connect->query($sql1)){
             $result[]= array(

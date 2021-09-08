@@ -6,8 +6,8 @@
         ('".$_POST['txtAccount']."','".$password."','".$_POST['txtFullname']."','".$_POST['txtAddress']."',".$_POST['lat'].",".$_POST['lng'].")";
     }
     else{
-        $sql="INSERT INTO `proposal`(`fullname`, `company`, `email`, `phone`, `address`,`latitude`,`longtitude`) VALUES 
-        ('".$_POST['txtFullname']."','".$_POST['txtHostname']."','".$_POST['txtGmail']."',".$_POST['txtPhonenumber'].",'".$_POST['txtAddress']."',".$_POST['lat'].",".$_POST['lng'].")";
+        $sql="INSERT INTO `proposal`(`fullname`, `company`, `email`, `phone`, `address`, `state`, `latitude`,`longtitude`) VALUES 
+        ('".$_POST['txtFullname']."','".$_POST['txtHostname']."','".$_POST['txtGmail']."',".$_POST['txtPhonenumber'].",'".$_POST['txtAddress']."','".$_POST['state']."',".$_POST['lat'].",".$_POST['lng'].")";
     }
     $result=array();
     if($connect->query($sql)){

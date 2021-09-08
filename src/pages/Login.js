@@ -70,8 +70,8 @@ export default class Login extends Component {
                         localStorage.setItem('iduser', response[0].id_host);
                         localStorage.setItem('username', response[0].company_name);
                         localStorage.setItem('type', 'host');
-                        const data = JSON.stringify(response[0]);
-                        localStorage.setItem('data', data)
+                        /*const data = JSON.stringify(response[0]);
+                        localStorage.setItem('data', data)*/
                         this.setState({ direct: '/host/' + response[0].company_name + "/" });
                     }
                 }

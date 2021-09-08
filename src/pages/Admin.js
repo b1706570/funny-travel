@@ -120,7 +120,7 @@ export default class Admin extends Component {
                             <li role="presentation" className={active0} onClick={this.clicktoActive.bind(this,0)}><Link to="#">Trang chính</Link></li>
                             <li role="presentation" className={active1} onClick={this.clicktoActive.bind(this,1)}><Link to= "#">Quản lý</Link></li>
                             <li role="presentation" className={active2} onClick={this.clicktoActive.bind(this,2)}><Link to="#">Yêu cầu mới <span className="noti-request">{this.state.noti_request}</span></Link></li>
-                            <li role="presentation" className="admin-logout"><Link to="/" onClick={this.sigout}>Đăng xuất</Link></li>
+                            <li role="presentation" className="admin-logout"><Link to="/" onClick={this.sigout}><span className="glyphicon glyphicon-log-out"></span> Đăng xuất</Link></li>
                         </ul>
                     </div>
                     <div className="col-md-8 div-right-admin">

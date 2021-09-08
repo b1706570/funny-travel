@@ -6,6 +6,7 @@ import HostRegister from './pages/HostRegister';
 import Admin from './pages/Admin';
 import Host from './pages/Host';
 import HostInfo from './pages/HostInfo';
+import HostAddBranch from './pages/HostAddBranch';
 import DetailHost from './pages/DetailHost';
 import RoomBooking from './pages/RoomBooking';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/admin" component={Admin} />
         <Route exact path={"/host/" + localStorage.getItem('username')} component={Host} />
         <Route exact path={"/host/" + localStorage.getItem('username') + "/personalinfo"} component={HostInfo} />
+        <Route exact path={"/host/" + localStorage.getItem('username') + "/addbranch"} component={HostAddBranch} />
         <Route exact path="/rooms/book" component={RoomBooking} />
         <Route exact path="/rooms/:id" component={DetailHost} />
       </Switch>
