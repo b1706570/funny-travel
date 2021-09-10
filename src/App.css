@@ -447,6 +447,9 @@ h2{
 .add-room-hidden{
     z-index: 0;
     visibility: hidden;
+    position: absolute;
+    margin-top: 180px;
+    margin-bottom: 20px;
 }
 
 .room-body-visible{
@@ -542,6 +545,58 @@ h2{
 
 .div-form-register-host input[type=text], .div-form-register-host input[type=password]{
     background: none;
+}
+
+.rooms-in-host{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: url('./img/background-room-host-available.png') no-repeat;
+    background-size: 90% 100%;
+    background-position: center;
+    margin-bottom: 20px;
+}
+
+.info-rooms-in-host{
+    display: inline-block;
+    width: 65%;
+    height: 200px;
+    margin-top: 120px;
+    margin-bottom: 20px;
+}
+
+.info-rooms-in-host label{
+    display: block;
+    border-bottom: 1px solid;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    font-size: 22px;
+    text-align: center;
+}
+
+.info-rooms-in-host p{
+    padding: 0px 5px;
+}
+
+.info-rooms-in-host span{
+    font-weight: bolder;
+}
+
+.edit-info-room-host span{
+    font-size: 18px;
+    margin-left: 10px;
+    padding: 5px 0px;
+}
+
+.icon-checkin-room, .icon-checkout-room{
+    display: inline-block;
+    padding: 2px;
+}
+
+.edit-info-room-host img{
+    width: 25px;
+    height: 25px;
 }
 
 

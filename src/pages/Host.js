@@ -3,11 +3,13 @@ import { Redirect } from 'react-router-dom';
 import HostHeader from '../component/HostHeader';
 import HostAddRoom from '../component/HostAddRoom';
 import hostAPI from '../api/hostAPI';
+import logocheckin from '../icons/icon-checkin-room.png';
+import logocheckout from '../icons/icon-checkout-room.png';
 
 export default class Host extends Component {
-    constructor(props){
+    constructor(props) {
         super(props);
-        this.state={
+        this.state = {
             listRoom: [],
             listRoomUnAvailable: [],
             currentHost: "",
@@ -21,32 +23,32 @@ export default class Host extends Component {
         this.getBranch = this.getBranch.bind(this);
     }
 
-    componentDidMount(){
+    componentDidMount() {
         this.getAllRoom();
     }
 
-    getBranch = () =>{
+    getBranch = () => {
         const api = new hostAPI();
         let params = new FormData();
         params.append("id_host", localStorage.getItem("iduser"));
         api.getBranch(params)
-            .then(response =>{
+            .then(response => {
                 this.setState({
                     currentHost: localStorage.getItem("username"),
                     branchHost: response,
                 })
             })
-            .catch(error =>{
+            .catch(error => {
                 console.log(error);
             })
     }
 
-    getAllRoom = () =>{
+    getAllRoom = () => {
         const api = new hostAPI();
         let params = new FormData();
         params.append("id_host", localStorage.getItem("iduser"));
         api.getRoomByHostId(params)
-            .then(response =>{
+            .then(response => {
                 var room = response.splice(0, response.length - 1);
                 var roomUnAvailable = response.splice(response.length - 1, response.length);
                 this.setState({
@@ -54,12 +56,12 @@ export default class Host extends Component {
                     listRoomUnAvailable: roomUnAvailable,
                 })
             })
-            .catch(error =>{
+            .catch(error => {
                 console.log(error);
             })
     }
 
-    openAddRoom = (e) =>{
+    openAddRoom = (e) => {
         e.preventDefault();
         this.setState({
             add_room_status: "add-room-visible",
@@ -67,7 +69,7 @@ export default class Host extends Component {
         })
     }
 
-    closeAddRoom = () =>{
+    closeAddRoom = () => {
         this.setState({
             add_room_status: "add-room-hidden",
             body_status: "room-body-visible",
@@ -75,15 +77,17 @@ export default class Host extends Component {
     }
 
     render() {
-        if(localStorage.getItem("type") !== 'host'){
+        if (localStorage.getItem("type") !== 'host') {
             return <Redirect to="/" />
         }
         var class_body = this.state.body_status + " col-md-12";
         var class_add_room = this.state.add_room_status + " col-md-8 col-md-offset-2";
+        var type_room = ['', 'Phòng đơn', 'Phòng đôi', 'Phòng tập thể', 'Phòng gia đình', 'Mini House', 'Home Stay'];
+        const f = new Intl.NumberFormat();
         return (
             <div>
                 <div className="host-header col-md-12">
-                    <HostHeader hostActive={0}/>
+                    <HostHeader hostActive={0} />
                 </div>
                 <div className={class_body} >
                     <div className="host-control col-md-12">
@@ -92,7 +96,7 @@ export default class Host extends Component {
                         </div>
                         <div className="col-md-7 col-md-offset-2">
                             <div className="control-element"><label>Nhận phòng:</label>  <input type="date" /></div>
-                            <div className="control-element"><label>Trả phòng:</label>  <input type="date" /></div>  
+                            <div className="control-element"><label>Trả phòng:</label>  <input type="date" /></div>
                             <div className="control-element"><select>
                                 <option>--Loại phòng--</option>
                             </select></div>
@@ -100,11 +104,32 @@ export default class Host extends Component {
                         </div>
                     </div>
                     <div className="host-content col-md-12">
-                        
+                        <div>
+                            {
+                                this.state.listRoom.map((room, index) =>
+                                    <div key={index} className="rooms-in-host col-md-4">
+                                        <div className="info-rooms-in-host">
+                                            <div className="edit-info-room-host">
+                                                <span className="glyphicon glyphicon-edit"></span>
+                                                <span className="glyphicon glyphicon-trash"></span>
+                                            </div>
+                                            <label>{room.name_room}</label>
+                                            <p>- Loại phòng: {type_room[room.type_room]}</p>
+                                            <p>- Số người: {room.capacity_room}</p>
+                                            <p>- Giá mỗi đêm: <span>{f.format(room.price_room)} VND</span></p>
+                                            <div className="edit-info-room-host">
+                                                <div className="icon-checkin-room col-md-1 col-md-offset-10"><img src={logocheckin}  alt="icon-checkin-room"/></div>
+                                                <div className="icon-checkout-room col-md-1"><img src={logocheckout} alt="icon-checkout-room" /></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
                 </div>
                 <div className={class_add_room}>
-                    <HostAddRoom  close={this.closeAddRoom} />
+                    <HostAddRoom close={this.closeAddRoom} />
                 </div>
             </div>
         )

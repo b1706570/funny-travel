@@ -3,7 +3,7 @@
     $response = [];
     $listUnAvailable = [];
     // co dieu kien thi viet where vao
-    $sql = "SELECT * FROM `rooms` WHERE `id_host`=".$_POST['id_host'];
+    $sql = "SELECT * FROM `rooms` WHERE `id_host`=".$_POST['id_host']." ORDER BY `name_room`";
     $result = $connect->query($sql);
     while ($row = $result->fetch_assoc()) {
         $response[] = $row;
