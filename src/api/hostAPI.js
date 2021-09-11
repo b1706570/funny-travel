@@ -78,4 +78,15 @@ export default class hostAPI{
                 console.log(error);
             })
     }
+
+    deleteRoom(params){
+        const api = new axios.create({ baseURL: this.baseURL });
+        return api.post("/deleteroom.php", params)
+            .then(response =>{
+                return response.data[0];
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
 }

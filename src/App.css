@@ -452,6 +452,25 @@ h2{
     margin-bottom: 20px;
 }
 
+.edit-room-visible{
+    position: absolute;
+    margin-top: 180px;
+    margin-bottom: 20px;
+    visibility: visible;
+    z-index: 5;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: rgb(248, 125, 54) 1px 1px 5px 5px;
+}
+
+.edit-room-hidden{
+    z-index: 0;
+    visibility: hidden;
+    position: absolute;
+    margin-top: 180px;
+    margin-bottom: 20px;
+}
+
 .room-body-visible{
     opacity: 1;
     z-index: 5;
@@ -547,14 +566,41 @@ h2{
     background: none;
 }
 
+
+.branch-host{
+    margin-left: -30px;
+    margin-top: -10px;
+}
+
+.branch-host .btn{
+    background-color: rgb(95, 250, 224);
+    font-size: 18px;
+    font-weight: bolder;
+}
+
 .rooms-in-host{
     display: flex;
     align-items: center;
     justify-content: center;
+    margin-top: 20px;
+}
+
+.room-green{
     background: url('./img/background-room-host-available.png') no-repeat;
     background-size: 90% 100%;
     background-position: center;
-    margin-bottom: 20px;
+}
+
+.room-red{
+    background: url('./img/background-room-host-unavailable.png') no-repeat;
+    background-size: 90% 100%;
+    background-position: center;
+}
+
+.room-yellow{
+    background: url('./img/background-room-host-prepare.png') no-repeat;
+    background-size: 90% 100%;
+    background-position: center;
 }
 
 .info-rooms-in-host{
@@ -583,6 +629,10 @@ h2{
     font-weight: bolder;
 }
 
+.edit-info-room-host{
+    height: 30px;
+}
+
 .edit-info-room-host span{
     font-size: 18px;
     margin-left: 10px;
@@ -591,7 +641,7 @@ h2{
 
 .icon-checkin-room, .icon-checkout-room{
     display: inline-block;
-    padding: 2px;
+    padding-left: 25px;
 }
 
 .edit-info-room-host img{
