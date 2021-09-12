@@ -11,7 +11,7 @@
 
     $today = date("Y-m-d");
     $today = $today." 12:00:00";
-    $sql1 = "SELECT `id_room` FROM `booking_schedule` WHERE '".$today."' BETWEEN `checkin_date` and `checkout_date`";
+    $sql1 = "SELECT `id_room` FROM `booking_schedule` WHERE ('".$today."' BETWEEN `checkin_date` and `checkout_date`) AND `state`='DANHANPHONG'";
     $result1 = $connect->query($sql1);
     while ($row1 = $result1->fetch_assoc()) {
         $listUnAvailable[] = $row1['id_room'];
@@ -20,7 +20,7 @@
 
     $today1 = date("Y-m-d");
     $today1 = $today1." 12:01:00";
-    $sql2 = "SELECT `id_room` FROM `booking_schedule` WHERE '".$today1."' = `checkin_date`";
+    $sql2 = "SELECT `id_room` FROM `booking_schedule` WHERE '".$today1."' = `checkin_date` AND `state`='DAXACNHAN'";
     $result2 = $connect->query($sql2);
     while ($row2 = $result2->fetch_assoc()) {
         $prepare[] = $row2['id_room'];

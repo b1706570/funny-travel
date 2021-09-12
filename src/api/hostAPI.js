@@ -89,4 +89,15 @@ export default class hostAPI{
                 console.log(error);
             })
     }
+
+    editRoom(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/editroom.php', params)
+        .then(response =>{
+            return response.data[0].code;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
 }

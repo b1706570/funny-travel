@@ -68,6 +68,8 @@ export default class HostAddRoom extends Component {
 
     imageHandler = (e) => {
 
+        console.log(1);
+
         /* Storage List Files */
         var newList = Array.from(e.target.files);
         var oldList = Array.from(this.state.listFiles);

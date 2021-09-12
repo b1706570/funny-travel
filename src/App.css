@@ -502,9 +502,10 @@ h2{
     top: -6px;
 }
 
-#room-img{
+#room-img, #edit-room-img{
     display: none;
 }
+
 
 .host-icon-add-img{
     border: 5px dashed #ff006f;

@@ -19,13 +19,14 @@ export default class Host extends Component {
             data_on_edit: {},
             body_status: "room-body-visible",
             add_room_status: "add-room-hidden",
-            edit_room_status: "edit-room-visible",
+            edit_room_status: "edit-room-hidden",
         }
         this.openAddRoom = this.openAddRoom.bind(this);
         this.closeAddRoom = this.closeAddRoom.bind(this);
+        this.openEditRoom = this.openEditRoom.bind(this);
+        this.closeEditRoom = this.closeEditRoom.bind(this);
         this.getAllRoom = this.getAllRoom.bind(this);
         this.getBranch = this.getBranch.bind(this);
-        this.editRoom = this.editRoom.bind(this);
         this.deleteRoom = this.deleteRoom.bind(this);
     }
 
@@ -72,19 +73,37 @@ export default class Host extends Component {
             })
     }
 
-    ChangeBranch = (index) =>{
+    ChangeBranch = (index) => {
         var branch = this.state.branchHost[index];
-        if(branch.id_host !== localStorage.getItem("iduser")){
+        if (branch.id_host !== localStorage.getItem("iduser")) {
             localStorage.setItem("iduser", branch.id_host);
             localStorage.setItem("username", branch.company_name);
             window.location.reload();
         }
     }
 
+    openEditRoom = (index) => {
+        this.setState({
+            edit_room_status: "edit-room-visible",
+            add_room_status: "add-room-hidden",
+            body_status: "room-body-hidden",
+            data_on_edit: this.state.listRoom[index],
+        })
+    }
+
+    closeEditRoom = () => {
+        this.setState({
+            edit_room_status: "edit-room-hidden",
+            add_room_status: "add-room-hidden",
+            body_status: "room-body-visible",
+        })
+    }
+
     openAddRoom = (e) => {
         e.preventDefault();
         this.setState({
             add_room_status: "add-room-visible",
+            edit_room_status: "edit-room-hidden",
             body_status: "room-body-hidden",
         })
     }
@@ -92,30 +111,27 @@ export default class Host extends Component {
     closeAddRoom = () => {
         this.setState({
             add_room_status: "add-room-hidden",
+            edit_room_status: "edit-room-hidden",
             body_status: "room-body-visible",
         })
     }
 
-    editRoom = (index) =>{
-        console.log(index);
-    }
-
-    deleteRoom = (index) =>{
+    deleteRoom = (index) => {
         var ok = window.confirm("Mọi thông tin về phòng sẽ mất sau khi xóa. Bạn chắn chắn muốn xóa ?");
-        if(ok === true){
+        if (ok === true) {
             const api = new hostAPI();
             let params = new FormData();
             params.append("id_room", index);
             api.deleteRoom(params)
-                .then(response =>{
-                    if(response.code === 200){
+                .then(response => {
+                    if (response.code === 200) {
                         this.componentDidMount();
                     }
-                    else{
+                    else {
                         alert("Lỗi hệ thống. Vui lòng thử lại sau!");
                     }
                 })
-                .catch(error =>{
+                .catch(error => {
                     console.log(error);
                 })
         }
@@ -130,6 +146,47 @@ export default class Host extends Component {
         var class_edit_room = this.state.edit_room_status + " col-md-8 col-md-offset-2";
         var type_room = ['', 'Phòng đơn', 'Phòng đôi', 'Phòng tập thể', 'Phòng gia đình', 'Mini House', 'Home Stay'];
         const f = new Intl.NumberFormat();
+        if (this.state.listRoom.length === 0) {
+            return (
+                <div>
+                    <div className="host-header col-md-12">
+                        <HostHeader hostActive={0} />
+                    </div>
+                    <div className={class_body} >
+                        <div className="host-control col-md-12">
+                            <div className="btn-add-room col-md-2 col-md-offset-1">
+                                <button onClick={this.openAddRoom}>Thêm phòng</button>
+                            </div>
+                            <div className="col-md-7 col-md-offset-2">
+                                <div className="control-element"><label>Nhận phòng:</label>  <input type="date" /></div>
+                                <div className="control-element"><label>Trả phòng:</label>  <input type="date" /></div>
+                                <div className="control-element"><select>
+                                    <option>--Loại phòng--</option>
+                                </select></div>
+                                <div className="control-element"><label>Số người:</label>  <input type="text" /></div>
+                            </div>
+                        </div>
+                        <div className="host-content col-md-12">
+                            <div className="col-md-12 branch-host">
+                                <div className="btn-group">
+                                    <button type="button" className="btn">{this.state.currentHost}</button>
+                                    <button type="button" className="btn dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <span className="caret"></span>
+                                        <span className="sr-only">Toggle Dropdown</span>
+                                    </button>
+                                    <ul className="dropdown-menu">
+                                        {
+                                            this.state.branchHost.map((branch, index) => <li key={index} onClick={this.ChangeBranch.bind(this, index)}><Link to="">{branch.company_name}</Link></li>)
+                                        }
+                                    </ul>
+                                </div>
+                            </div>
+                            <div><label>Bạn cần thêm phòng để bắt đầu hoạt động.</label></div>
+                        </div>
+                    </div>
+                </div>
+            )
+        }
         return (
             <div>
                 <div className="host-header col-md-12">
@@ -158,9 +215,9 @@ export default class Host extends Component {
                                     <span className="sr-only">Toggle Dropdown</span>
                                 </button>
                                 <ul className="dropdown-menu">
-                                {
-                                    this.state.branchHost.map((branch, index) => <li key={index} onClick={this.ChangeBranch.bind(this, index)}><Link to="">{branch.company_name}</Link></li>)
-                                }
+                                    {
+                                        this.state.branchHost.map((branch, index) => <li key={index} onClick={this.ChangeBranch.bind(this, index)}><Link to="">{branch.company_name}</Link></li>)
+                                    }
                                 </ul>
                             </div>
                         </div>
@@ -206,8 +263,8 @@ export default class Host extends Component {
                                             <div key={index} className="rooms-in-host room-green col-md-4">
                                                 <div className="info-rooms-in-host">
                                                     <div className="edit-info-room-host">
-                                                        <span className="glyphicon glyphicon-edit" onClick={this.editRoom.bind(this, room.id_room)}></span>
-                                                        <span className="glyphicon glyphicon-trash" onClick={this.deleteRoom.bind(this, room.id_room)}></span>
+                                                        <span className="glyphicon glyphicon-edit" onClick={this.openEditRoom.bind(this, index)}></span>
+                                                        <span className="glyphicon glyphicon-trash" onClick={this.deleteRoom.bind(this, index)}></span>
                                                     </div>
                                                     <label>{room.name_room}</label>
                                                     <p>- Loại phòng: {type_room[room.type_room]}</p>
@@ -231,7 +288,7 @@ export default class Host extends Component {
                     <HostAddRoom close={this.closeAddRoom} />
                 </div>
                 <div className={class_edit_room}>
-                    <HostEditRoom key={this.state.data_on_edit['id_room']} data={this.state.data_on_edit}/>
+                    <HostEditRoom key={this.state.data_on_edit['id_room']} close={this.closeEditRoom} data={this.state.data_on_edit} />
                 </div>
             </div>
         )
