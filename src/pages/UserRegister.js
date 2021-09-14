@@ -13,6 +13,7 @@ export default class UserRegister extends Component {
             txtAccount: '',
             txtPassword: '',
             txtAddress: '',
+            txtPhone: '',
             listUsernotavailable : [],
             usernameAvailable: true,
             direct: ''
@@ -81,6 +82,12 @@ export default class UserRegister extends Component {
         else{
             document.getElementById("passwordNoti").innerHTML = "";
         }
+        if(this.state.txtPhone === ''){
+            document.getElementById("phoneNoti").innerHTML = "(*)Bạn không được để trống số điện thoại.";
+        }
+        else{
+            document.getElementById("phoneNoti").innerHTML = "";
+        }
         if(document.getElementById("address").value === ''){
             document.getElementById("addressNoti").innerHTML = "(*)Bạn không được để trống địa chỉ.";
         }
@@ -89,7 +96,8 @@ export default class UserRegister extends Component {
         }
         if(this.state.txtFullname !== '' &&
         this.state.txtAccount !== '' &&
-        this.state.txtPassword !== '' &&
+        this.state.txtPassword !== '' && 
+        this.state.txtPhone !== '' && 
         document.getElementById("address").value !== '' &&
         this.state.usernameAvailable === true){
             let data = document.getElementById("user_register_form")
@@ -116,7 +124,6 @@ export default class UserRegister extends Component {
         if(this.state.direct !== ''){
             return <Redirect to={this.state.direct} />
         }
-        var {name, account, password} = this.state;
         return (
             <div className="col-md-6 col-md-offset-3 div-form-register">
                 <img className="mainlogo col-md-offset-5" src={logo} alt="logoweb" />
@@ -125,23 +132,30 @@ export default class UserRegister extends Component {
                     <div className="form-group one-row-register">
                         <label  className="col-md-3 col-md-offset-1 control-label">Họ và tên</label>
                         <div className="col-md-7">
-                            <input className="form-control" placeholder="Họ và tên..." type="text" name="txtFullname" value={name} onChange={this.handleChangle}/>
+                            <input className="form-control" placeholder="Họ và tên..." type="text" name="txtFullname" value={this.state.txtFullname} onChange={this.handleChangle}/>
                         </div>
                         <label id="fullnameNoti" className="col-md-7 col-md-offset-4 notification"></label>
                     </div>
                     <div className="form-group one-row-register">
                         <label  className="col-md-3 col-md-offset-1 control-label">Tên tài khoản</label>
                         <div className="col-md-7">
-                            <input className="form-control" placeholder="Tên tài khoản..." type="text" name="txtAccount" value={account} onChange={this.handleChangle}/>
+                            <input className="form-control" placeholder="Tên tài khoản..." type="text" name="txtAccount" value={this.state.txtAccount} onChange={this.handleChangle}/>
                         </div>
                         <label id="accountNoti" className="col-md-7 col-md-offset-4 notification"></label>
                     </div>
                     <div className="form-group one-row-register">
                         <label  className="col-md-3 col-md-offset-1 control-label">Mật khẩu</label>
                         <div className="col-md-7">
-                            <input className="form-control" placeholder="Mật khẩu..." type="password" name="txtPassword" value={password} onChange={this.handleChangle}/>
+                            <input className="form-control" placeholder="Mật khẩu..." type="password" name="txtPassword" value={this.state.txtPassword} onChange={this.handleChangle}/>
                         </div>
                         <label id="passwordNoti" className="col-md-7 col-md-offset-4 notification"></label>
+                    </div>
+                    <div className="form-group one-row-register">
+                        <label  className="col-md-3 col-md-offset-1 control-label">Số điện thoại (+84)</label>
+                        <div className="col-md-7">
+                            <input className="form-control" placeholder="Số điện thoại" type="number" name="txtPhone" value={this.state.txtPhone} onChange={this.handleChangle}/>
+                        </div>
+                        <label id="phoneNoti" className="col-md-7 col-md-offset-4 notification"></label>
                     </div>
                     <div className="form-group one-row-register">
                         <label  className="col-md-3 col-md-offset-1 control-label">Địa chỉ</label>

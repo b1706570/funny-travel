@@ -8,6 +8,11 @@ export default class hostAPI{
         this.updateHostInfo=this.updateHostInfo.bind(this);
         this.getAllConvenient=this.getAllConvenient.bind(this);
         this.addRoom=this.addRoom.bind(this);
+        this.getRoomByHostId=this.getRoomByHostId.bind(this);
+        this.getBranch=this.getBranch.bind(this);
+        this.deleteRoom=this.deleteRoom.bind(this);
+        this.editRoom=this.editRoom.bind(this);
+        this.checkIn=this.checkIn.bind(this);
     }
 
     gethostbyID(id){
@@ -93,6 +98,17 @@ export default class hostAPI{
     editRoom(params){
         const api = axios.create({baseURL: this.baseURL});
         return api.post('/editroom.php', params)
+        .then(response =>{
+            return response.data[0].code;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    checkIn(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/checkin.php', params)
         .then(response =>{
             return response.data[0].code;
         })

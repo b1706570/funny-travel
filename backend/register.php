@@ -2,8 +2,8 @@
     include 'default.php';
     if($_POST['type']=='member'){
         $password=md5($_POST['txtPassword']);
-        $sql="INSERT INTO `member`(`username`, `password`, `fullname`, `address`,`latitude`,`longtitude`) VALUES 
-        ('".$_POST['txtAccount']."','".$password."','".$_POST['txtFullname']."','".$_POST['txtAddress']."',".$_POST['lat'].",".$_POST['lng'].")";
+        $sql="INSERT INTO `member`(`username`, `password`, `fullname`, `phone`, `address`,`latitude`,`longtitude`) VALUES 
+        ('".$_POST['txtAccount']."','".$password."','".$_POST['txtFullname']."','".$_POST['txtPhone']."','".$_POST['txtAddress']."',".$_POST['lat'].",".$_POST['lng'].")";
     }
     else{
         $sql="INSERT INTO `proposal`(`fullname`, `company`, `email`, `phone`, `address`, `state`, `latitude`,`longtitude`) VALUES 
