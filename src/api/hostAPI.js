@@ -110,6 +110,7 @@ export default class hostAPI{
         const api = axios.create({baseURL: this.baseURL});
         return api.post('/checkin.php', params)
         .then(response =>{
+            console.log(response);
             return response.data[0].code;
         })
         .catch(error =>{

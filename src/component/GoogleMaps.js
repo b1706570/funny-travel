@@ -59,7 +59,7 @@ export default class GoogleMaps extends Component {
       navigator.geolocation.getCurrentPosition( pos => {
         var latitude=pos.coords.latitude;
         var longtitude=pos.coords.longitude;
-        const api = axios.create({baseURL: apiURL+ '&q=' + latitude + "+" + longtitude});
+        const api = axios.create({baseURL: apiURL + '&q=' + latitude + "+" + longtitude});
         return api.get()
         .then(response => {
           this.setState({

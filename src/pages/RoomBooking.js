@@ -36,7 +36,7 @@ export default class RoomBooking extends Component {
 
         this.CheckRoomAvailable = this.CheckRoomAvailable.bind(this);
         this.DateChange = this.DateChange.bind(this);
-        this.RoomNotAvailableNoti = this.CheckRoomAvailable.bind(this);
+        this.RoomNotAvailableNoti = this.RoomNotAvailableNoti.bind(this);
         this.ChoosePaymentWay = this.ChoosePaymentWay.bind(this);
         this.HiddenNoti = this.HiddenNoti.bind(this);
         this.ChangePaymentWay = this.ChangePaymentWay.bind(this);
@@ -125,14 +125,17 @@ export default class RoomBooking extends Component {
         window.location.reload();
     }
 
-    RoomNotAvailableNoti = () => {
+    RoomNotAvailableNoti = (e) => {
+        e.preventDefault();
+        console.log(11);
         document.getElementById("notification-payment").innerHTML = "Phòng hiện không khả dụng. Vui lòng chọn thời gian khác hoặc phòng khác!";
         this.setState({
             class_noti_payment: "noti-payment-visible",
         })
     }
 
-    ChoosePaymentWay = () =>{
+    ChoosePaymentWay = (e) =>{
+        e.preventDefault();
         document.getElementById("notification-payment").innerHTML = "Vui lòng kiểm tra kĩ các thông tin về phòng trước khi chuyển khoản thanh toán!";
         this.setState({
             class_noti_payment: "noti-payment-visible",

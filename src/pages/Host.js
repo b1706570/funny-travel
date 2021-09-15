@@ -26,34 +26,46 @@ export default class Host extends Component {
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             checkin_form_status: "div-pre-booked-checkin-hidden",
+            checkin_form_pre_status: "div-pre-booked-checkin-hidden",
             opt: "",
             name_room_checkin: "",
+            id_room_checkin: "",
             id_booking_checkin: "",
+            check_in_time_form: "",
+            check_out_time_form: "",
+            type_room: 0,
         }
         this.openAddRoom = this.openAddRoom.bind(this);
         this.closeAddRoom = this.closeAddRoom.bind(this);
         this.openEditRoom = this.openEditRoom.bind(this);
         this.closeEditRoom = this.closeEditRoom.bind(this);
         this.openCheckinFormPreBook = this.openCheckinFormPreBook.bind(this);
-        this.closeCheckinFormPreBook = this.closeCheckinFormPreBook.bind(this);
+        this.openCheckinFormBook = this.openCheckinFormBook.bind(this);
+        this.closeCheckinFormBook = this.closeCheckinFormBook.bind(this);
         this.getAllRoom = this.getAllRoom.bind(this);
         this.getBranch = this.getBranch.bind(this);
         this.deleteRoom = this.deleteRoom.bind(this);
         this.PreBookedCheckIn = this.PreBookedCheckIn.bind(this);
+        this.NonPreBookedCheckIn = this.NonPreBookedCheckIn.bind(this);
         this.clearFormPreBook = this.clearFormPreBook.bind(this);
+        this.Changehandler = this.Changehandler.bind(this);
+        this.ChangeOPT = this.ChangeOPT.bind(this);
     }
 
     componentDidMount() {
         let today = new Date();
-        let checkin = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + today.getDate();
-        let checkout = today.getFullYear() + "-" + (today.getMonth() + 1) + "-" + (today.getDate() + 1);
-        this.getAllRoom(checkin,checkout);
+        let checkin = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
+        let checkout = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + (today.getDate() + 1)).slice(-2);
+        this.getAllRoom(checkin, checkout, this.state.type_room);
         this.getBranch();
         this.setState({
             body_status: "room-body-visible",
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             checkin_form_status: "div-pre-booked-checkin-hidden",
+            checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+            check_in_time_form: checkin,
+            check_out_time_form: checkout,
         });
         document.body.style.overflow = "visible";
     }
@@ -75,12 +87,15 @@ export default class Host extends Component {
             })
     }
 
-    getAllRoom = (checkin, checkout) => {
+    getAllRoom = (checkin, checkout, type_room) => {
         const api = new hostAPI();
         let params = new FormData();
         params.append("id_host", localStorage.getItem("iduser"));
         params.append("checkin", checkin);
         params.append("checkout", checkout);
+        if (type_room > 0) {
+            params.append("type-room", type_room);
+        }
         api.getRoomByHostId(params)
             .then(response => {
                 var room = response.splice(0, response.length - 6);
@@ -121,6 +136,7 @@ export default class Host extends Component {
             add_room_status: "add-room-hidden",
             body_status: "room-body-hidden",
             checkin_form_status: "div-pre-booked-checkin-hidden",
+            checkin_form_pre_status: "div-pre-booked-checkin-hidden",
             data_on_edit: this.state.listRoom[index],
         })
     }
@@ -131,6 +147,7 @@ export default class Host extends Component {
             add_room_status: "add-room-hidden",
             body_status: "room-body-visible",
             checkin_form_status: "div-pre-booked-checkin-hidden",
+            checkin_form_pre_status: "div-pre-booked-checkin-hidden",
         })
     }
 
@@ -141,6 +158,7 @@ export default class Host extends Component {
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-hidden",
             checkin_form_status: "div-pre-booked-checkin-hidden",
+            checkin_form_pre_status: "div-pre-booked-checkin-hidden",
         })
     }
 
@@ -150,12 +168,14 @@ export default class Host extends Component {
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-visible",
             checkin_form_status: "div-pre-booked-checkin-hidden",
+            checkin_form_pre_status: "div-pre-booked-checkin-hidden",
         })
     }
 
-    openCheckinFormPreBook = (name, id) =>{
+    openCheckinFormPreBook = (name, id) => {
         this.setState({
-            checkin_form_status: "div-pre-booked-checkin-visible",
+            checkin_form_status: "div-pre-booked-checkin-hidden",
+            checkin_form_pre_status: "div-pre-booked-checkin-visible",
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-hidden",
@@ -165,10 +185,24 @@ export default class Host extends Component {
         document.body.style.overflow = "hidden";
     }
 
-    closeCheckinFormPreBook = (e) =>{
+    openCheckinFormBook = (name, id_room) => {
+        this.setState({
+            checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+            checkin_form_status: "div-pre-booked-checkin-visible",
+            add_room_status: "add-room-hidden",
+            edit_room_status: "edit-room-hidden",
+            body_status: "room-body-hidden",
+            name_room_checkin: name,
+            id_room_checkin: id_room,
+        })
+        document.body.style.overflow = "hidden";
+    }
+
+    closeCheckinFormBook = (e) => {
         e.preventDefault();
         this.setState({
             checkin_form_status: "div-pre-booked-checkin-hidden",
+            checkin_form_pre_status: "div-pre-booked-checkin-hidden",
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-visible",
@@ -198,25 +232,40 @@ export default class Host extends Component {
         }
     }
 
-    ChangeOPT = (e) =>{
+    ChangeOPT = (e) => {
         this.setState({ opt: e })
     }
 
-    PreBookedCheckIn = (e) =>{
+    Changehandler = (e) => {
+        let name = e.target.name;
+        let value = e.target.value;
+        console.log(value);
+        this.setState({ [name]: value });
+        //this.getAllRoom(this.state.check_in_time_form, this.state.check_out_time_form, this.state.type_room);
+        if (name === "check_in_time_form")
+            this.getAllRoom(value, this.state.check_out_time_form, this.state.type_room);
+        else if (name === "check_out_time_form")
+            this.getAllRoom(this.state.check_in_time_form, value, this.state.type_room);
+        else
+            this.getAllRoom(this.state.check_in_time_form, this.state.check_out_time_form, value);
+
+    }
+
+    PreBookedCheckIn = (e) => {
         e.preventDefault();
         let data = document.getElementById("pre-booked-checkin");
         let params = new FormData(data);
-        params.append("prebook", true);
+        params.append("prebook", 'true');
         params.append("otpcode", this.state.opt);
         const api = new hostAPI();
         api.checkIn(params)
             .then(response => {
-                if(response === 1){
+                if (response === 1) {
                     alert("Check-in thành công!");
                     this.clearFormPreBook();
                     this.componentDidMount();
                 }
-                else{
+                else {
                     alert("Check-in thất bại!");
                     this.clearFormPreBook();
                 }
@@ -226,8 +275,34 @@ export default class Host extends Component {
             })
     }
 
-    clearFormPreBook = () =>{
+    NonPreBookedCheckIn = (e) => {
+        e.preventDefault();
+        let data = document.getElementById("non-pre-booked-checkin");
+        let params = new FormData(data);
+        params.append("prebook", 'false');
+        params.append("check-in-time", this.state.check_in_time_form);
+        params.append("check-out-time", this.state.check_out_time_form);
+        const api = new hostAPI();
+        api.checkIn(params)
+            .then(response => {
+                if (response === 200) {
+                    alert("Check-in thành công!");
+                    this.clearFormPreBook();
+                    this.componentDidMount();
+                }
+                else {
+                    alert("Check-in thất bại!");
+                    this.clearFormPreBook();
+                }
+            })
+            .catch(error => {
+                console.log(error);
+            })
+    }
+
+    clearFormPreBook = () => {
         document.getElementById("pre-booked-checkin").reset();
+        document.getElementById("non-pre-booked-checkin").reset();
         this.setState({ opt: '' })
     }
 
@@ -238,7 +313,7 @@ export default class Host extends Component {
         var class_body = this.state.body_status + " col-md-12";
         var class_add_room = this.state.add_room_status + " col-md-8 col-md-offset-2";
         var class_edit_room = this.state.edit_room_status + " col-md-8 col-md-offset-2";
-        var type_room = ['', 'Phòng đơn', 'Phòng đôi', 'Phòng tập thể', 'Phòng gia đình', 'Mini House', 'Home Stay'];
+        var type_room = ['--Loại phòng--', 'Phòng đơn', 'Phòng đôi', 'Phòng tập thể', 'Phòng gia đình', 'Mini House', 'Home Stay'];
         const f = new Intl.NumberFormat();
         if (this.state.listRoom.length === 0) {
             return (
@@ -251,13 +326,28 @@ export default class Host extends Component {
                             <div className="btn-add-room col-md-2 col-md-offset-1">
                                 <button onClick={this.openAddRoom}>Thêm phòng</button>
                             </div>
-                            <div className="col-md-7 col-md-offset-2">
-                                <div className="control-element"><label>Nhận phòng:</label>  <input type="date" /></div>
-                                <div className="control-element"><label>Trả phòng:</label>  <input type="date" /></div>
-                                <div className="control-element"><select>
-                                    <option>--Loại phòng--</option>
-                                </select></div>
-                                <div className="control-element"><label>Số người:</label>  <input type="text" /></div>
+                            <div className="col-md-6 col-md-offset-3">
+                                <div className="control-element">
+                                    <label>Nhận phòng:</label>
+                                    <input type="date" name="check_in_time_form" value={this.state.check_in_time_form} onChange={this.Changehandler} />
+                                </div>
+                                <div className="control-element">
+                                    <label>Trả phòng:</label>
+                                    <input type="date" name="check_out_time_form" value={this.state.check_out_time_form} onChange={this.Changehandler} />
+                                </div>
+                                <div className="control-element">
+                                    <select name="type_room" value={this.state.type_room} onChange={this.Changehandler} >
+                                        {
+                                            type_room.map((item, index) =>
+                                                this.state.type_room === index ? (
+                                                    <option key={index} value={index} disabled>{item}</option>
+                                                ) : (
+                                                    <option key={index} value={index}>{item}</option>
+                                                )
+                                            )
+                                        }
+                                    </select>
+                                </div>
                             </div>
                         </div>
                         <div className="host-content col-md-12">
@@ -275,7 +365,7 @@ export default class Host extends Component {
                                     </ul>
                                 </div>
                             </div>
-                            <div><label>Bạn cần thêm phòng để bắt đầu hoạt động.</label></div>
+                            <div><label>Chưa có gì ở đây cả.</label></div>
                         </div>
                     </div>
                 </div>
@@ -291,13 +381,28 @@ export default class Host extends Component {
                         <div className="btn-add-room col-md-2 col-md-offset-1">
                             <button onClick={this.openAddRoom}>Thêm phòng</button>
                         </div>
-                        <div className="col-md-7 col-md-offset-2">
-                            <div className="control-element"><label>Nhận phòng:</label>  <input type="date" /></div>
-                            <div className="control-element"><label>Trả phòng:</label>  <input type="date" /></div>
-                            <div className="control-element"><select>
-                                <option>--Loại phòng--</option>
-                            </select></div>
-                            <div className="control-element"><label>Số người:</label>  <input type="text" /></div>
+                        <div className="col-md-6 col-md-offset-3">
+                            <div className="control-element">
+                                <label>Nhận phòng:</label>
+                                <input type="date" name="check_in_time_form" value={this.state.check_in_time_form} onChange={this.Changehandler} />
+                            </div>
+                            <div className="control-element">
+                                <label>Trả phòng:</label>
+                                <input type="date" name="check_out_time_form" value={this.state.check_out_time_form} onChange={this.Changehandler} />
+                            </div>
+                            <div className="control-element">
+                                <select name="type_room" value={this.state.type_room} onChange={this.Changehandler} >
+                                    {
+                                        type_room.map((item, index) =>
+                                            this.state.type_room === index ? (
+                                                <option key={index} value={index} disabled>{item}</option>
+                                            ) : (
+                                                <option key={index} value={index}>{item}</option>
+                                            )
+                                        )
+                                    }
+                                </select>
+                            </div>
                         </div>
                     </div>
                     <div className="host-content col-md-12">
@@ -332,7 +437,7 @@ export default class Host extends Component {
                                                     <p>- Số người: {room.capacity_room}</p>
                                                     <p>- Giá mỗi đêm: <span>{f.format(room.price_room)} VND</span></p>
                                                     <div className="edit-info-room-host">
-                                                        <div className="icon-checkin-room col-md-2 col-md-offset-8"><img src={logocheckin} alt="icon-checkin-room" /></div>
+                                                        <div className="icon-checkin-room col-md-2 col-md-offset-8"><img src={logocheckin} onClick={this.openCheckinFormBook.bind(this, room.name_room, room.id_room)} alt="icon-checkin-room" /></div>
                                                         <div className="icon-checkout-room col-md-2"><img src={logocheckout} alt="icon-checkout-room" /></div>
                                                     </div>
                                                 </div>
@@ -404,19 +509,39 @@ export default class Host extends Component {
                 <div className={class_edit_room}>
                     <HostEditRoom key={this.state.data_on_edit['id_room']} close={this.closeEditRoom} data={this.state.data_on_edit} />
                 </div>
-                <div className={this.state.checkin_form_status}>
+                <div className={this.state.checkin_form_pre_status}>
                     <div className="col-md-4 col-md-offset-4">
                         <form id="pre-booked-checkin" className="col-md-12">
                             <label>CHECK-IN ----{this.state.name_room_checkin}</label>
                             <input type="hidden" name="id_book" value={this.state.id_booking_checkin} />
-                            <input className="form-control" type="text" name="fullname" placeholder="Họ và Tên ..."></input>
+                            <input className="form-control" type="text" name="fullname" placeholder="Họ và tên ..."></input>
+                            <i>Họ và tên</i>
                             <input className="form-control" type="number" name="phone" placeholder="Số điện thoại ..."></input>
+                            <i>Số điện thoại</i>
                             <p><span>HOẶC</span></p>
                             <div className="div-opt">
-                                <OtpInput value={this.state.opt} placeholder="--------" isInputNum={true} onChange={this.ChangeOPT} numInputs={8} separator={<span>&nbsp;&Omicron;&nbsp;</span>}/>
+                                <OtpInput value={this.state.opt} placeholder="--------" isInputNum={true} onChange={this.ChangeOPT} numInputs={8} separator={<span>&nbsp;&Omicron;&nbsp;</span>} />
                             </div>
                             <button className="btn-checkin" onClick={this.PreBookedCheckIn}>Check-in</button>
-                            <button className="btn-close" onClick={this.closeCheckinFormPreBook}>Đóng</button>
+                            <button className="btn-close" onClick={this.closeCheckinFormBook}>Đóng</button>
+                        </form>
+                    </div>
+                </div>
+                <div className={this.state.checkin_form_status}>
+                    <div className="col-md-4 col-md-offset-4">
+                        <form id="non-pre-booked-checkin" className="col-md-12">
+                            <label>CHECK-IN ----{this.state.name_room_checkin}</label>
+                            <input type="hidden" name="id-room" value={this.state.id_room_checkin}></input>
+                            <input className="form-control" type="text" name="fullname" placeholder="Họ và tên ..."></input>
+                            <i>Họ và tên</i>
+                            <input className="form-control" type="number" name="phone" placeholder="Số điện thoại ..."></input>
+                            <i>Số điện thoại</i>
+                            <input className="form-control" type="date" defaultValue={this.state.check_in_time_form} readOnly></input>
+                            <i>Ngày check-in</i>
+                            <input className="form-control" type="date" defaultValue={this.state.check_out_time_form} readOnly></input>
+                            <i>Ngày check-out</i>
+                            <button className="btn-checkin" onClick={this.NonPreBookedCheckIn}>Check-in</button>
+                            <button className="btn-close" onClick={this.closeCheckinFormBook}>Đóng</button>
                         </form>
                     </div>
                 </div>

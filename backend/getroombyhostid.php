@@ -3,7 +3,12 @@
     $response = [];
     $listUnAvailable = [];
     $prepare = [];
-    $sql = "SELECT * FROM `rooms` WHERE `id_host`=".$_POST['id_host']." ORDER BY `name_room`";
+    if(isset($_POST['type-room'])){
+        $sql = "SELECT * FROM `rooms` WHERE `id_host`=".$_POST['id_host']." && `type_room` = ".$_POST['type-room']." ORDER BY `name_room`"; 
+    }
+    else{
+        $sql = "SELECT * FROM `rooms` WHERE `id_host`=".$_POST['id_host']." ORDER BY `name_room`";
+    }
     $result = $connect->query($sql);
     while ($row = $result->fetch_assoc()) {
         $response[] = $row;

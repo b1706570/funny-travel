@@ -20,7 +20,7 @@ h2{
     margin-top: 50px;
     margin-bottom: 50px;
     box-shadow: 1px 1px 5px 5px lightgray;
-    background: linear-gradient(to bottom, #ffff99 0%, #ff0066 100%);
+    background: linear-gradient(to bottom, #ffff99 0%, #ff6600 100%);
 }
 
 .div-form-register input[type=text], .div-form-register input[type=password], .div-form-register input[type=number]{
@@ -366,7 +366,8 @@ h2{
     top: 0;
     width: 100%;
     height: 100%;
-    background: url('./img/default-background.png');
+    background: url('./img/default-background.png') no-repeat;
+    background-size: 100% 100%;
 }
 
 .content-host-update-form{
@@ -680,9 +681,10 @@ h2{
     box-shadow: rgb(248, 125, 54) 1px 1px 5px 5px;
 }
 
-.div-pre-booked-checkin-visible form input{
+.div-pre-booked-checkin-visible form input, .div-pre-booked-checkin-visible form input[readonly]{
     margin: 20px 0px;
     font-size: 18px;
+    background: white;
 }
 
 .div-pre-booked-checkin-visible form p{
@@ -699,6 +701,16 @@ h2{
 .div-pre-booked-checkin-visible form p span{
     background-color: white;
     padding: 0 5px;
+}
+
+.div-pre-booked-checkin-visible form i{
+    font-size: 13px;
+    position: absolute;
+    margin-top: -68px;
+    margin-left: 5px;
+    padding: 0px 5px;
+    background: white;
+    color: red
 }
 
 .div-pre-booked-checkin-visible form label{
