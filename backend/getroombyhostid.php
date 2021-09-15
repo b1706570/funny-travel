@@ -23,7 +23,7 @@
     $listUnAvailable = [];
     $checkout_time = [];
     $id_checkin = [];
-    $sql1 = "SELECT `id_room`,`checkout_date`,`id_booking` FROM `booking_schedule` WHERE ('".$checkout."' BETWEEN `checkin_date` and `checkout_date` OR `checkout_date` BETWEEN '".$checkin."' AND '".$checkout."') AND `state`='DANHANPHONG'";
+    $sql1 = "SELECT `id_room`,`checkout_date`,`id_booking` FROM `booking_schedule` WHERE `state`='DANHANPHONG'";
     $result1 = $connect->query($sql1);
     while ($row1 = $result1->fetch_assoc()) {
         $listUnAvailable[] = $row1['id_room'];

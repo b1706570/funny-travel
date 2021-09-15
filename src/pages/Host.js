@@ -4,6 +4,7 @@ import HostHeader from '../component/HostHeader';
 import HostAddRoom from '../component/HostAddRoom';
 import HostEditRoom from '../component/HostEditRoom';
 import OtpInput from 'react-otp-input';
+import NumberFormat from 'react-number-format';
 import hostAPI from '../api/hostAPI';
 import logocheckin from '../icons/icon-checkin-room.png';
 import logocheckout from '../icons/icon-checkout-room.png';
@@ -21,6 +22,7 @@ export default class Host extends Component {
             listIdCheckout: [],
             currentHost: "",
             branchHost: [],
+            guestInfo: {},
             data_on_edit: {},
             body_status: "room-body-visible",
             add_room_status: "add-room-hidden",
@@ -28,9 +30,9 @@ export default class Host extends Component {
             checkin_form_status: "div-pre-booked-checkin-hidden",
             checkin_form_pre_status: "div-pre-booked-checkin-hidden",
             opt: "",
-            name_room_checkin: "",
+            name_room: "",
             id_room_checkin: "",
-            id_booking_checkin: "",
+            id_booking: "",
             check_in_time_form: "",
             check_out_time_form: "",
             type_room: 0,
@@ -179,8 +181,8 @@ export default class Host extends Component {
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-hidden",
-            name_room_checkin: name,
-            id_booking_checkin: id,
+            name_room: name,
+            id_booking: id,
         })
         document.body.style.overflow = "hidden";
     }
@@ -192,7 +194,7 @@ export default class Host extends Component {
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-hidden",
-            name_room_checkin: name,
+            name_room: name,
             id_room_checkin: id_room,
         })
         document.body.style.overflow = "hidden";
@@ -437,8 +439,7 @@ export default class Host extends Component {
                                                     <p>- Số người: {room.capacity_room}</p>
                                                     <p>- Giá mỗi đêm: <span>{f.format(room.price_room)} VND</span></p>
                                                     <div className="edit-info-room-host">
-                                                        <div className="icon-checkin-room col-md-2 col-md-offset-8"><img src={logocheckin} onClick={this.openCheckinFormBook.bind(this, room.name_room, room.id_room)} alt="icon-checkin-room" /></div>
-                                                        <div className="icon-checkout-room col-md-2"><img src={logocheckout} alt="icon-checkout-room" /></div>
+                                                        <div className="icon-checkin-room col-md-2 col-md-offset-10"><img src={logocheckin} onClick={this.openCheckinFormBook.bind(this, room.name_room, room.id_room)} alt="icon-checkin-room" /></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -512,8 +513,8 @@ export default class Host extends Component {
                 <div className={this.state.checkin_form_pre_status}>
                     <div className="col-md-4 col-md-offset-4">
                         <form id="pre-booked-checkin" className="col-md-12">
-                            <label>CHECK-IN ----{this.state.name_room_checkin}</label>
-                            <input type="hidden" name="id_book" value={this.state.id_booking_checkin} />
+                            <label>CHECK-IN ----{this.state.name_room}</label>
+                            <input type="hidden" name="id_book" value={this.state.id_booking} />
                             <input className="form-control" type="text" name="fullname" placeholder="Họ và tên ..."></input>
                             <i>Họ và tên</i>
                             <input className="form-control" type="number" name="phone" placeholder="Số điện thoại ..."></input>
@@ -530,7 +531,7 @@ export default class Host extends Component {
                 <div className={this.state.checkin_form_status}>
                     <div className="col-md-4 col-md-offset-4">
                         <form id="non-pre-booked-checkin" className="col-md-12">
-                            <label>CHECK-IN ----{this.state.name_room_checkin}</label>
+                            <label>CHECK-IN ----{this.state.name_room}</label>
                             <input type="hidden" name="id-room" value={this.state.id_room_checkin}></input>
                             <input className="form-control" type="text" name="fullname" placeholder="Họ và tên ..."></input>
                             <i>Họ và tên</i>
@@ -542,6 +543,32 @@ export default class Host extends Component {
                             <i>Ngày check-out</i>
                             <button className="btn-checkin" onClick={this.NonPreBookedCheckIn}>Check-in</button>
                             <button className="btn-close" onClick={this.closeCheckinFormBook}>Đóng</button>
+                        </form>
+                    </div>
+                </div>
+                <div className="div-checkout-visible">
+                    <div className="col-md-4 col-md-offset-4">
+                        <form id="checkout" className="col-md-12">
+                            <label>CHECK-OUT ----{this.state.name_room}</label>
+                            <div>
+                                <div className="col-md-12">Anh/Chị: </div>
+                                <div className="col-md-12">Số điện thoại (+84): </div>
+                            </div>
+                            <div>
+                                <div className="col-md-12">Tên phòng: {this.state.name_room}</div>
+                                <div className="col-md-12">Ngày nhận phòng: </div>
+                                <div className="col-md-12">Ngày trả phòng: </div>
+                            </div>
+                            <div>
+                                <div className="col-md-6">Thành tiền:</div><div className="col-md-6">tiền x đêm</div>
+                                <div className="col-md-6">Đã đặt cọc:</div><div className="col-md-6">tiền</div>
+                                <div className="col-md-6">Phụ thu:</div><div className="col-md-6"><NumberFormat name="other-fee" thousandSeparator /></div>
+                            </div>
+                            <div>
+                                <div className="col-md-6">Tổng thanh toán:</div><div className="col-md-6">tiền</div>                            </div>
+                            <div>
+                                <div className="col-md-12"><button className="btn btn-success">Xác nhận trả phòng</button></div>
+                            </div>
                         </form>
                     </div>
                 </div>

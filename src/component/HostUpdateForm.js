@@ -204,7 +204,6 @@ export default class HostUpdateForm extends Component {
     }
 
     render() {
-        console.log(this.state.txtBanknumber);
         if(this.state.redirect !== ''){ 
             return <Redirect to={this.state.redirect} />
         }

@@ -19,9 +19,7 @@ export default class GoogleMaps extends Component {
   }
 
   componentDidMount(){
-    console.log(this.props.address);
     if(typeof this.props.address !== "undefined"){
-      console.log(this.props.address);
       this.setState({
         txtAddress: this.props.address,
         lat: this.props.lat,
@@ -38,11 +36,9 @@ export default class GoogleMaps extends Component {
 
   handleClick = () =>{
     var value = document.getElementById("address").value
-    console.log(value);
     const api = axios.create({baseURL: apiURL+ '&q=' + value});
     return api.get()
     .then(response => {
-      console.log(response.data.results[0].formatted)
       this.setState({
         txtAddress : response.data.results[0].formatted,
         lat: response.data.results[0].geometry.lat,
