@@ -117,4 +117,27 @@ export default class hostAPI{
             console.log(error);
         })
     }
+
+    checkOut(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/checkout.php', params)
+        .then(response =>{
+            console.log(response);
+            return response.data[0].code;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    getDataCheckout(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getdatacheckout.php', params)
+        .then(response =>{
+            return response.data;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
 }

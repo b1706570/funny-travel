@@ -22,13 +22,14 @@ export default class Host extends Component {
             listIdCheckout: [],
             currentHost: "",
             branchHost: [],
-            guestInfo: {},
+            data_checkout: {},
             data_on_edit: {},
             body_status: "room-body-visible",
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             checkin_form_status: "div-pre-booked-checkin-hidden",
             checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+            checkout_form_status: "div-checkout-hidden",
             opt: "",
             name_room: "",
             id_room_checkin: "",
@@ -43,6 +44,7 @@ export default class Host extends Component {
         this.closeEditRoom = this.closeEditRoom.bind(this);
         this.openCheckinFormPreBook = this.openCheckinFormPreBook.bind(this);
         this.openCheckinFormBook = this.openCheckinFormBook.bind(this);
+        this.openCheckoutFormRoom = this.openCheckoutFormRoom.bind(this);
         this.closeCheckinFormBook = this.closeCheckinFormBook.bind(this);
         this.getAllRoom = this.getAllRoom.bind(this);
         this.getBranch = this.getBranch.bind(this);
@@ -51,6 +53,7 @@ export default class Host extends Component {
         this.NonPreBookedCheckIn = this.NonPreBookedCheckIn.bind(this);
         this.clearFormPreBook = this.clearFormPreBook.bind(this);
         this.Changehandler = this.Changehandler.bind(this);
+        this.ChangeOtherFee = this.ChangeOtherFee.bind(this);
         this.ChangeOPT = this.ChangeOPT.bind(this);
     }
 
@@ -66,6 +69,7 @@ export default class Host extends Component {
             edit_room_status: "edit-room-hidden",
             checkin_form_status: "div-pre-booked-checkin-hidden",
             checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+            checkout_form_status: "div-checkout-hidden",
             check_in_time_form: checkin,
             check_out_time_form: checkout,
         });
@@ -139,6 +143,7 @@ export default class Host extends Component {
             body_status: "room-body-hidden",
             checkin_form_status: "div-pre-booked-checkin-hidden",
             checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+            checkout_form_status: "div-checkout-hidden",
             data_on_edit: this.state.listRoom[index],
         })
     }
@@ -150,6 +155,7 @@ export default class Host extends Component {
             body_status: "room-body-visible",
             checkin_form_status: "div-pre-booked-checkin-hidden",
             checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+            checkout_form_status: "div-checkout-hidden",
         })
     }
 
@@ -161,6 +167,7 @@ export default class Host extends Component {
             body_status: "room-body-hidden",
             checkin_form_status: "div-pre-booked-checkin-hidden",
             checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+            checkout_form_status: "div-checkout-hidden",
         })
     }
 
@@ -171,6 +178,7 @@ export default class Host extends Component {
             body_status: "room-body-visible",
             checkin_form_status: "div-pre-booked-checkin-hidden",
             checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+            checkout_form_status: "div-checkout-hidden",
         })
     }
 
@@ -181,6 +189,7 @@ export default class Host extends Component {
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-hidden",
+            checkout_form_status: "div-checkout-hidden",
             name_room: name,
             id_booking: id,
         })
@@ -194,6 +203,7 @@ export default class Host extends Component {
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-hidden",
+            checkout_form_status: "div-checkout-hidden",
             name_room: name,
             id_room_checkin: id_room,
         })
@@ -208,9 +218,40 @@ export default class Host extends Component {
             add_room_status: "add-room-hidden",
             edit_room_status: "edit-room-hidden",
             body_status: "room-body-visible",
+            checkout_form_status: "div-checkout-hidden",
         })
         document.body.style.overflow = "visible";
         this.clearFormPreBook();
+    }
+
+    openCheckoutFormRoom = (name, id_booking) => {
+        let params = new FormData();
+        params.append("id_booking", id_booking);
+        const api = new hostAPI(params);
+        api.getDataCheckout(params)
+            .then(response => {
+                var data = response;
+                data['checkin_date'] = response['checkin_date'].split(" ", 1)[0];
+                data['checkout_date'] = response['checkout_date'].split(" ", 1)[0];
+                data['night'] = (new Date(response['checkout_date']) - new Date(response['checkin_date'])) / 86400000;
+                data['other_fee'] = 0;
+                data['total'] = Number(data['price_room']) * Number(data['night']) + Number(data['other_fee']) - Number(data['deposit']);
+                this.setState({
+                    data_checkout: data,
+                    checkin_form_pre_status: "div-pre-booked-checkin-hidden",
+                    checkin_form_status: "div-pre-booked-checkin-hidden",
+                    add_room_status: "add-room-hidden",
+                    edit_room_status: "edit-room-hidden",
+                    body_status: "room-body-hidden",
+                    checkout_form_status: "div-checkout-visible",
+                    name_room: name,
+                    id_booking: id_booking,
+                });
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        document.body.style.overflow = "hidden";
     }
 
     deleteRoom = (index) => {
@@ -251,6 +292,47 @@ export default class Host extends Component {
         else
             this.getAllRoom(this.state.check_in_time_form, this.state.check_out_time_form, value);
 
+    }
+
+    ChangeOtherFee = (e) =>{
+        let value = e.target.value;
+        value = value.split(",").join("");
+        let data = this.state.data_checkout;
+        data['other_fee'] = value;
+        data['total'] = Number(data['price_room']) * Number(data['night']) + Number(data['other_fee']) - Number(data['deposit']);
+        this.setState({
+            data_checkout: data,
+        })
+    }
+
+    Checkout = (e) =>{
+        e.preventDefault();
+        let data = this.state.data_checkout;
+        let params = new FormData();
+        params.append("id_booking", this.state.id_booking);
+        params.append("id_member", data['id_member']);
+        params.append("id_room", data['id_room']);
+        params.append("fullname", data['fullname']);
+        params.append("phone", data['phone']);
+        params.append("checkin_date", data['checkin_date']);
+        params.append("checkout_date", data['checkout_date']);
+        params.append("deposit", data['deposit']);
+        params.append("total_payment", data['total']);
+        params.append("state", 'DATHANHTOAN');
+        const api = new hostAPI();
+        api.checkOut(params)
+            .then(response =>{
+                if(response === 200){
+                    alert("Thanh toán thành công!");
+                    this.componentDidMount();
+                }
+                else{
+                    alert("Thanh toán không thành công!");
+                }
+            })
+            .catch(error =>{
+                console.log(error);
+            })
     }
 
     PreBookedCheckIn = (e) => {
@@ -492,7 +574,7 @@ export default class Host extends Component {
                                                     <p>- Giá mỗi đêm: <span>{f.format(room.price_room)} VND</span></p>
                                                     <div className="edit-info-room-host">
                                                         <div className="col-md-10">{this.state.listTimeUnavailable[this.state.listRoomUnAvailable.indexOf(room.id_room)]}</div>
-                                                        <div className="icon-checkout-room col-md-2"><img src={logocheckout} alt="icon-checkout-room" /></div>
+                                                        <div className="icon-checkout-room col-md-2"><img src={logocheckout} onClick={this.openCheckoutFormRoom.bind(this, room.name_room, this.state.listIdCheckout[this.state.listRoomUnAvailable.indexOf(room.id_room)])} alt="icon-checkout-room" /></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -546,28 +628,30 @@ export default class Host extends Component {
                         </form>
                     </div>
                 </div>
-                <div className="div-checkout-visible">
+                <div className={this.state.checkout_form_status}>
                     <div className="col-md-4 col-md-offset-4">
                         <form id="checkout" className="col-md-12">
                             <label>CHECK-OUT ----{this.state.name_room}</label>
-                            <div>
-                                <div className="col-md-12">Anh/Chị: </div>
-                                <div className="col-md-12">Số điện thoại (+84): </div>
+                            <div className="rows1">
+                                <div className="col-md-7">Anh/Chị:</div><div className="col-md-5">{this.state.data_checkout['fullname']}</div>
+                                <div className="col-md-7">Số điện thoại (+84):</div><div className="col-md-5">{this.state.data_checkout['phone']}</div>
+                            </div>
+                            <div className="rows1">
+                                <div className="col-md-7">Tên phòng:</div><div className="col-md-5">{this.state.data_checkout['name_room']}</div>
+                                <div className="col-md-7">Ngày nhận phòng: </div><div className="col-md-5">{this.state.data_checkout['checkin_date']}</div>
+                                <div className="col-md-7">Ngày trả phòng: </div><div className="col-md-5">{this.state.data_checkout['checkout_date']}</div>
+                            </div>
+                            <div className="rows1">
+                                <div className="col-md-7">Thành tiền:</div><div className="col-md-5">(+) {f.format(this.state.data_checkout['price_room'])} x ({this.state.data_checkout['night']})</div>
+                                <div className="col-md-7">Đã đặt cọc:</div><div className="col-md-5">(-) {f.format(this.state.data_checkout['deposit'])}</div>
+                                <div className="col-md-7">Phụ thu:</div><div className="col-md-5"><NumberFormat thousandSeparator /*value={this.state.data_checkout['other_fee']}*/ onChange={this.ChangeOtherFee} /></div>
                             </div>
                             <div>
-                                <div className="col-md-12">Tên phòng: {this.state.name_room}</div>
-                                <div className="col-md-12">Ngày nhận phòng: </div>
-                                <div className="col-md-12">Ngày trả phòng: </div>
+                                <div className="col-md-7">Tổng thanh toán:</div><div className="col-md-5 total-price">{f.format(this.state.data_checkout['total'])} (VND)</div>
                             </div>
                             <div>
-                                <div className="col-md-6">Thành tiền:</div><div className="col-md-6">tiền x đêm</div>
-                                <div className="col-md-6">Đã đặt cọc:</div><div className="col-md-6">tiền</div>
-                                <div className="col-md-6">Phụ thu:</div><div className="col-md-6"><NumberFormat name="other-fee" thousandSeparator /></div>
-                            </div>
-                            <div>
-                                <div className="col-md-6">Tổng thanh toán:</div><div className="col-md-6">tiền</div>                            </div>
-                            <div>
-                                <div className="col-md-12"><button className="btn btn-success">Xác nhận trả phòng</button></div>
+                                <div className="col-md-12"><button className="btn btn-success col-md-12" onClick={this.Checkout}>Xác nhận trả phòng</button></div>
+                                <div className="col-md-12"><button className="btn btn-danger col-md-12" onClick={this.closeCheckinFormBook}>Hủy</button></div>
                             </div>
                         </form>
                     </div>

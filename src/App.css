@@ -656,7 +656,7 @@ h2{
     padding-left: 30px;
 }
 
-.div-pre-booked-checkin-visible{
+.div-pre-booked-checkin-visible, .div-checkout-visible{
     position: absolute;
     position: fixed;
     width: 100%;
@@ -665,7 +665,7 @@ h2{
     visibility: visible;
 }
 
-.div-pre-booked-checkin-hidden{
+.div-pre-booked-checkin-hidden, .div-checkout-hidden{
     position: absolute;
     position: fixed;
     width: 100%;
@@ -674,11 +674,57 @@ h2{
     visibility: hidden;
 }
 
+
 .div-pre-booked-checkin-visible form{
     margin-top: 40%;
     background-color: white;
     border-radius: 20px;
     box-shadow: rgb(248, 125, 54) 1px 1px 5px 5px;
+}
+
+@keyframes a {
+    from{margin-top: 0%}
+    to{margin-top: 25%}
+}
+
+.div-checkout-visible form{
+    margin-top: 25%;
+    background-color: white;
+    border-radius: 20px;
+    box-shadow: rgb(248, 125, 54) 1px 1px 5px 5px;
+    animation: a 1s;
+    visibility: visible;
+    font-size: 18px;
+    padding: 20px 10px;
+}
+
+.div-checkout-visible .rows1{
+    display: inline-block;
+    width: 100%;
+    border-bottom: 0.5px solid lightgray;
+    padding: 5px 0px;
+}
+
+.div-checkout-visible .total-price{
+    font-weight: bolder;
+}
+
+.div-checkout-visible .btn{
+    margin-top: 10px;
+    padding: 10px;
+    font-size: 15px;
+}
+
+.div-checkout-visible .col-md-5{
+    text-align: right;
+}
+
+.div-checkout-visible .rows1 input{
+    width: 100%;
+    border: none;
+    border-bottom: 1px dashed black;
+    outline: none;
+    text-align: right;
 }
 
 .div-pre-booked-checkin-visible form input, .div-pre-booked-checkin-visible form input[readonly]{
