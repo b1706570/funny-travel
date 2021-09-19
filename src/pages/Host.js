@@ -8,6 +8,7 @@ import NumberFormat from 'react-number-format';
 import hostAPI from '../api/hostAPI';
 import logocheckin from '../icons/icon-checkin-room.png';
 import logocheckout from '../icons/icon-checkout-room.png';
+import logoCancel from '../icons/icon-cancel-schedule.png';
 
 export default class Host extends Component {
     constructor(props) {
@@ -37,6 +38,7 @@ export default class Host extends Component {
             check_in_time_form: "",
             check_out_time_form: "",
             type_room: 0,
+            count_time: "",
         }
         this.openAddRoom = this.openAddRoom.bind(this);
         this.closeAddRoom = this.closeAddRoom.bind(this);
@@ -52,8 +54,10 @@ export default class Host extends Component {
         this.PreBookedCheckIn = this.PreBookedCheckIn.bind(this);
         this.NonPreBookedCheckIn = this.NonPreBookedCheckIn.bind(this);
         this.clearFormPreBook = this.clearFormPreBook.bind(this);
+        this.cancelBookingSchedule = this.cancelBookingSchedule.bind(this);
         this.Changehandler = this.Changehandler.bind(this);
         this.ChangeOtherFee = this.ChangeOtherFee.bind(this);
+        this.count_timer = this.count_timer.bind(this);
         this.ChangeOPT = this.ChangeOPT.bind(this);
     }
 
@@ -63,6 +67,7 @@ export default class Host extends Component {
         let checkout = today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + (today.getDate() + 1)).slice(-2);
         this.getAllRoom(checkin, checkout, this.state.type_room);
         this.getBranch();
+        this.count_timer();
         this.setState({
             body_status: "room-body-visible",
             add_room_status: "add-room-hidden",
@@ -318,7 +323,6 @@ export default class Host extends Component {
         params.append("checkout_date", data['checkout_date']);
         params.append("deposit", data['deposit']);
         params.append("total_payment", data['total']);
-        params.append("state", 'DATHANHTOAN');
         const api = new hostAPI();
         api.checkOut(params)
             .then(response =>{
@@ -390,10 +394,44 @@ export default class Host extends Component {
         this.setState({ opt: '' })
     }
 
+    count_timer = () =>{
+        let now = new Date();
+        if(now.getHours() >= 12){
+            this.setState({
+                count_time: (now.getHours() - 12) + " : " + now.getMinutes() + " : " + now.getSeconds(),
+            })
+        }
+        this.timer = setTimeout(this.count_timer, 1000);
+    }
+
+    componentWillUnmount(){
+        clearTimeout(this.timer);
+    }
+
+    cancelBookingSchedule = (id_booking) =>{
+        let params = new FormData();
+        params.append("id_booking", id_booking);
+        const api = new hostAPI();
+        api.cancelBookingSchedule(params)
+            .then(response =>{
+                if(response === 200){
+                    alert("Hủy đặt phòng thành công!");
+                    this.componentDidMount();
+                }
+                else{
+                    alert("Hủy đặt phòng thất bại!");
+                }
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
     render() {
         if (localStorage.getItem("type") !== 'host') {
             return <Redirect to="/" />
         }
+        var now = new Date().getFullYear() + "-" + ("0" +(new Date().getMonth() + 1)).slice(-2) + "-" + ("0" + (new Date().getDate())).slice(-2);
         var class_body = this.state.body_status + " col-md-12";
         var class_add_room = this.state.add_room_status + " col-md-8 col-md-offset-2";
         var class_edit_room = this.state.edit_room_status + " col-md-8 col-md-offset-2";
@@ -538,6 +576,11 @@ export default class Host extends Component {
                                     if (this.state.listRoomPrepare.indexOf(room.id_room) !== -1) {
                                         return (
                                             <div key={index} className="rooms-in-host room-yellow col-md-4">
+                                                {
+                                                    this.state.listTimePrepare[this.state.listRoomPrepare.indexOf(room.id_room)] === (now + " 12:01:00") ? (
+                                                        <span className="time">{this.state.count_time}</span>
+                                                    ) : ( null )
+                                                }
                                                 <div className="info-rooms-in-host">
                                                     <div className="edit-info-room-host">
                                                     </div>
@@ -548,7 +591,7 @@ export default class Host extends Component {
                                                     <div className="edit-info-room-host">
                                                         <div className="col-md-8">{this.state.listTimePrepare[this.state.listRoomPrepare.indexOf(room.id_room)]}</div>
                                                         <div className="icon-checkin-room col-md-2"><img src={logocheckin} onClick={this.openCheckinFormPreBook.bind(this, room.name_room, this.state.listIdCheckin[this.state.listRoomPrepare.indexOf(room.id_room)])} alt="icon-checkin-room" /></div>
-                                                        <div className="icon-checkout-room col-md-2"><img src={logocheckout} alt="icon-checkout-room" /></div>
+                                                        <div className="icon-checkout-room col-md-2"><img src={logoCancel} onClick={this.cancelBookingSchedule.bind(this, this.state.listIdCheckin[this.state.listRoomPrepare.indexOf(room.id_room)])} alt="icon-cancel-room" /></div>
                                                     </div>
                                                 </div>
                                             </div>
@@ -565,6 +608,11 @@ export default class Host extends Component {
                                     if (this.state.listRoomUnAvailable.indexOf(room.id_room) !== -1) {
                                         return (
                                             <div key={index} className="rooms-in-host room-red col-md-4">
+                                                {
+                                                    this.state.listTimeUnavailable[this.state.listRoomUnAvailable.indexOf(room.id_room)] === (now + " 12:00:00") ? (
+                                                        <span className="time">{this.state.count_time}</span>
+                                                    ) : ( null )
+                                                }
                                                 <div className="info-rooms-in-host">
                                                     <div className="edit-info-room-host">
                                                     </div>

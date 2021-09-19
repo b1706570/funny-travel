@@ -1,3 +1,5 @@
+@import url(https://fonts.googleapis.com/css?family=Orbitron);
+
 /********************/
 /* UserRegister css */
 /********************/
@@ -605,6 +607,15 @@ h2{
     background-position: center;
 }
 
+.time{
+    position: absolute;
+    top: 70px;
+    font-size: 15px;
+    font-weight: bolder;
+    color: red;
+    font-family: 'Orbitron', sans-serif;
+}
+
 .info-rooms-in-host{
     display: inline-block;
     width: 65%;
@@ -791,6 +802,24 @@ h2{
     color: white;
 }
 
+
+/*************************/
+/* HOST-BOOKING-SCHEDULE */
+/*************************/
+.noti-empty-booking-schedule{
+    display: inline-block;
+    width: 100%;
+    height: 650px;
+    background: url(./img/background-empty-page-noti.png) no-repeat;
+    background-size: 40% 60%;
+    background-position: center;
+}
+
+.noti-empty-booking-schedule p{
+    font-size: 25px;
+    text-align: center;
+    padding: 100px;
+}
 
 /********/
 /* Home */

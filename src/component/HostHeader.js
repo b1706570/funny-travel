@@ -50,7 +50,7 @@ export default class HostHeader extends Component {
                 </div>
                 <div className="host-controller col-md-6 col-md-offset-3">
                     <Link className={list_class_controller[0]} to={this.state.my_url + "/"}>Phòng</Link>
-                    <Link className={list_class_controller[1]} to="#">Đặt trước</Link>
+                    <Link className={list_class_controller[1]} to={this.state.my_url + "/bookingschedule"}>Đặt trước</Link>
                     <Link className={list_class_controller[3]} to={this.state.my_url + "/addbranch"}>Thêm chi nhánh</Link>
                     <Link className={list_class_controller[4]} to={this.state.my_url + "/personalinfo"}>Cập nhật thông tin</Link>
                     <Link className={list_class_controller[2]} to="#">Quản trị</Link>

@@ -271,7 +271,7 @@ export default class Home extends Component {
                                         }
                                     </select>
                                 </div>
-                                <div className="control-element-range"><label>Giá mỗi đêm: <NumberFormat thousandSeparator={true} value={this.state.price_of_condition} readOnly></NumberFormat></label>
+                                <div className="control-element-range"><label>Giá mỗi đêm: từ <NumberFormat thousandSeparator={true} defaultValue="0"></NumberFormat> đến <NumberFormat thousandSeparator={true} value={this.state.price_of_condition}></NumberFormat></label>
                                     <input type="range" name="price_of_condition" step="50000" min={this.state.min_price} max={this.state.max_price} value={this.state.price_of_condition} onChange={this.ChangeHandler} />
                                 </div>
                             </div>

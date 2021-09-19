@@ -13,6 +13,10 @@ export default class hostAPI{
         this.deleteRoom=this.deleteRoom.bind(this);
         this.editRoom=this.editRoom.bind(this);
         this.checkIn=this.checkIn.bind(this);
+        this.checkOut=this.checkOut.bind(this);
+        this.getDataCheckout=this.getDataCheckout.bind(this);
+        this.cancelBookingSchedule=this.cancelBookingSchedule.bind(this);
+        this.getBookingSchedule=this.getBookingSchedule.bind(this);
     }
 
     gethostbyID(id){
@@ -139,5 +143,27 @@ export default class hostAPI{
         .catch(error =>{
             console.log(error);
         })
+    }
+
+    cancelBookingSchedule(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/cancelbookingschedule.php', params)
+        .then(response =>{
+            return response.data[0].code;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    getBookingSchedule(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getbookingschedule.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
     }
 }
