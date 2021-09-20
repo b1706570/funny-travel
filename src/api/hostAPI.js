@@ -17,6 +17,9 @@ export default class hostAPI{
         this.getDataCheckout=this.getDataCheckout.bind(this);
         this.cancelBookingSchedule=this.cancelBookingSchedule.bind(this);
         this.getBookingSchedule=this.getBookingSchedule.bind(this);
+        this.confirmBookingSchedule=this.confirmBookingSchedule.bind(this);
+        this.rejectBookingSchedule=this.rejectBookingSchedule.bind(this);
+        this.getTransactionByOfHost=this.getTransactionByOfHost.bind(this);
     }
 
     gethostbyID(id){
@@ -147,7 +150,7 @@ export default class hostAPI{
 
     cancelBookingSchedule(params){
         const api = axios.create({baseURL: this.baseURL});
-        return api.post('/cancelbookingschedule.php', params)
+        return api.post('/processbookingschedule.php', params)
         .then(response =>{
             return response.data[0].code;
         })
@@ -165,5 +168,38 @@ export default class hostAPI{
             .catch(error =>{
                 console.log(error);
             })
+    }
+
+    getTransactionByOfHost(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/gettransactionbyhostid.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    confirmBookingSchedule(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/processbookingschedule.php', params)
+        .then(response =>{
+            return response.data[0].code;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    rejectBookingSchedule(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/processbookingschedule.php', params)
+        .then(response =>{
+            return response.data[0].code;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
     }
 }

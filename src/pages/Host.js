@@ -411,6 +411,7 @@ export default class Host extends Component {
     cancelBookingSchedule = (id_booking) =>{
         let params = new FormData();
         params.append("id_booking", id_booking);
+        params.append("type", "cancel");
         const api = new hostAPI();
         api.cancelBookingSchedule(params)
             .then(response =>{

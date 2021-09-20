@@ -312,6 +312,18 @@ h2{
     padding: 0px;
 }
 
+.noti-new-book-visible{
+    position: absolute;
+    display: inline-block;
+    width: 25px;
+    height: 25px;
+    top: 20px;
+    left: 85px;
+    visibility: visible;
+    background: url("./icons/icons8-notification.gif") no-repeat;
+    background-size: 25px 25px;
+}
+
 
 .host-controller-child{
     font-size: 15px;
@@ -819,6 +831,61 @@ h2{
     font-size: 25px;
     text-align: center;
     padding: 100px;
+}
+
+.header-table{
+    font-size: 16px;
+    font-weight: bolder;
+    color: rgba(50, 115, 255, 0.993);
+    padding: 5px 0px;
+    border-bottom: 1px solid;
+}
+
+.line-table-white{
+    padding: 5px 0px;
+    background-color: white;
+}
+
+.line-table-gray{
+    padding: 5px 0px;
+    background-color: rgba(211, 211, 211, 0.589);
+}
+
+.table-host-schedule-await, .table-host-schedule-confirmed{
+    display: inline-block;
+    border: 1px solid lightgray;
+    margin-top: 20px;
+    border-radius: 15px;
+}
+
+.table-host-schedule-await .col-md-9, .table-host-schedule-await .col-md-3, .table-host-schedule-confirmed .col-md-9, .table-host-schedule-confirmed .col-md-3{
+    padding: 0px;
+}
+
+.table-host-schedule-await .host-schedule-title{
+    font-size: large;
+    background-image: linear-gradient(to right, red , white 70%);
+    padding: 10px;
+    border-radius: 15px 15px 0px 0px;
+    color: white;
+    font-weight: bolder;
+}
+
+.table-host-schedule-confirmed .host-schedule-title{
+    font-size: large;
+    background-image: linear-gradient(to right, rgb(83, 238, 62) , white 70%);
+    padding: 10px;
+    border-radius: 15px 15px 0px 0px;
+    color: white;
+    font-weight: bolder;
+}
+
+.table-host-schedule-confirmed .glyphicon-remove, .table-host-schedule-await .glyphicon-remove{
+    color: red;
+}
+
+.table-host-schedule-await .glyphicon-ok{
+    color: rgb(83, 238, 62);
 }
 
 /********/
