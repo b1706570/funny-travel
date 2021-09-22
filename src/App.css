@@ -888,6 +888,68 @@ h2{
     color: rgb(83, 238, 62);
 }
 
+/***************/
+/* HOST MANAGE */
+/***************/
+
+.host-manage-total-revenue{
+    padding: 20px;
+    margin: 5px 0px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bolder;
+    text-align: right;
+    padding-right: 90px;
+}
+
+.host-manage-title{
+    background-color: rgb(95, 250, 224);
+    padding: 20px;
+    margin: 5px 0px;
+    border-radius: 10px;
+    font-size: 18px;
+    font-weight: bolder;
+    padding-left: 130px;
+}
+
+.host-manage-title .btn{
+    background: none;
+    font-size: 18px;
+    font-weight: bolder;
+    padding: 0px 10px;
+    margin-top: -5px;
+    color: red;
+}
+
+.host-manage-content .chart{
+    margin: 20px 0px 40px 0px;
+}
+
+#host-manage-input-month{
+    display: inline-block;
+    width: 25px;
+    border: none;
+    border-bottom: 0.5px solid lightgray;
+}
+
+#host-manage-input-year{
+    display: inline-block;
+    width: 40px;
+    border: none;
+    border-bottom: 0.5px solid lightgray;
+}
+
+.host-manage-content li input:focus{
+    outline: none;
+}
+
+.host-manage-content .glyphicon-search{
+    display: block;
+    padding: 5px;
+    font-size: 15px;
+    text-align: right;
+}
+
 /********/
 /* Home */
 /********/
