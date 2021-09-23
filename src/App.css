@@ -950,6 +950,99 @@ h2{
     text-align: right;
 }
 
+.host-detail-transaction .controller{
+    text-align: right;
+    font-size: 15px;
+    font-weight: bold;
+}
+
+.host-detail-transaction input[name=Day], .host-detail-transaction input[name=Month]{
+    width: 30px;
+    margin-right: 5px;
+}
+
+.host-detail-transaction input[name=Year]{
+    width: 50px;
+}
+
+.host-detail-transaction input{
+    border: none;
+    border-bottom: 1px solid lightgray;
+}
+
+.host-detail-transaction input:focus{
+    outline: none;
+}
+
+.host-detail-transaction .header-table{
+    position: sticky;
+    top: 0;
+    background-color: white;
+}
+
+.host-detail-transaction .col-name-room{
+    display: inline-block;
+    width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.host-detail-transaction .col-name-customer{
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.host-detail-transaction .col-phone{
+    display: inline-block;
+    width: 150px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.host-detail-transaction .col-checkin-date, .host-detail-transaction .col-checkout-date{
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.host-detail-transaction .col-deposit{
+    display: inline-block;
+    width: 100px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 20px;
+}
+
+.host-detail-transaction .col-total-payment{
+    display: inline-block;
+    width: 200px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
+.host-detail-transaction .col-state{
+    display: inline-block;
+    width: 130px;
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    margin-right: 10px;
+}
+
 /********/
 /* Home */
 /********/

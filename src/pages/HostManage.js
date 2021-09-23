@@ -12,17 +12,24 @@ export default class HostManage extends Component {
             AccordingTo: "Ngày",
             TotalRevenue: 0,
             AllTransaction: [],
+            listTransDetail: [],
             StatisticsRevenue: {},
             StatisticsEachRoom: {},
             CancellationRate: {},
+            Day: "",
+            Month: "",
+            Year: "",
         }
+        this.handleChange = this.handleChange.bind(this);
         this.StatisticsRevenue = this.StatisticsRevenue.bind(this);
         this.TotalRevenue = this.TotalRevenue.bind(this);
         this.StatisticsEachRoom = this.StatisticsEachRoom.bind(this);
         this.StatisticsCancellation = this.StatisticsCancellation.bind(this);
+        this.CreateListDetailTransaction = this.CreateListDetailTransaction.bind(this);
     }
 
     componentDidMount() {
+        let now = new Date();
         let params = new FormData();
         params.append("id_host", localStorage.getItem("iduser"));
         const api = new hostAPI();
@@ -33,11 +40,24 @@ export default class HostManage extends Component {
                 this.TotalRevenue(allTrans, "today");
                 this.StatisticsEachRoom(allTrans);
                 this.StatisticsCancellation(allTrans);
-                this.setState({ AllTransaction: response });
+                //this.CreateListDetailTransaction(allTrans, now.getDate(), now.getMonth() + 1, now.getFullYear());
+                this.CreateListDetailTransaction(allTrans, 19, 9, 2021);
+                this.setState({
+                    AllTransaction: response,
+                    Day: now.getDate(),
+                    Month: now.getMonth() + 1,
+                    Year: now.getFullYear(),
+                });
             })
             .catch(error => {
                 console.log(error);
             })
+    }
+
+    handleChange = (e) => {
+        var name = e.target.name;
+        var value = e.target.value;
+        this.setState({ [name]: value });
     }
 
     TotalRevenue = (alldata, condition) => {
@@ -145,7 +165,7 @@ export default class HostManage extends Component {
                         AccordingTo: "Năm " + year,
                     });
                 }
-                else{
+                else {
                     let numday = new Date(year, month, 0).getDate();
                     for (let i = 0; i < numday; i++) {
                         label[i] = (i + 1) + "/" + month + "/" + (year % 2000);
@@ -198,6 +218,49 @@ export default class HostManage extends Component {
         this.setState({ StatisticsCancellation: data });
     }
 
+    CreateListDetailTransaction = (alldata, day, month, year) => {
+        let data = [];
+        if (year === "") {
+            alert("Bạn phải nhập năm trước khi thống kê");
+        }
+        else {
+            if (day !== "" && month === "") {
+                alert("Bạn hãy nhập thêm tháng nữa nhé!");
+            }
+            else if (day !== "" && month !== "") {
+                for (let i = 0; i < alldata.length; i++) {
+                    let d = new Date(alldata[i].checkout_date).getDate();
+                    let m = new Date(alldata[i].checkout_date).getMonth() + 1;
+                    let y = new Date(alldata[i].checkout_date).getFullYear();
+                    if (d === Number(day) && m === Number(month) && y === Number(year)) {
+                        data.push(alldata[i]);
+                    }
+                }
+            }
+            else if (day === "" && month !== "") {
+                for (let i = 0; i < alldata.length; i++) {
+                    let m = new Date(alldata[i].checkout_date).getMonth() + 1;
+                    let y = new Date(alldata[i].checkout_date).getFullYear();
+                    if (m === Number(month) && y === Number(year)) {
+                        data.push(alldata[i]);
+                    }
+                }
+            }
+            else if (day === "" && month === "") {
+                for (let i = 0; i < alldata.length; i++) {
+                    let y = new Date(alldata[i].checkout_date).getFullYear();
+                    if (y === Number(year)) {
+                        data.push(alldata[i]);
+                    }
+                }
+            }
+        }
+        data.sort((a, b) => ((new Date(a.checkout_date)) < (new Date(b.checkout_date))) ? 1 : -1);
+        this.setState({
+            listTransDetail: data,
+        })
+    }
+
     render() {
         var formater = new Intl.NumberFormat();
         if (localStorage.getItem("type") !== 'host') {
@@ -243,8 +306,8 @@ export default class HostManage extends Component {
                         </div>
                         <div className="col-md-12 chart">
                             {
-                                (this.state.AccordingTo === "Tháng")  
-                                || (this.state.AccordingTo.indexOf("Năm ") !== -1 && this.state.AccordingTo.indexOf("Tháng") === -1) ? (
+                                (this.state.AccordingTo === "Tháng")
+                                    || (this.state.AccordingTo.indexOf("Năm ") !== -1 && this.state.AccordingTo.indexOf("Tháng") === -1) ? (
                                     <Line
                                         data={{
                                             labels: this.state.StatisticsRevenue['label'],
@@ -325,8 +388,50 @@ export default class HostManage extends Component {
                             />
                         </div>
                         <div className="col-md-12 host-manage-title">Chi tiết các giao dịch</div>
-                        <div className="col-md-12">
-                            aa
+                        <div className="col-md-12 host-detail-transaction">
+                            <div className="controller">
+                                Ngày: <input name="Day" value={this.state.Day} maxLength="2" onChange={this.handleChange} />
+                                Tháng: <input name="Month" value={this.state.Month} maxLength="2" onChange={this.handleChange} />
+                                Năm: <input name="Year" value={this.state.Year} maxLength="4" onChange={this.handleChange} />
+                                <span className="glyphicon glyphicon-filter" onClick={this.CreateListDetailTransaction.bind(this, this.state.AllTransaction, this.state.Day, this.state.Month, this.state.Year)}></span>
+                            </div>
+                            <div className="header-table">
+                                <label className="col-name-room">Tên phòng</label>
+                                <label className="col-name-customer">Tên khách hàng</label>
+                                <label className="col-phone">Số điện thoại</label>
+                                <label className="col-checkin-date">Ngày nhận phòng</label>
+                                <label className="col-checkout-date">Ngày trả phòng</label>
+                                <label className="col-deposit">Đặt cọc</label>
+                                <label className="col-total-payment">Tổng thanh toán</label>
+                                <label className="col-state">Trạng thái</label>
+                            </div>
+                            {
+                                this.state.listTransDetail.map((trans, index) =>
+                                    index % 2 === 0 ? (
+                                        <div key={index} className="line-table-white">
+                                            <span className="col-name-room">{trans.name_room}</span>
+                                            <span className="col-name-customer">{trans.fullname}</span>
+                                            <span className="col-phone">{trans.phone}</span>
+                                            <span className="col-checkin-date">{trans.checkin_date}</span>
+                                            <span className="col-checkout-date">{trans.checkout_date}</span>
+                                            <span className="col-deposit">{formater.format(trans.deposit)}</span>
+                                            <span className="col-total-payment">{formater.format(trans.total_payment)}</span>
+                                            <span className="col-state">{trans.state}</span>
+                                        </div>
+                                    ) : (
+                                        <div key={index} className="line-table-gray">
+                                            <span className="col-name-room">{trans.name_room}</span>
+                                            <span className="col-name-customer">{trans.fullname}</span>
+                                            <span className="col-phone">{trans.phone}</span>
+                                            <span className="col-checkin-date">{trans.checkin_date}</span>
+                                            <span className="col-checkout-date">{trans.checkout_date}</span>
+                                            <span className="col-deposit">{formater.format(trans.deposit)}</span>
+                                            <span className="col-total-payment">{formater.format(trans.total_payment)}</span>
+                                            <span className="col-state">{trans.state}</span>
+                                        </div>
+                                    )
+                                )
+                            }
                         </div>
                     </div>
                 </div>
