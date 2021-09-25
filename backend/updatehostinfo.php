@@ -3,7 +3,8 @@
     $logourl="image/".$_FILES['txtLogo']['name'];
     if($_POST['txtPassword'] !== ''){
         $password=md5($_POST['txtPassword']);
-        $sql="UPDATE `host` SET 
+        $connect->query("UPDATE `host` SET `password`='".$password."' WHERE `email_host`='".$_POST['txtGmail']."'");
+        /*$sql="UPDATE `host` SET 
         `fullname_host`='".$_POST['txtFullname']."', 
         `company_name`='".$_POST['txtHostname']."', 
         `email_host`='".$_POST['txtGmail']."', 
@@ -16,23 +17,21 @@
         `address_host`='".$_POST['txtAddress']."', 
         `latitude`=".$_POST['lat'].", 
         `longtitude`=".$_POST['lng']."  
-        WHERE `id_host`=".$_POST['txtID'];
+        WHERE `id_host`=".$_POST['txtID'];*/
     }
-    else{
-        $sql="UPDATE `host` SET 
-        `fullname_host`='".$_POST['txtFullname']."', 
-        `company_name`='".$_POST['txtHostname']."', 
-        `email_host`='".$_POST['txtGmail']."', 
-        `paypal_id`='".$_POST['txtPaypal']."', 
-        `bank_number`='".$_POST['txtBanknumber']."', 
-        `branch_name`='".$_POST['txtBranchname']."', 
-        `owner_acount`='".$_POST['txtOwneraccount']."',
-        `phone_host`=".$_POST['txtPhonenumber'].", 
-        `address_host`='".$_POST['txtAddress']."', 
-        `latitude`=".$_POST['lat'].", 
-        `longtitude`=".$_POST['lng']."  
-        WHERE `id_host`=".$_POST['txtID'];
-    }
+    $sql="UPDATE `host` SET 
+    `fullname_host`='".$_POST['txtFullname']."', 
+    `company_name`='".$_POST['txtHostname']."', 
+    `email_host`='".$_POST['txtGmail']."', 
+    `paypal_id`='".$_POST['txtPaypal']."', 
+    `bank_number`='".$_POST['txtBanknumber']."', 
+    `branch_name`='".$_POST['txtBranchname']."', 
+    `owner_acount`='".$_POST['txtOwneraccount']."',
+    `phone_host`=".$_POST['txtPhonenumber'].", 
+    `address_host`='".$_POST['txtAddress']."', 
+    `latitude`=".$_POST['lat'].", 
+    `longtitude`=".$_POST['lng']."  
+    WHERE `id_host`=".$_POST['txtID'];
     $result=[];
     if($connect->query($sql)){
         if($_FILES['txtLogo']['error'] == 0){
