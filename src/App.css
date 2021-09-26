@@ -1207,6 +1207,11 @@ input[type=number]::-webkit-outer-spin-button {
     border-bottom: 0.1px solid rgba(211, 211, 211, 0.5);
 }
 
+.home-info-price img{
+    width: 17px;
+    height: 17px;
+}
+
 .home-info-price input{
     border: none;
     outline: none;
@@ -1217,11 +1222,11 @@ input[type=number]::-webkit-outer-spin-button {
 }
 
 .glyphicon-map-marker{
-    color: red;
+    color: rgb(0, 238, 255);
 }
 
 .glyphicon-star{
-    color: rgba(240, 240, 30, 0.753);
+    color: red;
 }
 
 .button {
@@ -1910,4 +1915,16 @@ h4{
 
 .payment-way-visible{
     display: block;
+}
+
+/***************/
+/* MEMBER INFO */
+/***************/
+
+.member-info-left{
+    border: 1px solid;
+}
+
+.member-info-right{
+    border: 1px solid;
 }

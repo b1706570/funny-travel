@@ -35,6 +35,12 @@
                 $price = $price + $row1['price_room'];
                 $total = $total + 1;
             }
+            $result2=$connect->query("SELECT ROUND(AVG(`point`),1) avg FROM `evaluate` WHERE `id_host`=".$row['id_host']);
+            $row2=$result2->fetch_assoc();
+            if($row2['avg'] == NULL)
+                $row['point'] = "Chưa có đánh giá";
+            else
+                $row['point'] = $row2['avg'];
             $row['price'] = round($price / $total, -4);
             $row['images'] = $images_room;
             $row['convenients'] = $convs_room; 

@@ -170,7 +170,7 @@ export default class RoomBooking extends Component {
             .then(response =>{
                 if(response === 200){
                     alert("Đặt phòng thành công! Bạn có thể xem thông tin ở trang thông tin cá nhân.");
-                    this.setState({ direct: "/PersonalInfomation" })
+                    this.setState({ direct: "/member/personalinfomation" })
                 }
             })
             .catch(error =>{

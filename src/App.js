@@ -11,6 +11,7 @@ import HostSchedule from './pages/HostSchedule';
 import HostManage from './pages/HostManage';
 import DetailHost from './pages/DetailHost';
 import RoomBooking from './pages/RoomBooking';
+import MemberInfo from './pages/MemberInfo';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 
@@ -29,6 +30,7 @@ function App() {
         <Route exact path={"/host/" + localStorage.getItem('username') + "/addbranch"} component={HostAddBranch} />
         <Route exact path={"/host/" + localStorage.getItem('username') + "/bookingschedule"} component={HostSchedule} />
         <Route exact path={"/host/" + localStorage.getItem('username') + "/manage"} component={HostManage} />
+        <Route exact path="/member/personalinfomation" component={MemberInfo} />
         <Route exact path="/rooms/book" component={RoomBooking} />
         <Route exact path="/rooms/:id" component={DetailHost} />
       </Switch>

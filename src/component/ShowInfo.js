@@ -4,6 +4,7 @@ import ShowAddressInMaps from './ShowAddressInMaps';
 import config from '../config.json';
 import { Link } from 'react-router-dom';
 import Comment from './Comment';
+import vnd from '../icons/icon-vnd.png';
 
 export class DetailInfoTab extends Component {
     render() {
@@ -93,6 +94,7 @@ export default class ShowInfo extends Component {
             lat: this.props.item.latitude,
             long: this.props.item.longtitude,
             price: this.props.item.price,
+            point: this.props.item.point,
             listConv: arrConv,
         })
     }
@@ -136,10 +138,10 @@ export default class ShowInfo extends Component {
                         <span className="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {this.state.address}
                     </p>
                     <p className="home-info-price col-md-12">
-                        <span className="glyphicon glyphicon-usd" aria-hidden="true"></span> <NumberFormat thousandSeparator={true} value={this.state.price} readOnly />
+                        <span aria-hidden="true"><img src={vnd} alt="icon-vnd" /></span> <NumberFormat thousandSeparator={true} value={this.state.price} readOnly />
                     </p>
                     <p className="home-info-evaluate col-md-12">
-                        <span className="glyphicon glyphicon-star" aria-hidden="true"></span> Đánh giá
+                        <span className="glyphicon glyphicon-star" aria-hidden="true"></span> {this.state.point}
                     </p>
                     <p className="home-info-showmoredetail col-md-12"><button className="button" onClick={this.ShowMoreDetail}>Xem thêm thông tin</button></p>
                 </div>

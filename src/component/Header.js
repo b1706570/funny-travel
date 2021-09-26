@@ -58,11 +58,12 @@ export default class Header extends Component {
                 <div className="logo col-md-1 col-md-offset-1"><img className="mainlogo" src={logo} alt="logo trang web"></img></div>
                 <div className="btn col-md-1 entity">Gần bạn</div>
                 <div className="col-md-2 col-md-offset-6 entity">
-                    <div className="col-md-11 col-md-offset-1">
+                    <div className="col-md-8 col-md-offset-4">
                         <div className="dropdown">
                             <button className="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown">{this.state.userName}</button>
                             <ul className="dropdown-menu">
-                                <li className="btn" onClick={this.handleSigout}>Đăng xuất</li>
+                                <li><Link to="/member/personalinfomation"><span className="glyphicon glyphicon-user"></span>Thông tin cá nhân</Link></li>
+                                <li><Link to="" onClick={this.handleSigout}><span className="glyphicon glyphicon-log-out"></span> Đăng xuất</Link></li>
                             </ul>
                         </div>
                     </div>

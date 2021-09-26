@@ -113,6 +113,7 @@ export default class Home extends Component {
                 this.setState({
                     max_price: response.max,
                     min_price: response.min,
+                    price_of_condition: response.max,
                 })
             })
             .catch(error => {
