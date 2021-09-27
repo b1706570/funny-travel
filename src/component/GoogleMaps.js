@@ -97,8 +97,8 @@ export default class GoogleMaps extends Component {
       <div>
         <div className="col-md-7 txtAddr-map">
           <input id="address" className="form-control" value={this.state.txtAddress} placeholder="Địa chỉ..." type="text" name="txtAddress" onChange={this.handleChange}/>
-          <input type="hidden" name="lat" value={this.state.lat}/>
-          <input type="hidden" name="lng" value={this.state.long}/>
+          <input id="latitude" type="hidden" name="lat" value={this.state.lat}/>
+          <input id="longtitude" type="hidden" name="lng" value={this.state.long}/>
         </div>
         <div className="col-md-2 col-md-offset-9 icon-map">
           <div id="find-location-btn" className=" btn ggmap-addr-btn" onClick={this.handleClick}></div>

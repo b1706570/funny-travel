@@ -51,4 +51,26 @@ export default class userAPI{
             console.log(error);
         });
     }
+
+    getInfoUserByID(params) {
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getinfouserbyid.php', params)
+        .then(response => {
+            return response.data;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
+
+    updateInfoByID(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/updatememberinfo.php', params)
+        .then(response => {
+            return response.data[0].code;
+        })
+        .catch(error => {
+            console.log(error);
+        });
+    }
 }

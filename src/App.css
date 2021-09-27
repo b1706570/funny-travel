@@ -1922,9 +1922,160 @@ h4{
 /***************/
 
 .member-info-left{
+    margin-top: 30px;
+    font-size: 17px;
     border: 1px solid;
+    margin-left: -10px;
+    position: sticky;
+    top: 0;
+    border-radius: 10px;
+}
+
+.member-info-left .list-control{
+    padding: 10px;
+}
+
+.member-info-left .tab-active{
+    color: rgba(255, 104, 17, 1);
+    font-weight: bolder;
+}
+
+.member-info-left .list-control:hover{
+    cursor: pointer;
+    color: rgba(255, 104, 17, 1);
+    font-weight: bolder;
+}
+
+.member-info-left img{
+    width: 17px;
+    height: 17px;
+    margin-right: 5px;
 }
 
 .member-info-right{
+    margin-top: 30px;
+}
+
+.member-info-right-content{
+    padding: 10px;
+    margin-bottom: 20px;
+    border-radius: 10px;
+    box-shadow: 0.5px 0.5px 2.5px 2.5px rgba(255, 104, 17, 0.8);
+}
+
+.member-info-right-content a{
+    color: black;
+}
+
+.member-info-right-content label{
+    font-size: 18px;
+}
+
+.member-info-right-content p{
+    border-bottom: 1px solid lightgray;
+    padding-bottom: 10px;
+}
+
+.member-info-right-content .row{
+    padding: 3px 0px;
+}
+
+.member-info-right-content #address{
+    width: 360px;
+}
+
+.member-info-right-content .icon-map{
+    width: 150px;
+    padding-left: 50px;
+}
+
+.member-info-right-content #map{
+    width: 360px;
+}
+
+.member-info-btn-update, .member-info-btn-cancel{
     border: 1px solid;
+    text-align: center;
+    padding: 10px 0px;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.member-info-btn-update{
+    background-color: rgba(255, 104, 17, 0.9);
+    color: white;
+}
+
+.member-info-btn-update:hover{
+    background-color: rgba(255, 104, 17, 1);
+    cursor: pointer;
+}
+
+.member-info-btn-cancel{
+    background-color: rgb(105,105,105);
+    color: white;
+}
+
+.member-info-btn-cancel:hover{
+    background-color: black;
+    cursor: pointer;
+}
+
+.member-info-right-content .top{
+    font-size: 15px;
+    font-weight: bold;
+    padding: 5px 0px;
+    border-bottom: 1px solid lightgray;
+}
+
+.member-info-right-content .top img{
+    width: 45px;
+    width: 45px;
+    margin-right: 5px;
+}
+
+.member-info-right-content .top .state-transaction{
+    text-align: right;
+    color: rgba(255, 104, 17, 1);
+}
+
+.member-info-right .search-transaction{
+    margin-bottom: 10px;
+    padding: 0px;
+}
+
+.member-info-right .search-transaction input{
+    width: 100%;
+    height: 40px;
+    background-color: rgb(240, 240, 240);
+    border: none;
+    outline: none;
+}
+
+.member-info-right-content .host-address{
+    font-size: 15px;
+    color:rgb(0, 174, 255);
+    text-decoration: underline;
+    font-weight: lighter;
+}
+
+.member-info-right-content .bottom .row{
+    padding: 10px 0px;
+}
+
+.member-info-right-content .bottom .row .col-md-5{
+    text-align: right;
+}
+
+.member-info-right-content .bottom .total-payment{
+    text-align: center;
+    background-color: rgba(255, 104, 17, 1);
+    color: white;
+    font-size: 17px;
+    padding: 10px 0px;
+    margin-top: 10px;
+}
+
+.member-info-right-content .yellow-word{
+    background-color: yellow;
 }
