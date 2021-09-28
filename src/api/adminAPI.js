@@ -8,6 +8,10 @@ export default class adminAPI{
         this.getlistproposal=this.getlistproposal.bind(this);
         this.rejectproposal=this.rejectproposal.bind(this);
         this.acceptproposal=this.acceptproposal.bind(this);
+        this.getConvenient=this.getConvenient.bind(this);
+        this.updateConvenient=this.updateConvenient.bind(this);
+        this.deleteConvenient=this.deleteConvenient.bind(this);
+        this.addConvenient=this.addConvenient.bind(this);
     }
 
     getnumberproposal(){
@@ -100,6 +104,17 @@ export default class adminAPI{
         return api.post('/addconvenient.php', params)
         .then(response =>{
             return response.data[0].code;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    getTotalPeople(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/gettotalpeople.php', params)
+        .then(response =>{
+            return response.data;
         })
         .catch(error =>{
             console.log(error);

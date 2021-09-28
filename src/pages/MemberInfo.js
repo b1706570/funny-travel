@@ -16,13 +16,20 @@ export default class MemberInfo extends Component {
         this.state = {
             info: {},
             transaction: [],
+            booking: [],
             tab_active: 0,
             search: "",
+            class_noti_cancel: "noti-cancel-booking-hidden",
+            id_booking_cancel: "",
         }
         this.ChangeTab = this.ChangeTab.bind(this);
         this.UpdateInfo = this.UpdateInfo.bind(this);
         this.CancelUpdate = this.CancelUpdate.bind(this);
         this.Search = this.Search.bind(this);
+        this.visibleNotiCancel = this.visibleNotiCancel.bind(this);
+        this.hiddenNotiCancel = this.hiddenNotiCancel.bind(this);
+        this.CancelBooking = this.CancelBooking.bind(this);
+        this.Logout = this.Logout.bind(this);
     }
 
     componentDidMount() {
@@ -31,9 +38,17 @@ export default class MemberInfo extends Component {
         const api = new userAPI();
         api.getInfoUserByID(params)
             .then(response => {
+                var book = response['booking'];
+                for (let i = 0; i < book.length; i++) {
+                    let checkin = new Date(book[i].checkin_date);
+                    let checkout = new Date(book[i].checkout_date);
+                    book[i]['night'] = Math.floor((checkout - checkin) / 86400000) + 1;
+                }
                 this.setState({
                     info: response['info'],
                     transaction: response['transaction'],
+                    booking: book,
+                    class_noti_cancel: "noti-cancel-booking-hidden",
                 })
             })
             .catch(error => {
@@ -137,6 +152,48 @@ export default class MemberInfo extends Component {
         document.getElementById("addressNoti").innerHTML = "";
     }
 
+    visibleNotiCancel = (id) =>{
+        this.setState({
+            class_noti_cancel: "noti-cancel-booking-visible",
+            id_booking_cancel: id,
+        })
+        document.getElementById("notification-cancel").innerHTML= "Bạn hãy cân nhắc kĩ trước khi hủy phòng. Tiền cọc có thể sẽ không được hoàn lại. Bạn vẫn muốn tiếp tục?";
+        document.body.style.overflow = "hidden";
+    }
+
+    hiddenNotiCancel = (e) =>{
+        e.preventDefault();
+        this.setState({ class_noti_cancel: "noti-cancel-booking-hidden" });
+        document.body.style.overflow= "visible";
+    }
+
+    CancelBooking = (e) =>{
+        e.preventDefault();
+        let params = new FormData();
+        params.append("id_booking", this.state.id_booking_cancel);
+        params.append("type", "cancel");
+        const api = new userAPI();
+        api.cancelBooking(params)
+            .then(response =>{
+                if(response === 200){
+                    alert("Bạn đã hủy phòng thành công");
+                    this.componentDidMount();
+                }
+                else{
+                    alert("Hủy phòng thất bại");
+                }
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    Logout = () =>{
+        localStorage.removeItem("iduser");
+        localStorage.removeItem("username");
+        localStorage.removeItem("type");
+    }
+
     render() {
         var formatter = new Intl.NumberFormat();
         var keymap = Math.random();
@@ -159,14 +216,14 @@ export default class MemberInfo extends Component {
                             <img src={profile} alt="icon" /> Tài khoản của tôi
                         </div>
                         <div className={classAwait} onClick={this.ChangeTab.bind(this, 1)}>
-                            <img src={iconawait} alt="icon" /> Chờ xác nhận
+                            <img src={iconawait} alt="icon" /> Lịch đặt phòng
                         </div>
                         <div className={classTransaction} onClick={this.ChangeTab.bind(this, 2)}>
                             <img src={history} alt="icon" /> Lịch sử đặt phòng
                         </div>
-                        <div className="col-md-12 list-control">
+                        <Link to="/"><div className="col-md-12 list-control" onClick={this.Logout}>
                             <img src={logout} alt="icon" /> Đăng xuất
-                        </div>
+                        </div></Link>
                     </div>
                     <div className="col-md-9 member-info-right">
                         <div className="col-md-12 ">
@@ -184,7 +241,7 @@ export default class MemberInfo extends Component {
                                                 </div>
                                                 <div className="row">
                                                     <span className="col-md-4">Tên tài khoản</span>
-                                                    <div className="col-md-8"><input id="account" defaultValue={this.state.info.username} className="form-control" /></div>
+                                                    <div className="col-md-8"><input id="account" defaultValue={this.state.info.username} readOnly className="form-control" /></div>
                                                     <i id="accountNoti" className="notification col-md-8 col-md-offset-4"></i>
                                                 </div>
                                                 <div className="row">
@@ -217,7 +274,93 @@ export default class MemberInfo extends Component {
                                         </div>
                                     </div>
                                 ) : this.state.tab_active === 1 ? (
-                                    <div>aa</div>
+                                    this.state.booking.length === 0 ? (
+                                        <div className="member-info-right-content noti-empty-booking-schedule">
+                                            <p>Bạn chưa có giao dịch nào cả</p>
+                                        </div>
+                                    ) : (
+                                        this.state.booking.map((book, index) =>
+                                            book.state === "CHOXACNHAN" ? (
+                                                <div className="col-md-12 member-info-right-content" key={index} >
+                                                    <div className="col-md-12 top">
+                                                        <div className="col-md-10">
+                                                            <div className="col-md-1">
+                                                                <img src={hotel} alt="icon-hotel" />
+                                                            </div>
+                                                            <Link to={"/rooms/" + book.id_host + "?check_in=&check_out="} target="_blank">
+                                                                <div className="col-md-11">
+                                                                    <div>{book.company_name}</div>
+                                                                    <div className="host-address">{book.address_host}</div>
+                                                                </div>
+                                                            </Link>
+                                                        </div>
+                                                        <div className="col-md-2 state-transaction-yellow">
+                                                            {book.state}
+                                                        </div>
+                                                    </div>
+                                                    <div className="col-md-12 bottom">
+                                                        <div className="row">
+                                                            <div className="col-md-7">Tên phòng: {book.name_room}</div>
+                                                            <div className="col-md-5">Loại phòng: {type_room[book.type_room]}</div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-7">Ngày nhận phòng: {book.checkin_date}</div>
+                                                            <div className="col-md-5">Ngày trả phòng: {book.checkout_date}</div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-7"></div>
+                                                            <div className="col-md-5">Giá mỗi đêm: {formatter.format(book.price_room)} X ({book.night})</div>
+                                                        </div>
+                                                        <div className="col-md-2 cancel-booking" onClick={this.visibleNotiCancel.bind(this, book.id_booking)}>Hủy đặt phòng</div>
+                                                        <div className="col-md-4 col-md-offset-6 total-payment">Đã đặt cọc {formatter.format(book.deposit)} (VND)</div>
+                                                    </div>
+                                                </div>
+
+                                            ) : (
+                                                <div className="col-md-12 member-info-right-content" key={index} >
+                                                    <div className="col-md-12 top">
+                                                        <div className="col-md-10">
+                                                            <div className="col-md-1">
+                                                                <img src={hotel} alt="icon-hotel" />
+                                                            </div>
+                                                            <Link to={"/rooms/" + book.id_host + "?check_in=&check_out="} target="_blank">
+                                                                <div className="col-md-11">
+                                                                    <div>{book.company_name}</div>
+                                                                    <div className="host-address">{book.address_host}</div>
+                                                                </div>
+                                                            </Link>
+                                                        </div>
+                                                        {
+                                                            book.state === "DAXACNHAN" ? (
+                                                                <div className="col-md-2 state-transaction-green">
+                                                                    {book.state}
+                                                                </div>
+                                                            ) : (
+                                                                <div className="col-md-2 state-transaction">
+                                                                    {book.state}
+                                                                </div>
+                                                            )
+                                                        }
+                                                    </div>
+                                                    <div className="col-md-12 bottom">
+                                                        <div className="row">
+                                                            <div className="col-md-7">Tên phòng: {book.name_room}</div>
+                                                            <div className="col-md-5">Loại phòng: {type_room[book.type_room]}</div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-7">Ngày nhận phòng: {book.checkin_date}</div>
+                                                            <div className="col-md-5">Ngày trả phòng: {book.checkout_date}</div>
+                                                        </div>
+                                                        <div className="row">
+                                                            <div className="col-md-7">Code check-in: {book.code}</div>
+                                                            <div className="col-md-5">Giá mỗi đêm: {formatter.format(book.price_room)} X ({book.night})</div>
+                                                        </div>
+                                                        <div className="col-md-4 col-md-offset-8 total-payment">Đã đặt cọc {formatter.format(book.deposit)} (VND)</div>
+                                                    </div>
+                                                </div>
+                                            )
+                                        )
+                                    )
                                 ) : (
                                     this.state.transaction.length === 0 ? (
                                         <div className="member-info-right-content noti-empty-booking-schedule">
@@ -237,7 +380,7 @@ export default class MemberInfo extends Component {
                                                                 <div className="col-md-1">
                                                                     <img src={hotel} alt="icon-hotel" />
                                                                 </div>
-                                                                <Link to={"/rooms/" + trans.id_host + "?check_in=&check_out="}><div className="col-md-11">
+                                                                <Link to={"/rooms/" + trans.id_host + "?check_in=&check_out="} target="_blank"><div className="col-md-11">
                                                                     <div>
                                                                         {
                                                                             trans.company_name.split(" ").map(word => {
@@ -277,6 +420,13 @@ export default class MemberInfo extends Component {
                     </div>
                 </div>
                 <div className="col-md-12"><Footer /></div>
+                <div className={this.state.class_noti_cancel + " col-md-12"}>
+                    <div>
+                        <p id="notification-cancel"></p>
+                        <button className="btn btn-danger" onClick={this.CancelBooking}>Xác nhận hủy phòng</button>
+                        <button className="btn btn-primary" onClick={this.hiddenNotiCancel}>Suy nghĩ lại</button>
+                    </div>
+                </div>
             </div>
         )
     }

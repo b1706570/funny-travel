@@ -127,7 +127,6 @@ export default class RoomBooking extends Component {
 
     RoomNotAvailableNoti = (e) => {
         e.preventDefault();
-        console.log(11);
         document.getElementById("notification-payment").innerHTML = "Phòng hiện không khả dụng. Vui lòng chọn thời gian khác hoặc phòng khác!";
         this.setState({
             class_noti_payment: "noti-payment-visible",
@@ -164,7 +163,7 @@ export default class RoomBooking extends Component {
         params.append("id_room", this.state.room_id);
         params.append("checkin", this.state.checkin_date);
         params.append("checkout", this.state.checkout_date);
-        params.append("deposit", this.state.room_price * 0.1);
+        params.append("deposit", this.state.room_price * this.state.number_night * 0.1);
         const api = new publicAPI();
         api.BookingRoom(params)
             .then(response =>{
@@ -295,7 +294,6 @@ export default class RoomBooking extends Component {
                         <p id="notification-payment"></p>
                         <button className="btn btn-danger" onClick={this.HiddenNoti}>OK</button>
                     </div>
-
                 </div>
             </div>
         )

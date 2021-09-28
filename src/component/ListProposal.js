@@ -58,7 +58,7 @@ export default class ListProposal extends Component {
                 <table className="table table-striped">
                     <thead>
                     <tr>
-                        <th className="col-md-2">Tên chủ doanh nghiệp</th>
+                        <th className="col-md-2">Người đăng kí</th>
                         <th className="col-md-2">Tên doanh nghiệp</th>
                         <th className="col-md-2">Email</th>
                         <th className="col-md-2">Số điện thoại</th>

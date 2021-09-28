@@ -97,7 +97,7 @@ export default class AcceptForm extends Component {
                 if(response === 200){
                     alert("Cấp tài khoản thành công!");
                     this.props.processing();
-                    this.props.active(2);
+                    this.props.active(5);
                 }
                 else{
                     alert("Cấp tài khoản thất bại!");
@@ -118,7 +118,7 @@ export default class AcceptForm extends Component {
         .then(response =>{
             if(response === 200){
                 this.props.processing();
-                this.props.active(2);
+                this.props.active(5);
             }
             else{
                 alert("Xóa tài khoản thất bại!");
@@ -192,7 +192,7 @@ export default class AcceptForm extends Component {
                     </div>
                     <input className="btn btn-success col-md-3 col-md-offset-1 but1-register" type="submit" value="Cấp tài khoản" />
                     <button type="button" className="btn btn-danger col-md-3 col-md-offset-1 but1-register" onClick={this.handleReject}>Bỏ qua</button>
-                    <button type="button" className="btn btn-warning col-md-3 col-md-offset-1 but1-register" onClick={this.props.active.bind(this,2)}>Hủy</button>
+                    <button type="button" className="btn btn-warning col-md-3 col-md-offset-1 but1-register" onClick={this.props.active.bind(this,5)}>Hủy</button>
                 </form>
             </div>
         )
