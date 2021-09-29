@@ -12,6 +12,8 @@ export default class adminAPI{
         this.updateConvenient=this.updateConvenient.bind(this);
         this.deleteConvenient=this.deleteConvenient.bind(this);
         this.addConvenient=this.addConvenient.bind(this);
+        this.getTotalPeople=this.getTotalPeople.bind(this);
+        this.getAllUser=this.getAllUser.bind(this);
     }
 
     getnumberproposal(){
@@ -113,6 +115,17 @@ export default class adminAPI{
     getTotalPeople(params){
         const api = axios.create({baseURL: this.baseURL});
         return api.post('/gettotalpeople.php', params)
+        .then(response =>{
+            return response.data;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    getAllUser(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/admingetalluser.php', params)
         .then(response =>{
             return response.data;
         })

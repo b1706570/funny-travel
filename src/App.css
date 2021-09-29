@@ -163,7 +163,7 @@ h2{
 }
 
 .admin-logout a{
-    margin-top: 300px;
+    margin-top: 200px;
     background-color: lightcyan;
 }
 
@@ -297,19 +297,16 @@ h2{
     color: white
 }
 
-.admin-list-user-left{
-    /*width: 75%;*/
-}
 
 .admin-list-user-right{
-    /*width: 25%;*/
     padding: 0px;
+    position: sticky;
+    top: 35px;
 }
 
 .admin-list-user-right .col-md-12{
     padding: 0px;
-    margin-top: 25px;
-    margin-bottom: 10px;
+    margin-top: 20px;
     border-radius: 10px;
 }
 
@@ -326,7 +323,7 @@ h2{
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    padding: 25px 0px;
+    padding: 40px 0px;
     background-color: white;
 }
 
@@ -346,6 +343,55 @@ h2{
     color: rgb(75, 192, 192);
     border: 1px solid rgb(75, 192, 192);
     background-color: rgb(75, 192, 192);
+}
+
+.admin-list-user-left{
+    padding: 0px;
+    /*margin-top: 20px;*/
+}
+
+.admin-list-user-left .col-md-12{
+    padding-left: 0px;
+}
+
+.admin-list-user-left .admin-table .header{
+    border-bottom: 1px solid rgb(2, 133, 194);
+    position: sticky;
+    top: 54px;
+    font-weight: bolder;
+    z-index: 5;
+    background-color: white;
+    color:rgb(2, 133, 194);
+}
+
+.admin-list-user-left .search{
+    position: sticky;
+    top: 0px;
+    padding-top: 20px; 
+    background-color: white;
+    z-index: 5;
+}
+
+.admin-list-user-left .search .btn-next, .admin-list-user-left .search .btn-previous{
+    border: 3px solid;
+    padding: 6px 7px;
+    margin-right: 10px;
+    border-radius: 10px;
+} 
+
+.admin-list-user-left .search .btn-next:hover, .admin-list-user-left .search .btn-previous:hover{
+    color: white;
+    background-color: black;
+    cursor: pointer;
+}
+
+.admin-list-user-left .search .col-md-4{
+    padding: 0px;
+    padding-top: 6px;
+}
+
+.admin-content .yellow-word{
+    background-color: yellow;
 }
 
 /********/
