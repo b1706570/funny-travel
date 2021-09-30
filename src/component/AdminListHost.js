@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import adminAPI from '../api/adminAPI';
 
-export default class AdminListMember extends Component {
+export default class AdminListHost extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -10,7 +10,7 @@ export default class AdminListMember extends Component {
             listUser: [],
             totalUser: "",
             totalBooking: "",
-            totalUserActive: "",
+            totalRoom: "",
             search: "",
         }
         this.GetUser = this.GetUser.bind(this);
@@ -20,14 +20,14 @@ export default class AdminListMember extends Component {
 
     componentDidMount() {
         let params = new FormData();
-        params.append("type", "member");
+        params.append("type", "host");
         const api = new adminAPI();
         api.getTotalPeople(params)
             .then(response => {
                 this.setState({
                     totalUser: response.member,
                     totalBooking: response.booking,
-                    totalUserActive: response.active,
+                    totalRoom: response.room,
                 })
             })
             .catch(error => {
@@ -47,7 +47,7 @@ export default class AdminListMember extends Component {
                 let params = new FormData();
                 params.append("pagination", pagination);
                 params.append("search", this.state.search);
-                params.append("type", "member");
+                params.append("type", "host");
                 api.getAllUser(params)
                     .then(response => {
                         this.setState({
@@ -70,7 +70,7 @@ export default class AdminListMember extends Component {
                 let params = new FormData();
                 params.append("pagination", pagination);
                 params.append("search", this.state.search);
-                params.append("type", "member")
+                params.append("type", "host");
                 api.getAllUser(params)
                     .then(response => {
                         this.setState({
@@ -97,10 +97,10 @@ export default class AdminListMember extends Component {
     DeleteUser = (index) => {
         var iduser = this.state.listUser[index].id_mem;
         var fullname = this.state.listUser[index].fullname;
-        if(window.confirm("Bạn có chắc chắn muốn xóa người dùng " + fullname + " ?")){
+        if(window.confirm("Bạn có chắc chắn muốn xóa " + fullname + " ?")){
             let params = new FormData();
-            params.append("id_member", iduser);
-            params.append("type", "member");
+            params.append("id_host", iduser);
+            params.append("type", "host");
             const api = new adminAPI();
             api.deleteUser(params)
                 .then(response =>{
@@ -126,7 +126,7 @@ export default class AdminListMember extends Component {
                     <div className="col-md-12 search">
                         <div className="col-md-8">
                             <div className=" input-group">
-                                <input className="form-control" value={this.state.search} onChange={this.Search} placeholder="Tìm kiếm theo tên hoặc số điện thoại..." />
+                                <input className="form-control" value={this.state.search} onChange={this.Search} placeholder="Tìm kiếm theo tên doanh nghiệp hoặc số điện thoại..." />
                                 <span className="input-group-btn">
                                     <span className="btn btn-default" type="button" onClick={this.GetUser.bind(this, "next")}>Go!</span>
                                 </span>
@@ -139,9 +139,10 @@ export default class AdminListMember extends Component {
                     </div>
                     <div className="col-md-12 admin-table">
                         <div className="col-md-12 header rows">
-                            <div className="col-md-3">Họ và tên</div>
-                            <div className="col-md-2">Tài khoản</div>
-                            <div className="col-md-4">Địa chỉ</div>
+                            <div className="col-md-2">Chủ sở hữu</div>
+                            <div className="col-md-2">Tên doanh nghiệp</div>
+                            <div className="col-md-2">Email</div>
+                            <div className="col-md-3">Địa chỉ</div>
                             <div className="col-md-2">Điện thoại</div>
                         </div>
                         {
@@ -149,23 +150,24 @@ export default class AdminListMember extends Component {
                                 this.state.listUser.map((user, index) =>
                                     index % 2 === 0 ? (
                                         <div className="col-md-12 rows line-table-white" key={index}>
-                                            <div className="col-md-3">
+                                            <div className="col-md-2">{user.fullname_host}</div>
+                                            <div className="col-md-2">
                                                 {
-                                                    user.fullname.split(" ").map(word => {
+                                                    user.company_name.split(" ").map(word => {
                                                         if (this.state.search.toLowerCase().indexOf(word.toLowerCase()) !== -1)
                                                             return <span key={word} className="yellow-word">{word} </span>
                                                         return <span key={word}>{word} </span>
                                                     })
                                                 }
                                             </div>
-                                            <div className="col-md-2">{user.username}</div>
-                                            <div className="col-md-4">{user.address}</div>
+                                            <div className="col-md-2">{user.email_host}</div>
+                                            <div className="col-md-3">{user.address_host}</div>
                                             <div className="col-md-2">
                                                 {
-                                                    user.phone.indexOf(this.state.search) !== -1 && this.state.search !== "" ? (
-                                                        <span className="yellow-word">{user.phone}</span>
+                                                    user.phone_host.indexOf(this.state.search) !== -1 && this.state.search !== "" ? (
+                                                        <span className="yellow-word">{user.phone_host}</span>
                                                     ) : (
-                                                        <span>{user.phone}</span>
+                                                        <span>{user.phone_host}</span>
                                                     )
                                                 }
                                             </div>
@@ -173,23 +175,24 @@ export default class AdminListMember extends Component {
                                         </div>
                                     ) : (
                                         <div className="col-md-12 rows line-table-gray" key={index}>
-                                            <div className="col-md-3">
+                                            <div className="col-md-2">{user.fullname_host}</div>
+                                            <div className="col-md-2">
                                                 {
-                                                    user.fullname.split(" ").map(word => {
+                                                    user.company_name.split(" ").map(word => {
                                                         if (this.state.search.toLowerCase().indexOf(word.toLowerCase()) !== -1)
                                                             return <span key={word} className="yellow-word">{word} </span>
                                                         return <span key={word}>{word} </span>
                                                     })
                                                 }
                                             </div>
-                                            <div className="col-md-2">{user.username}</div>
-                                            <div className="col-md-4">{user.address}</div>
+                                            <div className="col-md-2">{user.email_host}</div>
+                                            <div className="col-md-3">{user.address_host}</div>
                                             <div className="col-md-2">
                                                 {
-                                                    user.phone.indexOf(this.state.search) !== -1 && this.state.search !== "" ? (
-                                                        <span className="yellow-word">{user.phone}</span>
+                                                    user.phone_host.indexOf(this.state.search) !== -1 && this.state.search !== "" ? (
+                                                        <span className="yellow-word">{user.phone_host}</span>
                                                     ) : (
-                                                        <span>{user.phone}</span>
+                                                        <span>{user.phone_host}</span>
                                                     )
                                                 }
                                             </div>
@@ -202,16 +205,16 @@ export default class AdminListMember extends Component {
                     </div>
                 </div>
                 <div className="col-md-3 admin-list-user-right">
-                    <div className="col-md-12 orange">
-                        <p className="title orange">Tổng số người dùng</p>
+                    <div className="col-md-12 pink">
+                        <p className="title pink">Tổng số host</p>
                         <p className="data">{formater.format(this.state.totalUser)}</p>
                     </div>
-                    <div className="col-md-12 pink">
-                        <p className="title pink">Tổng số người dùng đã thực hiện giao dịch</p>
-                        <p className="data">{formater.format(this.state.totalUserActive)}</p>
-                    </div>
                     <div className="col-md-12 green">
-                        <p className="title green">Tổng số giao dịch thành công</p>
+                        <p className="title green">Tổng số phòng</p>
+                        <p className="data">{formater.format(this.state.totalRoom)}</p>
+                    </div>
+                    <div className="col-md-12 orange">
+                        <p className="title orange">Tổng số giao dịch thành công</p>
                         <p className="data">{formater.format(this.state.totalBooking)}</p>
                     </div>
                 </div>

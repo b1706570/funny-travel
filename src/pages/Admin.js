@@ -5,13 +5,15 @@ import ListProposal from '../component/ListProposal';
 import AcceptForm from '../component/AcceptForm';
 import Convenient from '../component/Convenient';
 import AdminListMember from '../component/AdminListMember';
+import AdminListHost from '../component/AdminListHost';
+import AdminStatistics from '../component/AdminStatistics';
 
 export class AdminTab extends Component {
     render() {
         if (this.props.tab_index === 0)
             return (
                 <div>
-                    tab1
+                    <AdminStatistics />
                 </div>
             )
         else if (this.props.tab_index === 1)
@@ -23,7 +25,7 @@ export class AdminTab extends Component {
         else if (this.props.tab_index === 2)
             return (
                 <div>
-                    quản lý host
+                    <AdminListHost />
                 </div>
             )
         else if (this.props.tab_index === 3)

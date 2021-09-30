@@ -14,6 +14,7 @@ export default class adminAPI{
         this.addConvenient=this.addConvenient.bind(this);
         this.getTotalPeople=this.getTotalPeople.bind(this);
         this.getAllUser=this.getAllUser.bind(this);
+        this.deleteUser=this.deleteUser.bind(this);
     }
 
     getnumberproposal(){
@@ -128,6 +129,17 @@ export default class adminAPI{
         return api.post('/admingetalluser.php', params)
         .then(response =>{
             return response.data;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
+
+    deleteUser(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/deleteuser.php', params)
+        .then(response =>{
+            return response.data[0].code;
         })
         .catch(error =>{
             console.log(error);

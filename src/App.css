@@ -323,7 +323,7 @@ h2{
     font-size: 20px;
     font-weight: bold;
     text-align: center;
-    padding: 40px 0px;
+    padding: 35px 0px;
     background-color: white;
 }
 
@@ -357,7 +357,7 @@ h2{
 .admin-list-user-left .admin-table .header{
     border-bottom: 1px solid rgb(2, 133, 194);
     position: sticky;
-    top: 54px;
+    top: 53px;
     font-weight: bolder;
     z-index: 5;
     background-color: white;
@@ -367,7 +367,7 @@ h2{
 .admin-list-user-left .search{
     position: sticky;
     top: 0px;
-    padding-top: 20px; 
+    padding-top: 19px; 
     background-color: white;
     z-index: 5;
 }
@@ -388,6 +388,10 @@ h2{
 .admin-list-user-left .search .col-md-4{
     padding: 0px;
     padding-top: 6px;
+}
+
+.admin-list-user-left .rows .col-md-2{
+    word-wrap: break-word;
 }
 
 .admin-content .yellow-word{
