@@ -398,6 +398,55 @@ h2{
     background-color: yellow;
 }
 
+.admin-statistics .nav-tabs li a{
+    border-bottom: 2px solid black;
+    height: 65px;
+}
+
+.admin-statistics .nav-tabs .active a{
+    border: 2px solid black !important;
+    border-bottom: none !important;
+    font-weight: bolder !important;
+}
+
+.admin-statistics p{
+    font-size: 18px;
+    color: red;
+}
+
+.admin-statistics .check-condition{
+    margin-top: 15px;
+}
+
+.admin-statistics .check-condition span{
+    font-size: 16px;
+    padding: 0px 0px;
+    margin-right: 17px;
+}
+
+.admin-statistics .check-condition .glyphicon{
+    margin-right: 2px;
+}
+
+.admin-statistics .check-condition input:focus{
+    outline: none;
+}
+
+.noti-empty-statistics{
+    display: inline-block;
+    width: 100%;
+    height: 500px;
+    background: url(./img/background-empty-page-noti.png) no-repeat;
+    background-size: 40% 60%;
+    background-position: center;
+}
+
+.noti-empty-statistics p{
+    font-size: 25px;
+    text-align: center;
+    padding: 50px;
+}
+
 /********/
 /* Host */
 /********/
@@ -1026,14 +1075,14 @@ h2{
     margin: 20px 0px 40px 0px;
 }
 
-#host-manage-input-month{
+#host-manage-input-month, #admin-manage-input-month{
     display: inline-block;
     width: 25px;
     border: none;
     border-bottom: 0.5px solid lightgray;
 }
 
-#host-manage-input-year{
+#host-manage-input-year, #admin-manage-input-year{
     display: inline-block;
     width: 40px;
     border: none;

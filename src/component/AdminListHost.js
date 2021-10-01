@@ -95,8 +95,8 @@ export default class AdminListHost extends Component {
     }
 
     DeleteUser = (index) => {
-        var iduser = this.state.listUser[index].id_mem;
-        var fullname = this.state.listUser[index].fullname;
+        var iduser = this.state.listUser[index].id_host;
+        var fullname = this.state.listUser[index].company_name;
         if(window.confirm("Bạn có chắc chắn muốn xóa " + fullname + " ?")){
             let params = new FormData();
             params.append("id_host", iduser);

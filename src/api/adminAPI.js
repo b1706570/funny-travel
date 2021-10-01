@@ -145,4 +145,15 @@ export default class adminAPI{
             console.log(error);
         })
     }
+
+    getDataToStatistics(){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/admingetdatatotatistics.php')
+        .then(response =>{
+            return response.data;
+        })
+        .catch(error =>{
+            console.log(error);
+        })
+    }
 }
