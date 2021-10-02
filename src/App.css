@@ -1569,6 +1569,45 @@ h4{
     overflow-y: scroll;
 }
 
+.report-comment{
+    position: absolute;
+    top: 15px;
+    z-index: 10;
+    padding: 0px;
+}
+
+.report-comment .col-md-2{
+    padding: 0px;
+}
+
+.report-comment img{
+    width: 50px;
+    height: 50px;
+}
+
+
+.report-comment textarea{
+    height: 100px;
+    margin-bottom: 10px;
+}
+
+.report-comment-content{
+    visibility: hidden;
+    background-color: linen;
+    padding: 10px 10px;
+}
+
+.report-comment-content span{
+    border-radius: 20px;
+    box-shadow: 0.5px 0.5px 2.5px 2.5px lightgray;
+    margin-right: 10px;
+    padding: 5px;
+}
+
+.report-comment-content span:hover{
+    cursor: pointer;
+}
+
 /* width */
 .home-div-comment::-webkit-scrollbar {
     width: 10px;
@@ -1647,6 +1686,10 @@ h4{
     float: right;
     position: sticky;
     top: 0;
+}
+
+.detail-div-right .report-comment{
+    display: None !important;
 }
 
 

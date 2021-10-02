@@ -24,6 +24,9 @@ export default class AdminStatistics extends Component {
         this.ChangeConditionRevenue = this.ChangeConditionRevenue.bind(this);
         this.StatisticsRegister = this.StatisticsRegister.bind(this);
         this.StatisticsRevenue = this.StatisticsRevenue.bind(this);
+        this.StatisticsTopRevenue = this.StatisticsTopRevenue.bind(this);
+        this.StatisticsTopBooking = this.StatisticsTopBooking.bind(this);
+        this.StatisticsTopRate = this.StatisticsTopRate.bind(this);
     }
 
     componentDidMount() {
@@ -32,6 +35,9 @@ export default class AdminStatistics extends Component {
             .then(response => {
                 var transaction = response['transaction'];
                 var register = response['register'];
+                var toprevenue = response['toprevenue'];
+                var topbooking = response['topbooking'];
+                var toprate = response['toprate']
                 register = register.splice(2, response['register'].length);
                 let year_start = new Date(register[0]).getFullYear();
                 let current_year = new Date(register[register.length - 1]).getFullYear();
@@ -40,6 +46,9 @@ export default class AdminStatistics extends Component {
                     register_condition.push(i);
                 this.StatisticsRegister(register, current_year);
                 this.StatisticsRevenue(transaction, this.state.RevenueAccording);
+                this.StatisticsTopRevenue(toprevenue);
+                this.StatisticsTopBooking(topbooking);
+                this.StatisticsTopRate(toprate);
                 this.setState({
                     Alltransaction: transaction,
                     AlldataRegister: register,
@@ -127,6 +136,7 @@ export default class AdminStatistics extends Component {
             dict['label'] = "Doanh thu toàn hệ thống các ngày trong tháng hiện tại";
             dict['data'] = data;
             dict['backgroundColor'] = ['rgba(75, 192, 192, 1)'];
+            dict['borderColor'] = ['rgba(75, 192, 192, 0.5)']
             datasets.push(dict);
             let statistics = {};
             statistics['labels'] = labels;
@@ -156,6 +166,7 @@ export default class AdminStatistics extends Component {
             dict['label'] = "Doanh thu toàn hệ thống các tháng trong năm hiện tại";
             dict['data'] = data;
             dict['backgroundColor'] = ['rgba(255, 99, 132, 1)'];
+            dict['borderColor'] = ['rgba(255, 99, 132, 0.5)']
             datasets.push(dict);
             let statistics = {};
             statistics['labels'] = labels;
@@ -164,16 +175,16 @@ export default class AdminStatistics extends Component {
                 StatisticsRevenue: statistics,
             })
         }
-        else if(condition === "year"){
+        else if (condition === "year") {
             let labels = [];
             let data = [];
             let start_year = new Date(raw_data[0].checkout_date).getFullYear();
             let current_year = new Date(raw_data[raw_data.length - 1].checkout_date).getFullYear();
-            for(let i = start_year; i <= current_year; i++){
+            for (let i = start_year; i <= current_year; i++) {
                 labels.push(i);
                 data.push(0);
             }
-            for(let i = 0; i < raw_data.length; i++){
+            for (let i = 0; i < raw_data.length; i++) {
                 let year = new Date(raw_data[i].checkout_date).getFullYear();
                 let index = labels.indexOf(year);
                 data[index] += Number(raw_data[i].total_payment);
@@ -182,7 +193,7 @@ export default class AdminStatistics extends Component {
             let dict = {};
             dict['label'] = "Doanh thu toàn hệ thống theo từng năm";
             dict['data'] = data;
-            dict['backgroundColor'] = ['rgba(255, 99, 132, 1)','rgba(54, 162, 235, 1)','rgba(255, 206, 86, 1)','rgba(75, 192, 192, 1)','rgba(153, 102, 255, 1)','rgba(255, 159, 64, 1)',];
+            dict['backgroundColor'] = ['rgba(255, 99, 132, 1)', 'rgba(54, 162, 235, 1)', 'rgba(255, 206, 86, 1)', 'rgba(75, 192, 192, 1)', 'rgba(153, 102, 255, 1)', 'rgba(255, 159, 64, 1)',];
             datasets.push(dict);
             let statistics = {};
             statistics['labels'] = labels;
@@ -191,11 +202,167 @@ export default class AdminStatistics extends Component {
                 StatisticsRevenue: statistics,
             })
         }
-        else if(condition === "search"){
+        else if (condition === "search") {
             let month = document.getElementById("admin-manage-input-month").value;
             let year = document.getElementById("admin-manage-input-year").value;
-            console.log(month, year);
+            if (year === "" || year.length !== 4) {
+                alert("Hãy nhập năm!");
+            }
+            else {
+                if (month === "") {
+                    let labels = [];
+                    let data = [];
+                    let current_year = Number(year);
+                    for (let i = 1; i < 13; i++) {
+                        labels.push(i + "/" + current_year);
+                        data.push(0);
+                    }
+                    for (let i = 0; i < raw_data.length; i++) {
+                        let date = new Date(raw_data[i].checkout_date);
+                        let m = date.getMonth();
+                        let y = date.getFullYear();
+                        if (y === current_year) {
+                            data[m] += Number(raw_data[i].total_payment);
+                        }
+                    }
+                    let datasets = [];
+                    let dict = {};
+                    dict['label'] = "Doanh thu toàn hệ thống các tháng trong năm hiện tại";
+                    dict['data'] = data;
+                    dict['backgroundColor'] = ['rgba(54, 162, 235, 1)'];
+                    dict['borderColor'] = ['rgba(54, 162, 235, 0.5)']
+                    datasets.push(dict);
+                    let statistics = {};
+                    statistics['labels'] = labels;
+                    statistics['data'] = datasets;
+                    this.setState({
+                        StatisticsRevenue: statistics,
+                    })
+                }
+                else {
+                    let current_year = Number(year);
+                    let current_month = Number(month);
+                    let num_day = new Date(current_year, current_month, 0).getDate();
+                    let labels = [];
+                    let data = [];
+                    for (let i = 1; i <= num_day; i++) {
+                        labels.push(i + "/" + current_month + "/" + current_year);
+                        data.push(0);
+                    }
+                    for (let i = 0; i < raw_data.length; i++) {
+                        let d = new Date(raw_data[i].checkout_date).getDate();
+                        let m = new Date(raw_data[i].checkout_date).getMonth() + 1;
+                        let y = new Date(raw_data[i].checkout_date).getFullYear();
+                        if (m === current_month && y === current_year) {
+                            data[d - 1] += Number(raw_data[i].total_payment);
+                        }
+                    }
+                    let datasets = [];
+                    let dict = {};
+                    dict['label'] = "Doanh thu toàn hệ thống các ngày trong tháng hiện tại";
+                    dict['data'] = data;
+                    dict['backgroundColor'] = ['rgba(153, 102, 255, 1)'];
+                    dict['borderColor'] = ['rgba(153, 102, 255, 0.5)'];
+                    datasets.push(dict);
+                    let statistics = {};
+                    statistics['labels'] = labels;
+                    statistics['data'] = datasets;
+                    this.setState({
+                        StatisticsRevenue: statistics,
+                    })
+                }
+            }
         }
+    }
+
+    StatisticsTopRevenue = (raw_data) =>{
+        let data = [];
+        let labels = [];
+        for(let i = 0; i < raw_data.length; i++){
+            data.push(raw_data[i].sum);
+            labels.push(raw_data[i].company_name);
+        }
+        var datasets = [];
+        var dict = {};
+        dict['label'] = "Top 10 host có doanh thu cao nhất";
+        dict['data'] = data;
+        dict['backgroundColor'] = ['rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(123, 147, 141, 1)',
+        'rgba(32, 218, 13, 1)',
+        'rgba(255, 55, 112, 1)',
+        'rgba(50, 223, 228, 1)'];
+        datasets.push(dict);
+        var statistics = {};
+        statistics['labels'] = labels;
+        statistics['data'] = datasets;
+        this.setState({
+            TopRevenue: statistics,
+        })
+    }
+
+    StatisticsTopBooking = (raw_data) =>{
+        let data = [];
+        let labels = [];
+        for(let i = 0; i < raw_data.length; i++){
+            data.push(raw_data[i].count);
+            labels.push(raw_data[i].company_name);
+        }
+        var datasets = [];
+        var dict = {};
+        dict['label'] = "Top 10 host có lượt đặt cao nhất";
+        dict['data'] = data;
+        dict['backgroundColor'] = ['rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(123, 147, 141, 1)',
+        'rgba(32, 218, 13, 1)',
+        'rgba(255, 55, 112, 1)',
+        'rgba(50, 223, 228, 1)'];
+        datasets.push(dict);
+        var statistics = {};
+        statistics['labels'] = labels;
+        statistics['data'] = datasets;
+        this.setState({
+            TopBooking: statistics,
+        })
+    }
+
+    StatisticsTopRate = (raw_data) =>{
+        let data = [];
+        let labels = [];
+        for(let i = 0; i < raw_data.length; i++){
+            data.push(raw_data[i].avg);
+            labels.push(raw_data[i].company_name);
+        }
+        var datasets = [];
+        var dict = {};
+        dict['label'] = "Top 10 host được đánh giá cao nhất";
+        dict['data'] = data;
+        dict['backgroundColor'] = ['rgba(255, 99, 132, 1)',
+        'rgba(54, 162, 235, 1)',
+        'rgba(255, 206, 86, 1)',
+        'rgba(75, 192, 192, 1)',
+        'rgba(153, 102, 255, 1)',
+        'rgba(255, 159, 64, 1)',
+        'rgba(123, 147, 141, 1)',
+        'rgba(32, 218, 13, 1)',
+        'rgba(255, 55, 112, 1)',
+        'rgba(50, 223, 228, 1)'];
+        datasets.push(dict);
+        var statistics = {};
+        statistics['labels'] = labels;
+        statistics['data'] = datasets;
+        this.setState({
+            TopRate: statistics,
+        })
     }
 
 
@@ -318,15 +485,72 @@ export default class AdminStatistics extends Component {
                             </div>
                         ) : this.state.tab_index === 1 ? (
                             <div>
-                                tab1
+                                <Bar
+                                    data={{
+                                        labels: this.state.TopRevenue['labels'],
+                                        datasets: this.state.TopRevenue['data'],
+                                    }}
+                                    height={200}
+                                    options={{
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: 'Biểu đồ Top 10 host có doanh thu cao nhất',
+                                                color: 'red',
+                                                padding: '20',
+                                            },
+                                            legend: {
+                                                position: 'bottom',
+                                            }
+                                        }
+                                    }}
+                                />
                             </div>
                         ) : this.state.tab_index === 2 ? (
                             <div>
-                                tab2
+                                <Bar
+                                    data={{
+                                        labels: this.state.TopBooking['labels'],
+                                        datasets: this.state.TopBooking['data'],
+                                    }}
+                                    height={200}
+                                    options={{
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: 'Biểu đồ Top 10 host có doanh thu cao nhất',
+                                                color: 'red',
+                                                padding: '20',
+                                            },
+                                            legend: {
+                                                position: 'bottom',
+                                            }
+                                        }
+                                    }}
+                                />
                             </div>
                         ) : this.state.tab_index === 3 ? (
                             <div>
-                                tab3
+                                <Bar
+                                    data={{
+                                        labels: this.state.TopRate['labels'],
+                                        datasets: this.state.TopRate['data'],
+                                    }}
+                                    height={200}
+                                    options={{
+                                        plugins: {
+                                            title: {
+                                                display: true,
+                                                text: 'Biểu đồ Top 10 host có doanh thu cao nhất',
+                                                color: 'red',
+                                                padding: '20',
+                                            },
+                                            legend: {
+                                                position: 'bottom',
+                                            }
+                                        }
+                                    }}
+                                />
                             </div>
                         ) : (
                             <div>
