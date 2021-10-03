@@ -30,6 +30,7 @@ export default class Comment extends Component {
         this.ReportVisible = this.ReportVisible.bind(this);
         this.ChangeContentReport = this.ChangeContentReport.bind(this);
         this.ChangeContentReporSample = this.ChangeContentReporSample.bind(this);
+        this.submitReport = this.submitReport.bind(this);
     }
 
     componentDidMount() {
@@ -131,14 +132,22 @@ export default class Comment extends Component {
     }
 
     ReportVisible = (id_comment) => {
-        var old_id = this.state.id_comment_report;
-        if (old_id !== -1)
-            document.getElementById(old_id).style.visibility = "hidden";
-        document.getElementById(id_comment).style.visibility = "visible";
-        this.setState({
-            id_comment_report: id_comment,
-            content_report: "",
-        })
+        if (localStorage.getItem("iduser") === null) {
+            alert("Bạn phải đăng nhập trước khi sử dụng chức năng này!");
+        }
+        else {
+            var old_id = this.state.id_comment_report;
+            if (old_id !== -1){
+                document.getElementById(old_id).style.visibility = "hidden";
+                document.getElementById(old_id).style.zIndex = "10";
+            }
+            document.getElementById(id_comment).style.visibility = "visible";
+            document.getElementById(id_comment).style.zIndex = "20";
+            this.setState({
+                id_comment_report: id_comment,
+                content_report: "",
+            })
+        }
     }
 
     ChangeContentReport = (e) => {
@@ -152,6 +161,40 @@ export default class Comment extends Component {
         this.setState({
             content_report: this.state.content_report + " " + value,
         })
+    }
+
+    submitReport = (e) =>{
+        e.preventDefault();
+        if(localStorage.getItem("iduser") === null){
+            alert("Bạn đã đăng xuất vui lòng đăng nhập lại!");
+        }
+        else{
+            if(this.state.content_report === ""){
+                alert("Bạn phải nhập lý do báo xấu!");
+            }
+            else{
+                let params = new FormData();
+                params.append("id_comment", this.state.id_comment_report);
+                params.append("id_reporter", localStorage.getItem("iduser"));
+                params.append("reason", this.state.content_report);
+                const api = new publicAPI();
+                api.ReportComment(params)
+                    .then(response =>{
+                        if(response === 200){
+                            alert("Báo xấu của bạn đã được gửi. Xin cảm ơn!");
+                            document.getElementById(this.state.id_comment_report).style.visibility= "hidden";
+                            document.getElementById(this.state.id_comment_report).style.zIndex= "10";
+                            this.setState({
+                                id_comment: -1,
+                                content_comment: "",
+                            })
+                        }
+                    })
+                    .catch(error =>{
+                        console.log(error);
+                    })
+            }
+        }
     }
 
     submitComment = (e) => {
@@ -235,8 +278,8 @@ export default class Comment extends Component {
                                                         <span onClick={this.ChangeContentReporSample.bind(this, "Ngôn từ không lịch sự")}>Ngôn từ không lịch sự</span>
                                                         <span onClick={this.ChangeContentReporSample.bind(this, "Spam")}>Spam</span>
                                                     </p>
-                                                    <textarea className="form-control" value={this.state.content_report} onChange={this.ChangeContentReport} />
-                                                    <button className="btn btn-danger" >Gửi</button>
+                                                    <textarea className="form-control" placeholder="Nhập lý do báo xấu bình luận" value={this.state.content_report} onChange={this.ChangeContentReport} />
+                                                    <button className="btn btn-danger" onClick={this.submitReport}>Gửi</button>
                                                 </div>
                                                 <img className="col-md-2" src={report} alt="icon-report" onClick={this.ReportVisible.bind(this, comment.id_comment)} />
                                             </div>
@@ -257,8 +300,8 @@ export default class Comment extends Component {
                                                         <span onClick={this.ChangeContentReporSample.bind(this, "Ngôn từ không lịch sự")}>Ngôn từ không lịch sự</span>
                                                         <span onClick={this.ChangeContentReporSample.bind(this, "Spam")}>Spam</span>
                                                     </p>
-                                                    <textarea className="form-control" value={this.state.content_report} onChange={this.ChangeContentReport} />
-                                                    <button className="btn btn-danger" >Gửi</button>
+                                                    <textarea className="form-control" placeholder="Nhập lý do báo xấu bình luận" value={this.state.content_report} onChange={this.ChangeContentReport} />
+                                                    <button className="btn btn-danger" onClick={this.submitReport}>Gửi</button>
                                                 </div>
                                                 <img className="col-md-2" src={report} alt="icon-report" onClick={this.ReportVisible.bind(this, comment.id_comment)} />
                                             </div>

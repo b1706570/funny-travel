@@ -17,6 +17,9 @@
         if(isset($_POST['location'])){
             $sqlCondition .= " AND h.`address_host` LIKE '%".$_POST['location']."%'";
         }
+        if(isset($_POST['checkin'])){
+            $sqlCondition .= " AND r.`id_room` NOT IN (SELECT `id_room` FROM `booking_schedule` WHERE '".$_POST['checkin']."' BETWEEN `checkin_date` AND `checkout_date` OR `checkin_date` BETWEEN '".$_POST['checkin']."' AND '".$_POST['checkout']."')";
+        }
         $startID = $_POST['start'] * 25 - 25;
         /* co dieu kien thi them vao sau 2 cho */
         $sql="SELECT * FROM `host` WHERE `id_host` IN (".$sqlCondition.") LIMIT ".$startID.",25";

@@ -5,8 +5,16 @@ export default class publicAPI {
     constructor() {
         this.baseURL = config.ServerURL;
         this.getRoom = this.getRoom.bind(this);
+        this.gethostbyID = this.gethostbyID.bind(this);
         this.getAllConvenient = this.getAllConvenient.bind(this);
         this.getMinMaxPrice = this.getMinMaxPrice.bind(this);
+        this.getComment = this.getComment.bind(this);
+        this.pushComment = this.pushComment.bind(this);
+        this.getCommonInfoHost = this.getCommonInfoHost.bind(this);
+        this.getRoomUnavailable = this.getRoomUnavailable.bind(this);
+        this.getRoomByID = this.getRoomByID.bind(this);
+        this.BookingRoom = this.BookingRoom.bind(this);
+        this.ReportComment = this.ReportComment.bind(this);
     }
 
     getRoom(params) {
@@ -111,6 +119,17 @@ export default class publicAPI {
     BookingRoom(params){
         const api = axios.create({baseURL: this.baseURL});
         return api.post('/addbookingroom.php', params)
+            .then(response =>{
+                return response.data[0].code;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    ReportComment(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/reportcomment.php', params)
             .then(response =>{
                 return response.data[0].code;
             })

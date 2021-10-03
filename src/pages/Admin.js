@@ -7,6 +7,7 @@ import Convenient from '../component/Convenient';
 import AdminListMember from '../component/AdminListMember';
 import AdminListHost from '../component/AdminListHost';
 import AdminStatistics from '../component/AdminStatistics';
+import AdminManageComment from '../component/AdminManageComment';
 
 export class AdminTab extends Component {
     render() {
@@ -31,7 +32,7 @@ export class AdminTab extends Component {
         else if (this.props.tab_index === 3)
             return (
                 <div>
-                    quản lý bình luận
+                    <AdminManageComment />
                 </div>
             )
         else if (this.props.tab_index === 4)

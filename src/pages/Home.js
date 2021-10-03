@@ -158,6 +158,10 @@ export default class Home extends Component {
             params.append("type_room", this.state.typeroom_of_condition);
         if(this.state.city_of_condition !== "--Chọn vị trí--")
             params.append("location", this.state.city_of_condition);
+        if(this.state.checkin_of_condition !== "" && this.state.checkout_of_condition !== ""){
+            params.append("checkin", this.state.checkin_of_condition);
+            params.append("checkout", this.state.checkout_of_condition);
+        }
         const api = new publicAPI();
         api.getRoom(params)
             .then(response => {

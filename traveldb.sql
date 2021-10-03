@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 02, 2021 at 02:35 PM
+-- Generation Time: Oct 03, 2021 at 08:06 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -47,7 +47,8 @@ CREATE TABLE `booking_schedule` (
 INSERT INTO `booking_schedule` (`id_booking`, `id_member`, `id_room`, `fullname`, `phone`, `checkin_date`, `checkout_date`, `deposit`, `code`, `state`) VALUES
 (14, 4, 1, 'Hồ Thị Ngọc Bích', '0356620426', '2021-09-15 05:01:00', '2021-09-16 05:00:00', 150000, '', 'DAXACNHAN'),
 (15, 2, 4, 'Dương Hồ Dũ', '0365944451', '2021-09-27 05:01:00', '2021-09-29 05:00:00', 200000, '26598463', 'DANHANPHONG'),
-(16, 2, 62, 'Dương Hồ Dũ', '0365944451', '2021-09-28 05:01:00', '2021-09-30 05:00:00', 135000, '89631467', 'DAXACNHAN');
+(16, 2, 62, 'Dương Hồ Dũ', '0365944451', '2021-09-28 05:01:00', '2021-09-30 05:00:00', 135000, '89631467', 'DAXACNHAN'),
+(18, 20, 6, 'dafsdfasdfa', '0365944451', '2021-10-04 08:45:42', '2021-10-06 08:45:42', 200000, '', 'DAXACNHAN');
 
 -- --------------------------------------------------------
 
@@ -69,11 +70,8 @@ CREATE TABLE `comment` (
 --
 
 INSERT INTO `comment` (`id_comment`, `id_member`, `id_host`, `content`, `image`, `date_create`) VALUES
-(21, 2, 1, 'Phòng rẻ, giá hợp lý, sạch sẽ', '', '2021-08-26 09:33:18'),
 (22, 2, 1, 'Phòng rẻ, giá hợp lý, sạch sẽ', 'imageComment/yellowstar.png', '2021-08-26 09:33:37'),
 (23, 2, 2, '', 'imageComment/icon-add-convenient.png', '2021-08-26 09:34:33'),
-(24, 2, 2, 'fsdfasdfa', '', '2021-08-26 09:43:29'),
-(25, 2, 1, 'fsdfasdf', '', '2021-08-26 09:44:45'),
 (26, 2, 1, 'fsdfasdfa', '', '2021-08-26 09:47:55'),
 (27, 2, 1, 'fsdfasdfasdfa', '', '2021-08-26 09:48:33'),
 (28, 2, 1, 'fsdfasdfasf', 'imageComment/icon-add-convenient.png', '2021-08-26 09:49:57'),
@@ -91,8 +89,9 @@ INSERT INTO `comment` (`id_comment`, `id_member`, `id_host`, `content`, `image`,
 (40, 2, 1, 'fsdfasdfasf', '', '2021-08-26 10:18:41'),
 (41, 2, 1, 'fasdfasdfasdf', '', '2021-08-26 10:48:14'),
 (42, 2, 1, 'hello', '', '2021-08-26 10:48:27'),
-(43, 2, 1, 'sdfasdfasfdasdfaf', '', '2021-09-01 06:57:14'),
-(44, 4, 1, 'dfgdfgsd', '', '2021-09-25 09:44:35');
+(44, 4, 1, 'dfgdfgsd', '', '2021-09-25 09:44:35'),
+(45, 1005, 1, 'aaaaaaaaaaaaaaaaaaaaaa', '', '2021-10-02 13:15:22'),
+(46, 1005, 1, '', 'imageComment/hinh1.jpg', '2021-10-02 13:15:42');
 
 -- --------------------------------------------------------
 
@@ -12299,6 +12298,31 @@ INSERT INTO `proposal` (`id_proposal`, `fullname`, `company`, `email`, `phone`, 
 -- --------------------------------------------------------
 
 --
+-- Table structure for table `report`
+--
+
+CREATE TABLE `report` (
+  `id_report` int(11) NOT NULL,
+  `id_comment` int(11) NOT NULL,
+  `id_reporter` int(11) NOT NULL,
+  `reason` varchar(500) COLLATE utf8mb4_unicode_ci NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+--
+-- Dumping data for table `report`
+--
+
+INSERT INTO `report` (`id_report`, `id_comment`, `id_reporter`, `reason`) VALUES
+(1, 45, 2, ' Spam'),
+(2, 44, 2, ' Nội dung không phù hợp'),
+(3, 45, 23, 'spam'),
+(4, 45, 99, 'Spam'),
+(5, 45, 39, 'spam'),
+(6, 45, 136, 'Spam');
+
+-- --------------------------------------------------------
+
+--
 -- Table structure for table `rooms`
 --
 
@@ -19488,6 +19512,14 @@ ALTER TABLE `proposal`
   ADD PRIMARY KEY (`id_proposal`);
 
 --
+-- Indexes for table `report`
+--
+ALTER TABLE `report`
+  ADD PRIMARY KEY (`id_report`),
+  ADD KEY `FK_REPORT_MEMBER` (`id_reporter`),
+  ADD KEY `FK_REPORT_COMMENT` (`id_comment`);
+
+--
 -- Indexes for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -19508,13 +19540,13 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `booking_schedule`
 --
 ALTER TABLE `booking_schedule`
-  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `comment`
 --
 ALTER TABLE `comment`
-  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=45;
+  MODIFY `id_comment` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `convenient`
@@ -19547,6 +19579,12 @@ ALTER TABLE `proposal`
   MODIFY `id_proposal` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=63;
 
 --
+-- AUTO_INCREMENT for table `report`
+--
+ALTER TABLE `report`
+  MODIFY `id_report` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+
+--
 -- AUTO_INCREMENT for table `rooms`
 --
 ALTER TABLE `rooms`
@@ -19575,6 +19613,13 @@ ALTER TABLE `comment`
 ALTER TABLE `evaluate`
   ADD CONSTRAINT `FK_EVALUATE_HOST` FOREIGN KEY (`id_host`) REFERENCES `host` (`id_host`) ON DELETE CASCADE ON UPDATE CASCADE,
   ADD CONSTRAINT `FK_EVALUATE_MEMBER` FOREIGN KEY (`id_member`) REFERENCES `member` (`id_mem`) ON DELETE CASCADE ON UPDATE CASCADE;
+
+--
+-- Constraints for table `report`
+--
+ALTER TABLE `report`
+  ADD CONSTRAINT `FK_REPORT_COMMENT` FOREIGN KEY (`id_comment`) REFERENCES `comment` (`id_comment`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `FK_REPORT_MEMBER` FOREIGN KEY (`id_reporter`) REFERENCES `member` (`id_mem`) ON DELETE CASCADE ON UPDATE CASCADE;
 
 --
 -- Constraints for table `rooms`
