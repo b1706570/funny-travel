@@ -1,123 +1,17 @@
 import React, { Component } from 'react';
-import logo from '../img/logo.png';
-import queryString from 'query-string';
-import { Redirect } from 'react-router';
 import Header from '../component/Header';
 import publicAPI from '../api/publicAPI';
-import config from '../config.json';
-import NumberFormat from 'react-number-format';
-import Footer from '../component/Footer';
+import queryString from 'query-string';
+import logo from '../img/logo.png';
 import Comment from '../component/Comment';
+import config from '../config.json';
+import { Link } from 'react-router-dom';
 import ShowAddressInMaps from '../component/ShowAddressInMaps';
-
-
-export class ImageSlider extends Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            images: this.props.images,
-            index_active: 0,
-        }
-        this.NextImage = this.NextImage.bind(this);
-        this.PreviousImage = this.PreviousImage.bind(this);
-        this.activeImage = this.activeImage.bind(this);
-    }
-
-
-    NextImage = (e) => {
-        e.preventDefault();
-        if (this.state.index_active < this.state.images.length - 1) {
-            var nextid = this.state.index_active + 1;
-            this.setState({ index_active: nextid });
-        }
-        else {
-            this.setState({ index_active: 0 });
-        }
-    }
-
-    PreviousImage = (e) => {
-        e.preventDefault();
-        if (this.state.index_active > 0) {
-            var previousid = this.state.index_active - 1;
-            this.setState({ index_active: previousid });
-        }
-        else {
-            this.setState({ index_active: this.state.images.length - 1 })
-        }
-    }
-
-    activeImage(index) {
-        this.setState({
-            index_active: index,
-        })
-    }
-
-    render() {
-        return (
-            <div className="carousel slide">
-                <div className="carousel-inner">
-                    {
-                        this.state.images.map((image, index) => {
-                            if (index === this.state.index_active) {
-                                return (
-                                    <div key={index} className="item active">
-                                        <img src={config.ServerURL + "/" + image} alt={index} />
-                                    </div>
-                                )
-                            }
-                            else {
-                                return (
-                                    <div key={index} className="item">
-                                        <img src={config.ServerURL + "/" + image} alt={index} />
-                                    </div>
-                                )
-                            }
-                        })
-                    }
-                </div>
-                <a className="left carousel-control" href="#previous" data-slide="prev" onClick={this.PreviousImage} >
-                    <span className="glyphicon glyphicon-chevron-left"></span>
-                    <span className="sr-only">Previous</span>
-                </a>
-                <a className="right carousel-control" href="#next" data-slide="next" onClick={this.NextImage} >
-                    <span className="glyphicon glyphicon-chevron-right"></span>
-                    <span className="sr-only">Next</span>
-                </a>
-                <div className="col-md-12">
-                    <div className="imagePagination">
-                        {
-                            this.state.images.map((image, index) => {
-                                if (index === this.state.index_active) {
-                                    return (
-                                        <div className="activate" key={index}>
-                                            <img src={config.ServerURL + "/" + image} alt={index} />
-                                        </div>
-                                    )
-                                }
-                                else {
-                                    return (
-                                        <div key={index} onClick={this.activeImage.bind(this, index)}>
-                                            <img src={config.ServerURL + "/" + image} alt={index} />
-                                        </div>
-                                    )
-                                }
-                            })
-                        }
-                    </div>
-                </div>
-            </div>
-        )
-    }
-}
 
 export default class DetailHost extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            listRooms: [],
-            listRoomUnavailable: [],
-            listConv: [],
-            listConvInDetail: [],
             checkin_date: "",
             checkout_date: "",
             id_host: "",
@@ -129,33 +23,35 @@ export default class DetailHost extends Component {
             logo: logo,
             latitude: "",
             longtitude: "",
+            min_price: "",
+            type_room: "",
+            price_room: "Giá",
             point: "(Chưa có đánh giá)",
-            class_listConv: "div-more-detail-conv-hidden",
+            listTypeRoom: [],
+            listAllConv: [],
+            litsImgRoom: [],
+            listConv: [],
             class_div_left: "detail-div-left-default",
             class_div_right: "detail-div-right-default",
-            redirect: "",
         }
-        this.getCommonInfoHost = this.getCommonInfoHost.bind(this);
-        this.getRoomUnavailable = this.getRoomUnavailable.bind(this);
         this.getAllConvenients = this.getAllConvenients.bind(this);
-        this.ChangeConvInMoreDetail = this.ChangeConvInMoreDetail.bind(this);
-        this.HiddenMoreDetail = this.HiddenMoreDetail.bind(this);
+        this.getCommonInfoHost = this.getCommonInfoHost.bind(this);
         this.ShowORHideCmt = this.ShowORHideCmt.bind(this);
-        this.ChangeDateHandler = this.ChangeDateHandler.bind(this);
+        this.ChangeTypeRoom = this.ChangeTypeRoom.bind(this);
+        this.CheckRoomAvailable = this.CheckRoomAvailable.bind(this);
     }
 
     componentDidMount() {
         this.getCommonInfoHost();
-        this.getRoomUnavailable();
         this.getAllConvenients();
     }
 
-    getAllConvenients() {
+    getAllConvenients = () => {
         const api = new publicAPI();
         api.getAllConvenient()
             .then(response => {
                 this.setState({
-                    listConv: response,
+                    listAllConv: response,
                 });
             })
             .catch(error => {
@@ -163,7 +59,7 @@ export default class DetailHost extends Component {
             })
     }
 
-    getCommonInfoHost() {
+    getCommonInfoHost = () => {
         let search = queryString.parse(this.props.location.search)
         let params = new FormData();
         params.append("id_host", this.props.match.params.id);
@@ -172,17 +68,29 @@ export default class DetailHost extends Component {
             .then(response => {
                 var common_info = response.common_info;
                 var point = response.point;
-                var newlistRooms = [];
-                for (var i = 0; i < response.rooms.length; i++) {
-                    var room = response.rooms[i];
+                var newlistImage = [];
+                var newlistConvenient = [];
+                var newlitsTypeRoom = [];
+                var min = 99999999999;
+                for (let i = 0; i < response['rooms'].length; i++) {
+                    let room = response['rooms'][i];
                     room.convenients_room = room.convenients_room.split(";");
                     room.convenients_room = room.convenients_room.splice(0, room.convenients_room.length - 1);
                     room.images_room = room.images_room.split(";");
                     room.images_room = room.images_room.splice(0, room.images_room.length - 1);
-                    newlistRooms.push(room);
+                    for (let x = 0; x < room.convenients_room.length; x++)
+                        if (newlistConvenient.indexOf(room.convenients_room[x]) === -1)
+                            newlistConvenient.push(room.convenients_room[x]);
+                    for (let x = 0; x < room.images_room.length; x++)
+                        if (newlistImage.indexOf(room.images_room[x]) === -1)
+                            newlistImage.push(room.images_room[x]);
+                    if (room.price_room < min)
+                        min = room.price_room;
+                    if (newlitsTypeRoom.indexOf(room.type_room) === -1)
+                        newlitsTypeRoom.push(room.type_room);
+                    newlitsTypeRoom.sort((a, b) => a > b ? 1 : -1);
                 }
                 this.setState({
-                    listRooms: newlistRooms,
                     id_host: common_info.id_host,
                     address: common_info.address_host,
                     phone: common_info.phone_host,
@@ -192,8 +100,13 @@ export default class DetailHost extends Component {
                     logo: common_info.logo_host,
                     latitude: common_info.latitude,
                     longtitude: common_info.longtitude,
+                    min_price: min,
                     checkin_date: search.check_in,
                     checkout_date: search.check_out,
+                    type_room: search.type,
+                    litsImgRoom: newlistImage,
+                    listConv: newlistConvenient,
+                    listTypeRoom: newlitsTypeRoom,
                 })
                 if (response.point.point !== null) {
                     this.setState({
@@ -206,45 +119,14 @@ export default class DetailHost extends Component {
             })
     }
 
-    getRoomUnavailable() {
-        let search = queryString.parse(this.props.location.search);
-        let params = new FormData();
-        params.append("checkin", search.check_in);
-        params.append("checkout", search.check_out);
-        const api = new publicAPI();
-        api.getRoomUnavailable(params)
-            .then(response => {
-                this.setState({ listRoomUnavailable: response })
-            })
-            .catch(error => {
-                console.log(error);
-            })
-    }
-
-    ChangeConvInMoreDetail(index) {
-        let data = this.state.listRooms;
-        this.setState({
-            listConvInDetail: data[index].convenients_room,
-            class_listConv: "div-more-detail-conv",
-        })
-        document.body.style.overflow = "hidden";
-    }
-
-    HiddenMoreDetail = () => {
-        this.setState({
-            class_listConv: "div-more-detail-conv-hidden",
-        })
-        document.body.style.overflow = "visible";
-    }
-
-    ShowORHideCmt(){
-        if(this.state.class_div_left === "detail-div-left-default"){
+    ShowORHideCmt = () => {
+        if (this.state.class_div_left === "detail-div-left-default") {
             this.setState({
                 class_div_left: "detail-div-left",
                 class_div_right: "detail-div-right",
             })
         }
-        else{
+        else {
             this.setState({
                 class_div_left: "detail-div-left-default",
                 class_div_right: "detail-div-right-default",
@@ -252,52 +134,73 @@ export default class DetailHost extends Component {
         }
     }
 
-    ChangeDateHandler = (e) =>{
-        var name = e.target.name;
-        var value = e.target.value;
+    ChangeTypeRoom = (index) => {
+        this.setState({ type_room: index })
+        this.props.history.push("/rooms/" + this.state.id_host + "?check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date + "&type=" + index);
+    }
+
+    ChangeDate = (e) => {
+        var { name, value } = e.target;
         this.setState({ [name]: value });
+        if (name === "checkin_date")
+            this.props.history.push("/rooms/" + this.state.id_host + "?check_in=" + value + "&check_out=" + this.state.checkout_date + "&type=" + this.state.type_room);
+        else
+            this.props.history.push("/rooms/" + this.state.id_host + "?check_in=" + this.state.checkin_date + "&check_out=" + value + "&type=" + this.state.type_room);
     }
 
-    CheckRoomavailable = () =>{
-        this.props.history.push("/rooms/" + this.state.id_host + "?check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date);
-        window.location.reload();
-    }
-
-    BookingRoom = (id_room) =>{
-        if(localStorage.getItem("iduser") === null){
-            alert("Bạn phải đăng nhập trước khi đặt phòng!");
+    CheckRoomAvailable = () => {
+        var ok = true;
+        if (this.state.type_room === "0") {
+            alert("Bạn hãy chọn loại phòng trước khi kiểm tra");
+            ok = false;
         }
-        else{
-            this.setState({
-                redirect: "/rooms/book?roomID=" + id_room + "&hostID=" + this.state.id_host + "&check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date,
-            })
-        }    
+        if (this.state.checkin_date === "") {
+            alert("Bạn hãy chọn ngày nhận phòng trước khi kiểm tra");
+            ok = false;
+        }
+        if (this.state.checkout_date === "") {
+            alert("Bạn hãy chọn ngày trả phòng trước khi kiểm tra");
+            ok = false;
+        }
+        if (ok === true) {
+            let params = new FormData();
+            params.append("id_host", this.state.id_host);
+            params.append("type_room", this.state.type_room);
+            params.append("checkin_date", this.state.checkin_date);
+            params.append("checkout_date", this.state.checkout_date);
+            const api = new publicAPI();
+            api.checkRoomAvailable(params)
+                .then(response => {
+                    document.getElementById("Noti-room-available").style.display = "block";
+                    if (response.length === 0) {
+                        this.setState({
+                            price_room: "Giá",
+                        })
+                        document.getElementById("Noti-room-available").innerHTML = "Phòng không khả dụng. Vui lòng chọn thời gian khác!";
+                        document.getElementById("btn-booking-room").style.display = "none";
+                    }
+                    else {
+                        this.setState({
+                            price_room: response[0],
+                        })
+                        document.getElementById("Noti-room-available").innerHTML = "Phòng khả dụng. Hãy nhanh tay đặt phòng để tận hưởng chuyến du lịch!";
+                        document.getElementById("btn-booking-room").style.display = "block";
+                    }
+                })
+                .catch(error => {
+                    console.log(error);
+                })
+        }
     }
 
     render() {
-        if (localStorage.getItem('type') === "host")
-            return <Redirect to={"/host/" + localStorage.getItem('username')} />
-        if (localStorage.getItem('type') === "admin")
-            return <Redirect to="/admin" />
-        if (this.state.redirect !== "")
-            return <Redirect to={this.state.redirect} />
-        var type_room = ['Phòng đơn', 'Phòng đôi', 'Phòng tập thể', 'Phòng gia đình', 'Mini house', 'Home stay'];
+        var type_room = ["Chọn loại phòng", "Phòng đơn", "Phòng đôi", "Phòng tập thể", "Phòng gia đình", "Mini house", "Homestay"];
+        var formater = new Intl.NumberFormat();
         return (
-            <div key={this.state.checkin_date + this.state.checkout_date}>
+            <div>
                 <div className="col-md-12 header-home"><Header /></div>
                 <div className="col-md-8 col-md-offset-2 second-header-home-detail">
                     <div className="col-md-12">
-                        <div className="col-md-7 col-md-offset-5 control-detail-host">
-                            <div><label>Nhận phòng:</label>
-                                <input type="date" name="checkin_date" value={this.state.checkin_date} onChange={this.ChangeDateHandler} />
-                            </div>
-                            <div><label>Trả phòng:</label>
-                                <input type="date" name="checkout_date" value={this.state.checkout_date} onChange={this.ChangeDateHandler} />
-                            </div>
-                            <div onClick={this.CheckRoomavailable}>
-                                <span className="glyphicon glyphicon-search" aria-hidden="true"></span>
-                            </div>
-                        </div>
                         <div className="col-md-12 common-info-detail">
                             <label>{this.state.company}</label>
                             <span>{this.state.point}</span>
@@ -309,106 +212,91 @@ export default class DetailHost extends Component {
                 </div>
                 <div className="col-md-12">
                     <div className={this.state.class_div_left}>
-                        {
-                            this.state.listRooms.map((room, index) => {
-                                if (this.state.listRoomUnavailable.indexOf(room.id_room) === -1) {
-                                    return (
-                                        <div className="col-md-12 room-detail" key={index}>
-                                            <div className="col-md-6 image-room-detail">
-                                                <ImageSlider images={room.images_room} />
-                                            </div>
-                                            <div className="col-md-5 content-room-detail">
-                                                <div className="col-md-12 price-room-detail"> Giá mỗi đêm (VND): <NumberFormat thousandSeparator value={room.price_room} readOnly /></div>
-                                                <div className="col-md-12"> Tên phòng: {room.name_room}</div>
-                                                <div className="col-md-12"> Loại phòng: {type_room[room.type_room - 1]}</div>
-                                                <div className="col-md-12"> Số người: {room.capacity_room}</div>
-                                                <div className="col-md-12"> Trạng thái: <p className="available">Trống</p></div>
-                                                <div className="col-md-12 room-conv-detail">
-                                                    <span>Tiện ích: </span>
-                                                    {
-                                                        this.state.listConv.map((conv, index) => {
-                                                            if (room.convenients_room.indexOf(conv.id_conv) !== -1) {
-                                                                return (<span key={index}>{conv.name_conv + ", "}</span>);
-                                                            }
-                                                            else return null;
-                                                        })
-                                                    }
-
-                                                </div>
-                                                <span className="more-detail-conv-btn" onClick={this.ChangeConvInMoreDetail.bind(this, index)}>(xem thêm)</span>
-                                            </div>
-                                            <div onClick={this.BookingRoom.bind(this, room.id_room)} className="col-md-1 booking-room">
-                                                Đặt phòng
-                                            </div>
-                                        </div>
+                        <div className="col-md-12 image-room-detail">
+                            <div className="col-md-6">
+                                {
+                                    this.state.litsImgRoom.map((images_room, index) =>
+                                        index < 4 ? (
+                                            <div key={index} className="small-image"><img src={config.ServerURL + "/" + images_room} alt="Hình ảnh phòng" /></div>
+                                        ) : (null)
                                     )
                                 }
-                                else {
-                                    return (
-                                        <div className="col-md-12 room-detail" key={index}>
-                                            <div className="col-md-6 image-room-detail">
-                                                <ImageSlider images={room.images_room} />
-                                            </div>
-                                            <div className="col-md-5 content-room-detail">
-                                                <div className="col-md-12 price-room-detail"> Giá mỗi đêm (VND): <NumberFormat thousandSeparator value={room.price_room} readOnly /></div>
-                                                <div className="col-md-12"> Tên phòng: {room.name_room}</div>
-                                                <div className="col-md-12"> Loại phòng: {type_room[room.type_room - 1]}</div>
-                                                <div className="col-md-12"> Số người: {room.capacity_room}</div>
-                                                <div className="col-md-12"> Trạng thái: <p className="unavailable">Đã được đặt</p></div>
-                                                <div className="col-md-12 room-conv-detail">
-                                                    <span>Tiện ích: </span>
+                            </div>
+                            <div className="col-md-6">
+                                <div className="large-image"><img src={config.ServerURL + "/" + this.state.litsImgRoom[4]} alt="Hình ảnh phòng" /></div>
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="col-md-7">
+                                <div className="price-room-detail">{"Giá thấp nhất mỗi đêm: " + formater.format(this.state.min_price) + " (VND)"}</div>
+                                <div className="convenient-room-detail">
+                                    <div className="title-room-detail">Các tiện nghi</div>
+                                    <div>
+                                        {
+                                            this.state.listAllConv.map((conv, index) =>
+                                                this.state.listConv.indexOf(conv.id_conv) === -1 ? (
+                                                    <div key={index} className="home-detail-conv-info col-md-6">
+                                                        <span className="glyphicon glyphicon glyphicon-unchecked" ></span>
+                                                        <img className="icon-checkbox" src={config.ServerURL + "/" + conv.icon_conv} alt="Icon" />
+                                                        <p className="value-checkbox">{conv.name_conv}</p>
+                                                    </div>
+                                                ) : (
+                                                    <div key={index} className="home-detail-conv-info col-md-6">
+                                                        <span className="glyphicon glyphicon glyphicon-check" ></span>
+                                                        <img className="icon-checkbox" src={config.ServerURL + "/" + conv.icon_conv} alt="Icon" />
+                                                        <p className="value-checkbox">{conv.name_conv}</p>
+                                                    </div>
+                                                )
+                                            )
+                                        }
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-5">
+                                <div className="col-md-12 div-check-room-available">
+                                    {
+                                        this.state.price_room === "Giá" ? (
+                                            <div className="col-md-12 price-room">{this.state.price_room + " / đêm"}</div>
+                                        ) : (
+                                            <div className="col-md-12 price-room">{formater.format(this.state.price_room) + " / đêm"}</div>
+                                        )
+                                    }
+                                    <div className="col-md-12">
+                                        <div className="time-checkin">
+                                            <p>Nhận phòng</p>
+                                            <input name="checkin_date" type="date" value={this.state.checkin_date} onChange={this.ChangeDate} />
+                                        </div>
+                                        <div className="time-checkout">
+                                            <p>Trả phòng</p>
+                                            <input name="checkout_date" type="date" value={this.state.checkout_date} onChange={this.ChangeDate} />
+                                        </div>
+                                        <div className="type-room">
+                                            <div className="btn-group">
+                                                <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                    <span className="col-md-10">{type_room[this.state.type_room]}</span><span className="caret"></span>
+                                                </button>
+                                                <ul className="dropdown-menu">
                                                     {
-                                                        this.state.listConv.map((conv, index) => {
-                                                            if (room.convenients_room.indexOf(conv.id_conv) !== -1) {
-                                                                return (<span key={index}>{conv.name_conv + ", "}</span>);
-                                                            }
-                                                            else return null;
-                                                        })
+                                                        this.state.listTypeRoom.map((item, index) =>
+                                                            <li key={index}><p onClick={this.ChangeTypeRoom.bind(this, item)} >{type_room[item]}</p></li>
+                                                        )
                                                     }
-
-                                                </div>
-                                                <span className="more-detail-conv-btn" onClick={this.ChangeConvInMoreDetail.bind(this, index)}>(xem thêm)</span>
-                                            </div>
-                                            <div onClick={this.BookingRoom.bind(this, room.id_room)} className="col-md-1 booking-room">
-                                                Đặt phòng
+                                                </ul>
                                             </div>
                                         </div>
-                                    )
-                                }
-                            })
-                        }
+                                        <div className="col-md-12 btn-check-room-available" onClick={this.CheckRoomAvailable}>Kiểm tra tình trạng còn phòng</div>
+                                        <div id="Noti-room-available" className="col-md-12"></div>
+                                        <div id="btn-booking-room" className="col-md-12"><Link to="#">Đặt phòng</Link></div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div id="map" className="col-md-12 map-in-detail-host">
+                            <ShowAddressInMaps key={this.state.latitude} lat={this.state.latitude} long={this.state.longtitude} />
+                        </div>
                     </div>
                     <div className={this.state.class_div_right}>
                         <Comment id_host={this.props.match.params.id} />
-                    </div>
-                </div>
-                <div id="map" className="col-md-12 map-in-detail-host">
-                    <ShowAddressInMaps key={this.state.latitude} lat={this.state.latitude} long={this.state.longtitude} />
-                </div>
-                <div className="col-md-12"><Footer /></div>
-                <div className={this.state.class_listConv}>
-                    <div className="div-content-more-detail-conv">
-                        <div className="hidden-detail-conv"><span className="glyphicon glyphicon glyphicon-remove-circle" onClick={this.HiddenMoreDetail}></span></div>
-                        {
-                            this.state.listConv.map((item, index) => {
-                                if (this.state.listConvInDetail.indexOf(item.id_conv) === -1) {
-                                    return (<div key={index} className="home-detail-conv-info col-md-4">
-                                        <span className="glyphicon glyphicon glyphicon-unchecked" ></span>
-                                        <img className="icon-checkbox" src={config.ServerURL + "/" + item.icon_conv} alt="Icon" />
-                                        <p className="value-checkbox">{item.name_conv}</p>
-                                    </div>)
-                                }
-                                else {
-                                    return (
-                                        <div key={index} className="home-detail-conv-info col-md-4">
-                                            <span className="glyphicon glyphicon glyphicon-check" ></span>
-                                            <img className="icon-checkbox" src={config.ServerURL + "/" + item.icon_conv} alt="Icon" />
-                                            <p className="value-checkbox">{item.name_conv}</p>
-                                        </div>
-                                    )
-                                }
-                            })
-                        }
                     </div>
                 </div>
                 <div className="btn-show-comment" onClick={this.ShowORHideCmt}></div>

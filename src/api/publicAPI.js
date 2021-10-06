@@ -12,6 +12,7 @@ export default class publicAPI {
         this.pushComment = this.pushComment.bind(this);
         this.getCommonInfoHost = this.getCommonInfoHost.bind(this);
         this.getRoomUnavailable = this.getRoomUnavailable.bind(this);
+        this.checkRoomAvailable = this.checkRoomAvailable.bind(this);
         this.getRoomByID = this.getRoomByID.bind(this);
         this.BookingRoom = this.BookingRoom.bind(this);
         this.ReportComment = this.ReportComment.bind(this);
@@ -97,6 +98,17 @@ export default class publicAPI {
     getRoomUnavailable(params){
         const api = axios.create({baseURL: this.baseURL});
         return api.post('/getbookingschedule.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    checkRoomAvailable(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/checkroomavailable.php', params)
             .then(response =>{
                 return response.data;
             })

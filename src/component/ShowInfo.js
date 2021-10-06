@@ -128,7 +128,7 @@ export default class ShowInfo extends Component {
         else if (this.state.tab === 2) class_comment += "active";
         return (
             <div className="home-row-info col-md-12">
-                <Link to={"/rooms/" + this.props.item.id_host + "?check_in=" + this.props.checkin + "&check_out=" + this.props.checkout}>
+                <Link to={"/rooms/" + this.props.item.id_host + "?check_in=" + this.props.checkin + "&check_out=" + this.props.checkout + "&type=" + this.props.type}>
                 <div className="home-image-info col-md-3">
                     <img src={config.ServerURL + "/" + this.state.listImg[0]} alt="Ảnh của khách sạn" />
                 </div>

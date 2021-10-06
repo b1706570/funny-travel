@@ -26,7 +26,7 @@ export default class ListProposal extends Component {
     }
 
     handleAccept = (e) =>{
-        this.props.active(3);
+        this.props.active(6);
         let idx = e.target.value;
         let data = this.state.listProposal[idx];
         this.props.loaddata(data);
