@@ -13,7 +13,7 @@
     }
     $response['transaction'] = $res;
 
-    $sql1 = "SELECT b.*, r.`name_room`, r.`type_room`, r.`price_room`,h.`company_name`, h.`address_host`, h.`id_host`  FROM `booking_schedule` b JOIN `rooms` r ON b.`id_room`=r.`id_room` JOIN `host` h ON r.`id_host`=h.`id_host` WHERE b.`id_member`=".$_POST['id_member']." ORDER BY b.`checkin_date` DESC";
+    $sql1 = "SELECT b.*, r.`name_room`, r.`price_room`,h.`company_name`, h.`address_host`, h.`id_host`  FROM `booking_schedule` b LEFT JOIN `rooms` r ON b.`id_room`=r.`id_room` JOIN `host` h ON b.`id_host`=h.`id_host` WHERE b.`id_member`=".$_POST['id_member']." ORDER BY b.`checkin_date` DESC";
     $result3 = $connect->query($sql1);
     while ($row1 = $result3->fetch_assoc()) {
         $res1[] = $row1;

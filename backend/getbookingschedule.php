@@ -2,8 +2,8 @@
     include 'default.php';
     $response = [];
     if(isset($_POST['id_host'])){
-        $sql = "SELECT * FROM `booking_schedule` b JOIN `rooms` r ON b.`id_room`=r.`id_room` JOIN `member` m ON b.`id_member` = m.`id_mem` WHERE b.`id_room` IN (SELECT `id_room` FROM `rooms` WHERE `id_host`=".$_POST['id_host'].") AND b.`state`='CHOXACNHAN'";
-        $sql1 = "SELECT * FROM `booking_schedule` b JOIN `rooms` r ON b.`id_room`=r.`id_room` JOIN `member` m ON b.`id_member` = m.`id_mem` WHERE b.`id_room` IN (SELECT `id_room` FROM `rooms` WHERE `id_host`=".$_POST['id_host'].") AND b.`state`='DAXACNHAN'";
+        $sql = "SELECT b.*, m.`fullname`, m.`phone` FROM `booking_schedule` b JOIN `member` m ON b.`id_member` = m.`id_mem` WHERE b.`id_host` = ".$_POST['id_host']." AND b.`state`='CHOXACNHAN'";
+        $sql1 = "SELECT * FROM `booking_schedule` b JOIN `rooms` r ON b.`id_room`=r.`id_room` JOIN `member` m ON b.`id_member` = m.`id_mem` WHERE b.`id_host` = ".$_POST['id_host']." AND b.`state`='DAXACNHAN'";
         $result=$connect->query($sql);
         $result1=$connect->query($sql1);
         $res = [];

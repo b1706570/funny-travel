@@ -33,6 +33,7 @@ export default class DetailHost extends Component {
             listConv: [],
             class_div_left: "detail-div-left-default",
             class_div_right: "detail-div-right-default",
+            class_more_detail_image: "div-more-detail-conv-hidden",
         }
         this.getAllConvenients = this.getAllConvenients.bind(this);
         this.getCommonInfoHost = this.getCommonInfoHost.bind(this);
@@ -149,48 +150,67 @@ export default class DetailHost extends Component {
     }
 
     CheckRoomAvailable = () => {
-        var ok = true;
-        if (this.state.type_room === "0") {
-            alert("Bạn hãy chọn loại phòng trước khi kiểm tra");
-            ok = false;
+        if (localStorage.getItem('iduser') === null) {
+            alert("Hãy đăng nhập trước khi kiếm tra tình trạng còn phòng");
         }
-        if (this.state.checkin_date === "") {
-            alert("Bạn hãy chọn ngày nhận phòng trước khi kiểm tra");
-            ok = false;
+        else {
+            var ok = true;
+            if (this.state.type_room === "0") {
+                alert("Bạn hãy chọn loại phòng trước khi kiểm tra");
+                ok = false;
+            }
+            if (this.state.checkin_date === "") {
+                alert("Bạn hãy chọn ngày nhận phòng trước khi kiểm tra");
+                ok = false;
+            }
+            if (this.state.checkout_date === "") {
+                alert("Bạn hãy chọn ngày trả phòng trước khi kiểm tra");
+                ok = false;
+            }
+            if (ok === true) {
+                let params = new FormData();
+                params.append("id_host", this.state.id_host);
+                params.append("type_room", this.state.type_room);
+                params.append("checkin_date", this.state.checkin_date);
+                params.append("checkout_date", this.state.checkout_date);
+                const api = new publicAPI();
+                api.checkRoomAvailable(params)
+                    .then(response => {
+                        document.getElementById("Noti-room-available").style.display = "block";
+                        if (response.length === 0) {
+                            this.setState({
+                                price_room: "Giá",
+                            })
+                            document.getElementById("Noti-room-available").innerHTML = "Phòng không khả dụng. Vui lòng chọn thời gian khác!";
+                            document.getElementById("btn-booking-room").style.display = "none";
+                        }
+                        else {
+                            this.setState({
+                                price_room: response[0],
+                            })
+                            document.getElementById("Noti-room-available").innerHTML = "Phòng khả dụng. Hãy nhanh tay đặt phòng để tận hưởng chuyến du lịch!";
+                            document.getElementById("btn-booking-room").style.display = "block";
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         }
-        if (this.state.checkout_date === "") {
-            alert("Bạn hãy chọn ngày trả phòng trước khi kiểm tra");
-            ok = false;
-        }
-        if (ok === true) {
-            let params = new FormData();
-            params.append("id_host", this.state.id_host);
-            params.append("type_room", this.state.type_room);
-            params.append("checkin_date", this.state.checkin_date);
-            params.append("checkout_date", this.state.checkout_date);
-            const api = new publicAPI();
-            api.checkRoomAvailable(params)
-                .then(response => {
-                    document.getElementById("Noti-room-available").style.display = "block";
-                    if (response.length === 0) {
-                        this.setState({
-                            price_room: "Giá",
-                        })
-                        document.getElementById("Noti-room-available").innerHTML = "Phòng không khả dụng. Vui lòng chọn thời gian khác!";
-                        document.getElementById("btn-booking-room").style.display = "none";
-                    }
-                    else {
-                        this.setState({
-                            price_room: response[0],
-                        })
-                        document.getElementById("Noti-room-available").innerHTML = "Phòng khả dụng. Hãy nhanh tay đặt phòng để tận hưởng chuyến du lịch!";
-                        document.getElementById("btn-booking-room").style.display = "block";
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                })
-        }
+    }
+
+    showMoreImage = () => {
+        this.setState({
+            class_more_detail_image: "div-more-detail-conv",
+        })
+        document.body.style.overflow = "hidden";
+    }
+
+    hiddenMoreImage = () => {
+        this.setState({
+            class_more_detail_image: "div-more-detail-conv-hidden",
+        })
+        document.body.style.overflow = "visible";
     }
 
     render() {
@@ -286,7 +306,7 @@ export default class DetailHost extends Component {
                                         </div>
                                         <div className="col-md-12 btn-check-room-available" onClick={this.CheckRoomAvailable}>Kiểm tra tình trạng còn phòng</div>
                                         <div id="Noti-room-available" className="col-md-12"></div>
-                                        <div id="btn-booking-room" className="col-md-12"><Link to="#">Đặt phòng</Link></div>
+                                        <div id="btn-booking-room" className="col-md-12"><Link to={"/rooms/book?hostID=" + this.state.id_host + "&type=" + this.state.type_room + "&check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date + "&price=" + this.state.price_room}>Đặt phòng</Link></div>
                                     </div>
                                 </div>
                             </div>
@@ -299,6 +319,29 @@ export default class DetailHost extends Component {
                         <Comment id_host={this.props.match.params.id} />
                     </div>
                 </div>
+                <div className={this.state.class_more_detail_image}>
+                    <div className="hidden-detail-conv"><span className="glyphicon glyphicon glyphicon-remove-circle" onClick={this.hiddenMoreImage}></span></div>
+                    <div className="col-md-6 col-md-offset-3">
+                        {
+                            this.state.litsImgRoom.map((img, index) =>
+                                index % 6 === 0 ? (
+                                    <div key={index} className="image-detail-1"><img src={config.ServerURL + "/" + img} alt="Room-IMG" /></div>
+                                ) : index % 6 === 1 ? (
+                                    <div key={index} className="image-detail-2"><img src={config.ServerURL + "/" + img} alt="Room-IMG" /></div>
+                                ) : index % 6 === 2 ? (
+                                    <div key={index} className="image-detail-3"><img src={config.ServerURL + "/" + img} alt="Room-IMG" /></div>
+                                ) : index % 6 === 3 ? (
+                                    <div key={index} className="image-detail-4"><img src={config.ServerURL + "/" + img} alt="Room-IMG" /></div>
+                                ) : index % 6 === 4 ? (
+                                    <div key={index} className="image-detail-5"><img src={config.ServerURL + "/" + img} alt="Room-IMG" /></div>
+                                ) : (
+                                    <div key={index} className="image-detail-6"><img src={config.ServerURL + "/" + img} alt="Room-IMG" /></div>
+                                )
+                            )
+                        }
+                    </div>
+                </div>
+                <div className="btn-show-more-detail-img" onClick={this.showMoreImage}>Xem thêm hình ảnh <span className="glyphicon glyphicon-th"></span></div>
                 <div className="btn-show-comment" onClick={this.ShowORHideCmt}></div>
             </div>
         )

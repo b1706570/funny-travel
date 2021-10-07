@@ -41,39 +41,29 @@ export default class RoomBooking extends Component {
         this.HiddenNoti = this.HiddenNoti.bind(this);
         this.ChangePaymentWay = this.ChangePaymentWay.bind(this);
         this.PaymentSuccess = this.PaymentSuccess.bind(this);
+        this.PaymentWithoutPaypal = this.PaymentWithoutPaypal.bind(this);
         this.PaymentError = this.PaymentError.bind(this);
     }
 
 
     componentDidMount() {
         let search = queryString.parse(this.props.location.search);
-        let params = new FormData();
-        params.append("id_room", search.roomID);
+        var date_start = Date.parse(search.check_in);
+        var date_end = Date.parse(search.check_out);
         const api = new publicAPI();
-        api.getRoomByID(params)
-            .then(response => {
-                this.setState({
-                    checkin_date: search.check_in,
-                    checkout_date: search.check_out,
-                    host_id: search.hostID,
-                    room_id: search.roomID,
-                    room_price: response[0].price_room,
-                    price_USD: response[0].price_room / 22400,
-                    room_name: response[0].name_room,
-                    room_type: response[0].type_room,
-                    room_capacity: response[0].capacity_room,
-                    member_id: localStorage.getItem("iduser"),
-                })
-            })
-            .catch(error => {
-                console.log(error);
-            })
-
         let params1 = new FormData();
         params1.append("id", search.hostID);
         api.gethostbyID(params1)
             .then(response => {
                 this.setState({
+                    checkin_date: search.check_in,
+                    checkout_date: search.check_out,
+                    host_id: search.hostID,
+                    room_price: search.price,
+                    price_USD: search.price / 22400,
+                    room_type: search.type,
+                    room_capacity: search.type * 2,
+                    number_night: (date_end - date_start) / 86400000,
                     host_name: response.company_name,
                     host_address: response.address_host,
                     host_paypal_id: response.paypal_id,
@@ -86,27 +76,21 @@ export default class RoomBooking extends Component {
                 console.log(error);
             })
 
-        if (search.check_in !== "" && search.check_out !== "") {
-            var date_start = Date.parse(search.check_in);
-            var date_end = Date.parse(search.check_out);
-            this.setState({
-                number_night: (date_end - date_start) / 86400000
-            });
-        }
-
         this.CheckRoomAvailable();
     }
 
     CheckRoomAvailable = () =>{
         let search = queryString.parse(this.props.location.search);
         let params = new FormData();
-        params.append("checkin", search.check_in);
-        params.append("checkout", search.check_out);
+        params.append("checkin_date", search.check_in);
+        params.append("checkout_date", search.check_out);
+        params.append("id_host", search.hostID);
+        params.append("type_room", search.type);
         const api = new publicAPI();
-        api.getRoomUnavailable(params)
+        api.checkRoomAvailable(params)
             .then(response => {
-                var listRoomUnavailable = response;
-                if (listRoomUnavailable.indexOf(search.roomID) !== -1 || search.check_in === "" || search.check_out === "") {
+                console.log(response);
+                if (response.length === 0) {
                     this.setState({ available: false });
                 }
             })
@@ -117,10 +101,10 @@ export default class RoomBooking extends Component {
 
     DateChange = (e) => {
         if (e.target.name === "checkin_date") {
-            this.props.history.push("/rooms/book?roomID=" + this.state.room_id + "&hostID=" + this.state.host_id + "&check_in=" + e.target.value + "&check_out=" + this.state.checkout_date)
+            this.props.history.push("/rooms/book?hostID=" + this.state.host_id + "&check_in=" + e.target.value + "&check_out=" + this.state.checkout_date + "&type=" + this.state.room_type + "&price=" + this.state.room_price);
         }
         if (e.target.name === "checkout_date") {
-            this.props.history.push("/rooms/book?roomID=" + this.state.room_id + "&hostID=" + this.state.host_id + "&check_in=" + this.state.checkin_date + "&check_out=" + e.target.value)
+            this.props.history.push("/rooms/book?hostID=" + this.state.host_id + "&check_in=" + this.state.checkin_date + "&check_out=" + e.target.value +  "&type=" + this.state.room_type + "&price=" + this.state.room_price);
         }
         window.location.reload();
     }
@@ -157,10 +141,12 @@ export default class RoomBooking extends Component {
         }
     }
 
-    PaymentSuccess = () =>{
+    PaymentWithoutPaypal = () =>{
         let params = new FormData();
+        params.append("paypal", 0);
         params.append("id_member", localStorage.getItem("iduser"));
-        params.append("id_room", this.state.room_id);
+        params.append("id_host", this.state.host_id);
+        params.append("type_room", this.state.room_type);
         params.append("checkin", this.state.checkin_date);
         params.append("checkout", this.state.checkout_date);
         params.append("deposit", this.state.room_price * this.state.number_night * 0.1);
@@ -170,6 +156,39 @@ export default class RoomBooking extends Component {
                 if(response === 200){
                     alert("Đặt phòng thành công! Bạn có thể xem thông tin ở trang thông tin cá nhân.");
                     this.setState({ direct: "/member/personalinfomation" })
+                }
+                else{
+                    alert("Đặt phòng thất bại vui lòng thử lại!");
+                    this.componentDidMount();
+                }
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    PaymentSuccess = () =>{
+        let code = Math.random() * (10 - 1) + 1;
+        code = Math.floor(code * 10000000);
+        let params = new FormData();
+        params.append("paypal", 1);
+        params.append("id_member", localStorage.getItem("iduser"));
+        params.append("id_host", this.state.host_id);
+        params.append("code", code);
+        params.append("type_room", this.state.room_type);
+        params.append("checkin", this.state.checkin_date);
+        params.append("checkout", this.state.checkout_date);
+        params.append("deposit", this.state.room_price * this.state.number_night * 0.1);
+        const api = new publicAPI();
+        api.BookingRoom(params)
+            .then(response =>{
+                if(response === 200){
+                    alert("Đặt phòng thành công! Bạn có thể xem thông tin ở trang thông tin cá nhân.");
+                    this.setState({ direct: "/member/personalinfomation" })
+                }
+                else{
+                    alert("Đặt phòng thất bại vui lòng thử lại!");
+                    this.componentDidMount();
                 }
             })
             .catch(error =>{
@@ -184,6 +203,7 @@ export default class RoomBooking extends Component {
     render() {
         if(this.state.direct !== "")
             return <Redirect to={this.state.direct} />
+        var type_room = ["Chọn loại phòng", "Phòng đơn", "Phòng đôi", "Phòng tập thể", "Phòng gia đình", "Mini house", "Homestay"];
         var priceFormat = new Intl.NumberFormat();
         var deposit = parseFloat(this.state.price_USD * this.state.number_night * 0.1).toFixed(2);
         deposit = parseFloat(deposit);
@@ -195,7 +215,7 @@ export default class RoomBooking extends Component {
                 <div className="col-md-8 col-md-offset-2 body-book-room">
                     <div className="book-room-div-left">
                         <div className="col-md-12">
-                            <Link to={"/rooms/" + this.state.host_id + "?check_in=" + this.state.checkin_date  + "&check_out=" + this.state.checkout_date}><span className="glyphicon glyphicon-chevron-left"></span></Link>
+                            <Link to={"/rooms/" + this.state.host_id + "?check_in=" + this.state.checkin_date  + "&check_out=" + this.state.checkout_date + "&type=" + this.state.room_type}><span className="glyphicon glyphicon-chevron-left"></span></Link>
                             <label className="title-large">Xác nhận đặt phòng và thanh toán</label>
                         </div>
                         <div className="col-md-12">
@@ -210,12 +230,8 @@ export default class RoomBooking extends Component {
                             <p><input type="date" name="checkout_date" value={this.state.checkout_date} onChange={this.DateChange} /></p>
                         </div>
                         <div className="col-md-12">
-                            <p className="title-bold">Tên phòng</p>
-                            <p>{this.state.room_name}</p>
-                        </div>
-                        <div className="col-md-12">
                             <p className="title-bold">Loại phòng</p>
-                            <p>{this.state.room_type}</p>
+                            <p>{type_room[this.state.room_type]}</p>
                         </div>
                         <div className="col-md-12">
                             <p className="title-bold">Số lượng người</p>
@@ -235,7 +251,7 @@ export default class RoomBooking extends Component {
                     </div>
                     <div className="book-room-div-right">
                         <div className="col-md-12">
-                            <p className="name-host">{this.state.host_name} - Phòng {this.state.room_name}</p>
+                            <p className="name-host">{this.state.host_name}</p>
                             <div>{this.state.host_address}</div>
                             <div>Số lượng: {this.state.room_capacity} người</div>
                             <div>Thời gian: {this.state.checkin_date} * {this.state.checkout_date}</div>
@@ -276,7 +292,7 @@ export default class RoomBooking extends Component {
                                                 <p><label>Ngân hàng:</label> {this.state.host_branch_name}</p>
                                                 <p><label>Chủ tài khoản:</label> {this.state.host_owner_account}</p>
                                                 <p><label>Số tiền cần chuyển:</label> {priceFormat.format(this.state.room_price * this.state.number_night * 0.1)} (VND)</p>
-                                                <button className="btn btn-warning" onClick={this.PaymentSuccess}>Xác nhận & Thanh toán</button>
+                                                <button className="btn btn-warning" onClick={this.PaymentWithoutPaypal}>Xác nhận & Thanh toán</button>
                                             </div>
                                         )
                                     }

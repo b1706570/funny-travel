@@ -20,6 +20,7 @@ export default class hostAPI{
         this.confirmBookingSchedule=this.confirmBookingSchedule.bind(this);
         this.rejectBookingSchedule=this.rejectBookingSchedule.bind(this);
         this.getTransactionByOfHost=this.getTransactionByOfHost.bind(this);
+        this.getRoomAvailableToConfirm=this.getRoomAvailableToConfirm.bind(this);
     }
 
     gethostbyID(id){
@@ -201,5 +202,16 @@ export default class hostAPI{
         .catch(error =>{
             console.log(error);
         })
+    }
+
+    getRoomAvailableToConfirm(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getroomavailabletoconfirm.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
     }
 }

@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 06, 2021 at 05:31 PM
+-- Generation Time: Oct 07, 2021 at 11:09 PM
 -- Server version: 10.4.14-MariaDB
 -- PHP Version: 7.2.33
 
@@ -30,7 +30,9 @@ SET time_zone = "+00:00";
 CREATE TABLE `booking_schedule` (
   `id_booking` int(11) NOT NULL,
   `id_member` int(11) NOT NULL,
+  `id_host` int(11) NOT NULL,
   `id_room` int(11) NOT NULL,
+  `type_room` int(11) NOT NULL,
   `fullname` varchar(100) NOT NULL,
   `phone` varchar(10) NOT NULL,
   `checkin_date` timestamp NULL DEFAULT NULL,
@@ -44,11 +46,16 @@ CREATE TABLE `booking_schedule` (
 -- Dumping data for table `booking_schedule`
 --
 
-INSERT INTO `booking_schedule` (`id_booking`, `id_member`, `id_room`, `fullname`, `phone`, `checkin_date`, `checkout_date`, `deposit`, `code`, `state`) VALUES
-(14, 4, 1, 'Hồ Thị Ngọc Bích', '0356620426', '2021-09-15 05:01:00', '2021-09-16 05:00:00', 150000, '', 'DAXACNHAN'),
-(15, 2, 4, 'Dương Hồ Dũ', '0365944451', '2021-09-27 05:01:00', '2021-09-29 05:00:00', 200000, '26598463', 'DANHANPHONG'),
-(16, 2, 62, 'Dương Hồ Dũ', '0365944451', '2021-09-28 05:01:00', '2021-09-30 05:00:00', 135000, '89631467', 'DAXACNHAN'),
-(18, 20, 6, 'dafsdfasdfa', '0365944451', '2021-10-04 08:45:42', '2021-10-06 08:45:42', 200000, '', 'DAXACNHAN');
+INSERT INTO `booking_schedule` (`id_booking`, `id_member`, `id_host`, `id_room`, `type_room`, `fullname`, `phone`, `checkin_date`, `checkout_date`, `deposit`, `code`, `state`) VALUES
+(14, 4, 1, 1, 1, 'Hồ Thị Ngọc Bích', '0356620426', '2021-09-15 05:01:00', '2021-09-16 05:00:00', 150000, '', 'DAXACNHAN'),
+(15, 2, 1, 4, 1, 'Dương Hồ Dũ', '0365944451', '2021-09-27 05:01:00', '2021-09-29 05:00:00', 200000, '26598463', 'DANHANPHONG'),
+(16, 2, 0, 62, 1, 'Dương Hồ Dũ', '0365944451', '2021-09-28 05:01:00', '2021-09-30 05:00:00', 135000, '89631467', 'DAXACNHAN'),
+(21, 3, 1, 0, 1, 'Nguyễn Thị Lệ Trâm', '0939301077', '2021-10-07 05:01:00', '2021-10-09 05:00:00', 200000, '53429206', 'DAXACNHAN'),
+(25, 3, 1, 5, 2, 'Nguyễn Thị Lệ Trâm', '0939301077', '2021-10-09 05:01:00', '2021-10-11 05:00:00', 300000, '64999600', 'DAXACNHAN'),
+(26, 4, 1, 8, 1, 'Hồ Thị Ngọc Bích', '0356620426', '2021-10-14 05:01:00', '2021-10-16 05:00:00', 200000, '70425817', 'DAXACNHAN'),
+(27, 2, 1, 4, 1, 'Dương Hồ Dũ', '0365944451', '2021-10-13 05:01:00', '2021-10-18 05:00:00', 500000, '60055923', 'DAXACNHAN'),
+(28, 5, 1, 7, 1, 'el Betancourt', '0708102952', '2021-10-13 05:01:00', '2021-10-15 05:00:00', 200000, '73693155', 'DAXACNHAN'),
+(31, 6, 1, 1, 1, 'grover Skyner', '0105464896', '2021-10-12 05:01:00', '2021-10-18 05:00:00', 600000, '26663325', 'DAXACNHAN');
 
 -- --------------------------------------------------------
 
@@ -19460,7 +19467,10 @@ INSERT INTO `transaction` (`id_trans`, `id_member`, `id_room`, `fullname`, `phon
 (6033, 207, 613, '', '', '2021-09-25 05:01:00', '2021-10-01 05:00:00', 520000, 5200000, 'DATHANHTOAN'),
 (6034, 535, 941, '', '', '2021-09-26 05:01:00', '2021-10-01 05:00:00', 450000, 4500000, 'DATHANHTOAN'),
 (6035, 589, 649, '', '', '2021-09-27 05:01:00', '2021-09-30 05:00:00', 400000, 4000000, 'DATHANHTOAN'),
-(6036, 455, 207, '', '', '2021-09-25 05:01:00', '2021-09-29 05:00:00', 780000, 7800000, 'DATHANHTOAN');
+(6036, 455, 207, '', '', '2021-09-25 05:01:00', '2021-09-29 05:00:00', 780000, 7800000, 'DATHANHTOAN'),
+(6038, 3, 2, 'Nguyễn Thị Lệ Trâm', '0939301077', '2021-10-14 05:01:00', '2021-10-15 05:00:00', 0, 0, 'DAHUY'),
+(6039, 4, 6, 'Hồ Thị Ngọc Bích', '0356620426', '2021-10-08 05:01:00', '2021-10-10 05:00:00', 400000, 0, 'DAHUY'),
+(6041, 6, 2, 'grover Skyner', '0105464896', '2021-10-13 05:01:00', '2021-10-16 05:00:00', 0, 0, 'DAHUY');
 
 --
 -- Indexes for dumped tables
@@ -19541,7 +19551,7 @@ ALTER TABLE `transaction`
 -- AUTO_INCREMENT for table `booking_schedule`
 --
 ALTER TABLE `booking_schedule`
-  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
+  MODIFY `id_booking` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=32;
 
 --
 -- AUTO_INCREMENT for table `comment`
@@ -19595,7 +19605,7 @@ ALTER TABLE `rooms`
 -- AUTO_INCREMENT for table `transaction`
 --
 ALTER TABLE `transaction`
-  MODIFY `id_trans` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6037;
+  MODIFY `id_trans` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6042;
 
 --
 -- Constraints for dumped tables
