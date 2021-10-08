@@ -7,6 +7,7 @@ export default class AdminListHost extends Component {
         this.state = {
             pagination: 0,
             anymore: 1,
+            allpage: 0,
             listUser: [],
             totalUser: "",
             totalBooking: "",
@@ -53,6 +54,7 @@ export default class AdminListHost extends Component {
                         this.setState({
                             listUser: response['data'],
                             anymore: response['more'],
+                            allpage: response['allpage'],
                             pagination: pagination + 1,
                         })
                     })
@@ -76,6 +78,7 @@ export default class AdminListHost extends Component {
                         this.setState({
                             listUser: response['data'],
                             anymore: response['more'],
+                            allpage: response['allpage'],
                             pagination: pagination + 1,
                         })
                     })
@@ -124,7 +127,7 @@ export default class AdminListHost extends Component {
             <div className="col-md-12 admin-content">
                 <div className="col-md-9 admin-list-user-left">
                     <div className="col-md-12 search">
-                        <div className="col-md-8">
+                        <div className="col-md-6">
                             <div className=" input-group">
                                 <input className="form-control" value={this.state.search} onChange={this.Search} placeholder="Tìm kiếm theo tên doanh nghiệp hoặc số điện thoại..." />
                                 <span className="input-group-btn">
@@ -132,8 +135,9 @@ export default class AdminListHost extends Component {
                                 </span>
                             </div>
                         </div>
-                        <div className="col-md-4">
+                        <div className="col-md-6 control-page">
                             <span className="btn-previous" onClick={this.GetUser.bind(this, "previous")}><span className="glyphicon glyphicon-backward"></span> Trang trước</span>
+                            <span>{"Trang " + this.state.pagination + "/" + this.state.allpage}</span>
                             <span className="btn-next" onClick={this.GetUser.bind(this, "next")}>Trang sau <span className="glyphicon glyphicon-forward"></span></span>
                         </div>
                     </div>

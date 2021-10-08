@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import userAPI from '../api/userAPI';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import facebook from '../icons/facebook.png'
+import facebook from '../icons/facebook.png';
+import LoginWithGoogle from '../component/LoginWithGoogle';
 import md5 from 'md5';
 
 
@@ -29,56 +30,59 @@ export default class Login extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        let data = document.getElementById("login-form");
-        let params = new FormData(data);
-        let acc = this.state.txtAccount;
-        if (acc.search("@gmail") === -1 && acc.search("@") === -1) {
-            params.append("type", "user");
-            this.setState({ type: "user" })
+        if (this.state.txtAccount === "" || this.state.txtPassword === "") {
+            alert("Bạn không được để trống tên đăng nhập hoặc mật khẩu");
         }
         else {
-            params.append("type", "host");
-            this.setState({ type: "host" });
-        }
-        const api = new userAPI();
-        api.getuser(params)
-            .then(response => {
-                var pass = md5(this.state.txtPassword)
-                if (response.length === 0 || response[0].password !== pass) {
-                    alert("Sai tên đăng nhập hoặc mật khẩu!");
-                    this.setState({
-                        txtAccount: '',
-                        txtPassword: '',
-                    });
-                }
-                else {
-                    if (this.state.type === "user") {
-                        if (this.state.txtAccount === "admin") {
-                            localStorage.setItem('iduser', response[0].id_mem);
-                            localStorage.setItem('username', response[0].fullname);
-                            localStorage.setItem('type', 'admin');
-                            this.setState({ direct: '/admin' });
-                        }
-                        else {
-                            localStorage.setItem('iduser', response[0].id_mem);
-                            localStorage.setItem('username', response[0].fullname);
-                            localStorage.setItem('type', 'user');
-                            this.setState({ direct: '/' });
-                        }
+            let data = document.getElementById("login-form");
+            let params = new FormData(data);
+            let acc = this.state.txtAccount;
+            if (acc.search("@gmail") === -1 && acc.search("@") === -1) {
+                params.append("type", "user");
+                this.setState({ type: "user" })
+            }
+            else {
+                params.append("type", "host");
+                this.setState({ type: "host" });
+            }
+            const api = new userAPI();
+            api.getuser(params)
+                .then(response => {
+                    var pass = md5(this.state.txtPassword)
+                    if (response.length === 0 || response[0].password !== pass) {
+                        alert("Sai tên đăng nhập hoặc mật khẩu!");
+                        this.setState({
+                            txtAccount: '',
+                            txtPassword: '',
+                        });
                     }
                     else {
-                        localStorage.setItem('iduser', response[0].id_host);
-                        localStorage.setItem('username', response[0].company_name);
-                        localStorage.setItem('type', 'host');
-                        /*const data = JSON.stringify(response[0]);
-                        localStorage.setItem('data', data)*/
-                        this.setState({ direct: '/host/' + response[0].company_name + "/" });
+                        if (this.state.type === "user") {
+                            if (this.state.txtAccount === "admin") {
+                                localStorage.setItem('iduser', response[0].id_mem);
+                                localStorage.setItem('username', response[0].fullname);
+                                localStorage.setItem('type', 'admin');
+                                this.setState({ direct: '/admin' });
+                            }
+                            else {
+                                localStorage.setItem('iduser', response[0].id_mem);
+                                localStorage.setItem('username', response[0].fullname);
+                                localStorage.setItem('type', 'user');
+                                this.setState({ direct: '/' });
+                            }
+                        }
+                        else {
+                            localStorage.setItem('iduser', response[0].id_host);
+                            localStorage.setItem('username', response[0].company_name);
+                            localStorage.setItem('type', 'host');
+                            this.setState({ direct: '/host/' + response[0].company_name + "/" });
+                        }
                     }
-                }
-            })
-            .catch(error => {
-                alert("Error!", error);
-            });
+                })
+                .catch(error => {
+                    alert("Error!", error);
+                });
+        }
     }
 
     render() {
@@ -112,6 +116,7 @@ export default class Login extends Component {
                     </div>
                     <div className="col-md-5 div-right-login">
                         <button className="col-md-12 col-md-offset-1 btn btn-info"><img src={facebook} alt="logo facebook" />   Đăng nhập bằng Facebook</button>
+                        <div className="col-md-12"><LoginWithGoogle /></div>
                     </div>
                 </div>
             </div>

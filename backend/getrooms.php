@@ -22,20 +22,29 @@
         }
         $startID = $_POST['start'] * 25 - 25;
         /* co dieu kien thi them vao sau 2 cho */
-        $sql="SELECT * FROM `host` WHERE `id_host` IN (".$sqlCondition.") LIMIT ".$startID.",25";
+        if($_POST['order'] == 0){
+            $sql = "SELECT *, round(avg(e.`point`), 1) rate FROM `evaluate` e JOIN `host` h ON e.`id_host` = h.`id_host` WHERE h.`id_host` IN (".$sqlCondition.") GROUP BY e.`id_host` ORDER BY `rate` DESC  LIMIT ".$startID.",25";
+        }
+        else if($_POST['order'] == 1){
+            $sql="SELECT *, MIN(r.`price_room`) min FROM `rooms` r JOIN `host` h ON r.`id_host`=h.`id_host` WHERE h.`id_host` IN (".$sqlCondition.") GROUP BY r.`id_host` ORDER BY min LIMIT ".$startID.",25";
+        }
+        else{
+            $sql="SELECT *, MIN(r.`price_room`) min FROM `rooms` r JOIN `host` h ON r.`id_host`=h.`id_host` WHERE h.`id_host` IN (".$sqlCondition.") GROUP BY r.`id_host` ORDER BY min DESC LIMIT ".$startID.",25";
+        }
         $result=$connect->query($sql);
         $response = [];
         while($row=$result->fetch_assoc()){
             $images_room = "";
             $convs_room = "";
-            $price = 0;
+            $price = 99999999999999999;
             $total = 0;
             $sql1="SELECT r.`images_room`, r.`price_room`, r.`convenients_room` FROM `host` h JOIN `rooms` r ON h.`id_host`=r.`id_host` WHERE h.`id_host`=".$row['id_host'];
             $result1=$connect->query($sql1);
             while($row1=$result1->fetch_assoc()){
                 $images_room = $images_room."".$row1['images_room'];
                 $convs_room = $convs_room."".$row1['convenients_room'];
-                $price = $price + $row1['price_room'];
+                if($row1['price_room'] < $price)
+                    $price = $row1['price_room'];
                 $total = $total + 1;
             }
             $result2=$connect->query("SELECT ROUND(AVG(`point`),1) avg FROM `evaluate` WHERE `id_host`=".$row['id_host']);
@@ -44,7 +53,7 @@
                 $row['point'] = "Chưa có đánh giá";
             else
                 $row['point'] = $row2['avg'];
-            $row['price'] = round($price / $total, -4);
+            $row['price'] = $price;
             $row['images'] = $images_room;
             $row['convenients'] = $convs_room; 
             $response[]=$row;

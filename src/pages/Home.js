@@ -89,6 +89,7 @@ export default class Home extends Component {
             checkout_of_condition: "",
             typeroom_of_condition: 0,
             city_of_condition: "",
+            orderby: 0,
         }
         this.componentDidMount = this.componentDidMount.bind(this);
         this.getPageItems = this.getPageItems.bind(this);
@@ -98,10 +99,11 @@ export default class Home extends Component {
         this.changePage = this.changePage.bind(this);
         this.nextPage = this.nextPage.bind(this);
         this.previousPage = this.previousPage.bind(this);
+        this.OrderBy = this.OrderBy.bind(this);
     }
 
     componentDidMount() {
-        this.getPageItems(1);
+        this.getPageItems(1, this.state.orderby);
         this.getAllConvenients();
         this.getMinMaxPrice();
     }
@@ -149,16 +151,17 @@ export default class Home extends Component {
         });
     }
 
-    getPageItems(index) {
+    getPageItems(index, order) {
         let params = new FormData();
         params.append("start", index);
-        if(this.state.price_of_condition !== "")
+        params.append("order", order);
+        if (this.state.price_of_condition !== "")
             params.append("price", this.state.price_of_condition);
-        if(Number(this.state.typeroom_of_condition) !== 0)
+        if (Number(this.state.typeroom_of_condition) !== 0)
             params.append("type_room", this.state.typeroom_of_condition);
-        if(this.state.city_of_condition !== "--Chọn vị trí--")
+        if (this.state.city_of_condition !== "--Chọn vị trí--")
             params.append("location", this.state.city_of_condition);
-        if(this.state.checkin_of_condition !== "" && this.state.checkout_of_condition !== ""){
+        if (this.state.checkin_of_condition !== "" && this.state.checkout_of_condition !== "") {
             params.append("checkin", this.state.checkin_of_condition);
             params.append("checkout", this.state.checkout_of_condition);
         }
@@ -191,7 +194,7 @@ export default class Home extends Component {
 
     changePage = (number) => {
         var index = Number(number);
-        this.getPageItems(index);
+        this.getPageItems(index, this.state.orderby);
         this.setState({
             currentPage: index,
         })
@@ -219,22 +222,31 @@ export default class Home extends Component {
             window.scrollTo(0, 0)
         }
     }
-    
-    FillData = (e) =>{
+
+    FillData = (e) => {
         e.preventDefault();
         this.getPageItems(1);
         this.setState({
             currentPage: 1,
         })
-        window.scrollTo(0,0);
+        window.scrollTo(0, 0);
+    }
+
+    OrderBy = (index) =>{
+        this.setState({
+            orderby: index,
+            currentPage: 1,
+        })
+        this.getPageItems(1, index);
     }
 
     render() {
-        if(localStorage.getItem('type') === "host")
+        if (localStorage.getItem('type') === "host")
             return <Redirect to={"/host/" + localStorage.getItem('username')} />
-        if(localStorage.getItem('type') === "admin")
+        if (localStorage.getItem('type') === "admin")
             return <Redirect to="/admin" />
         var listHost = this.state.listHost;
+        var arrOrder = ['Đánh giá', 'Giá phòng tăng dần', 'Giá phòng giảm dần'];
         return (
             <div>
                 <div>
@@ -287,16 +299,23 @@ export default class Home extends Component {
                                 <div className="col-md-12">
                                     <div className="control-element1 col-md-4 col-md-offset-4">
                                         <label>Sắp xếp theo:  </label>
-                                        <select>
-                                            <option>Đánh giá</option>
-                                            <option>Giá</option>
-                                            <option>Số lượt thuê</option>
-                                        </select>
+                                        <div className="btn-group">
+                                            <button type="button" className="btn btn-default dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {arrOrder[this.state.orderby]} <span className="caret"></span>
+                                            </button>
+                                            <ul className="dropdown-menu">
+                                            {
+                                                arrOrder.map((item,index) =>
+                                                    <li onClick={this.OrderBy.bind(this, index)} key={index}><Link to="#">{item}</Link></li>
+                                                )
+                                            }
+                                            </ul>
+                                        </div>
                                     </div>
                                 </div>
                                 <div className="col-md-12">
                                     {
-                                        listHost.map((item) => <ShowInfo key={item.id_host} item={item} listConv={this.state.listConv} checkin={this.state.checkin_of_condition} checkout={this.state.checkout_of_condition} type={this.state.typeroom_of_condition}/>)
+                                        listHost.map((item) => <ShowInfo key={item.id_host} item={item} listConv={this.state.listConv} checkin={this.state.checkin_of_condition} checkout={this.state.checkout_of_condition} type={this.state.typeroom_of_condition} />)
                                     }
                                 </div>
                                 <div className="col-md-12">
@@ -306,8 +325,8 @@ export default class Home extends Component {
                                             {
                                                 this.state.pagination.map((items, index) => {
                                                     if (items === this.state.currentPage)
-                                                        return <div key={index} className="PaginationActive"><Link to="" >{items}</Link></div>
-                                                    return <div key={index}><Link to="" onClick={this.changePage.bind(this, items)}>{items}</Link></div>
+                                                        return <div key={index} className="PaginationActive"><Link to="#" >{items}</Link></div>
+                                                    return <div key={index}><Link to="#" onClick={this.changePage.bind(this, items)}>{items}</Link></div>
                                                 })
                                             }
                                             <div><Link to="" onClick={this.nextPage}>&raquo;</Link></div>

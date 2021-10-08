@@ -35,6 +35,7 @@ export default class MemberInfo extends Component {
     componentDidMount() {
         let params = new FormData();
         params.append("id_member", localStorage.getItem("iduser"));
+        console.log(localStorage.getItem("iduser"));
         const api = new userAPI();
         api.getInfoUserByID(params)
             .then(response => {

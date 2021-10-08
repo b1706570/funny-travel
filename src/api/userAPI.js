@@ -13,6 +13,17 @@ export default class userAPI{
         this.cancelBooking=this.cancelBooking.bind(this);
     }
 
+    googlelogin(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/googlelogin.php', params)
+        .then(response => {
+            return response.data[0];
+        })
+        .catch(error => {
+            console.log(error);
+        })
+    }
+
     getuser(params) {
         const api1 = axios.create({baseURL: this.baseURL});
         return api1.post('/login.php', params)
