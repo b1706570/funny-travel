@@ -2,8 +2,8 @@ import React, { Component } from 'react';
 import userAPI from '../api/userAPI';
 import { Link } from 'react-router-dom';
 import { Redirect } from 'react-router';
-import facebook from '../icons/facebook.png';
 import LoginWithGoogle from '../component/LoginWithGoogle';
+import LoginWithFacebook from '../component/LoginWithFacebook';
 import md5 from 'md5';
 
 
@@ -115,8 +115,8 @@ export default class Login extends Component {
                         </form>
                     </div>
                     <div className="col-md-5 div-right-login">
-                        <button className="col-md-12 col-md-offset-1 btn btn-info"><img src={facebook} alt="logo facebook" />   Đăng nhập bằng Facebook</button>
-                        <div className="col-md-12"><LoginWithGoogle /></div>
+                        <div className="col-md-12 btn-google-login"><LoginWithFacebook /></div>
+                        <div className="col-md-12 btn-google-login"><LoginWithGoogle /></div>
                     </div>
                 </div>
             </div>

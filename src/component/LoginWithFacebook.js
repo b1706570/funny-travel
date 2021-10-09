@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
-import GoogleLogin from 'react-google-login';
+import FacebookLogin from 'react-facebook-login';
 import userAPI from '../api/userAPI';
 import { Redirect } from 'react-router';
 
-export default class LoginWithGoogle extends Component {
+export default class LoginWithFacebook extends Component {
     constructor(props) {
         super(props);
         this.state = {
@@ -11,11 +11,12 @@ export default class LoginWithGoogle extends Component {
         }
     }
 
-    responseGoogle = (res) => {
-        var profile = res['profileObj'];
-        var arr = String(profile.googleId).split("");
+    responseFacebook = (response) =>{
+        console.log(response);
+        var profile = response;
+        var arr = String(profile.id).split("");
         var id = "";
-        for (let i = arr.length - 10; i < arr.length - 1; i++) {
+        for (let i = arr.length - 9; i < arr.length - 1; i++) {
             id += arr[i];
         }
         var params = new FormData();
@@ -53,13 +54,14 @@ export default class LoginWithGoogle extends Component {
         }
         return (
             <div>
-                <GoogleLogin
-                    clientId='349194322944-vb8ti5449c46au16h9ofghkefqosmm0m.apps.googleusercontent.com'
-                    buttonText='Đăng nhập với tài khoản Google'
-                    onSuccess={this.responseGoogle}
-                    onFailure={this.responseGoogle}
-                    cookiePolicy={"single_host_origin"}
-                />
+                <FacebookLogin
+                    appId="256574039817151"
+                    autoLoad={false}
+                    fields="name,email,picture"
+                    //onClick={componentClicked}
+                    callback={this.responseFacebook}
+                    cssClass="btn-facebook-login"
+                    textButton={"Đăng nhập với tài khoản Facebook"} />
             </div>
         )
     }
