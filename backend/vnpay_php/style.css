@@ -1,0 +1,47 @@
+.hidden{
+    visibility: hidden;
+}
+
+.div-top, .div-bottom{
+    padding: 10px 15px;
+}
+
+.div-bottom{
+    border-top: 1px solid lightgray;
+}
+
+
+.row{
+    padding: 5px 0px;
+}
+
+.col-left{
+    display: inline-block;
+    width: 44%;
+}
+
+.col-right{
+    display: inline-block;
+    width: 55%;
+    font-weight: bold;
+    text-align: right;
+}
+
+h2{
+    color: red;
+    text-align: center;
+}
+
+h3{
+    padding: 0px;
+}
+
+#redirect{
+    width: 100%;
+    padding: 20px;
+    background: url('background-vnpay.png') no-repeat;
+    background-size: 60% 80%;
+    background-position: center;
+    border: 1px solid rgb(1, 97, 187);
+    border-radius: 20px;
+}

@@ -1956,7 +1956,6 @@ h4{
     color:white;
     padding: 20px 0px 20px 15px;
     font-size: 18px;
-    margin-bottom: 15px;
     margin-top: 15px;
     text-align: center;
     font-weight: bolder;
@@ -2045,6 +2044,8 @@ h4{
     font-size: 18px;
     font-weight: bolder;
     text-decoration: underline;
+    padding-left: 0px;
+    margin-top: 15px;
 }
 
 .div-check-room-available{
@@ -2495,8 +2496,23 @@ h4{
     display: none;
 }
 
+.payment-way-visible .glyphicon{
+    display: inline;
+    margin-right: 5px;
+}
+
 .payment-way-visible{
     display: block;
+}
+
+.payment-way .btn-vnpay{
+    border: 1px solid rgb(1, 97, 187);
+    padding: 20px 0px;
+    text-align: center;
+    border-radius: 20px;
+    background: url("img/background-vnpay.png") no-repeat;
+    background-size: 60% 100%;
+    background-position: center ;
 }
 
 /***************/

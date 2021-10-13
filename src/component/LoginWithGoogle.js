@@ -57,7 +57,6 @@ export default class LoginWithGoogle extends Component {
                     clientId='349194322944-vb8ti5449c46au16h9ofghkefqosmm0m.apps.googleusercontent.com'
                     buttonText='Đăng nhập với tài khoản Google'
                     onSuccess={this.responseGoogle}
-                    onFailure={this.responseGoogle}
                     cookiePolicy={"single_host_origin"}
                 />
             </div>

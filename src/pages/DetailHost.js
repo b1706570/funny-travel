@@ -250,7 +250,7 @@ export default class DetailHost extends Component {
                             <div className="col-md-7">
                                 <div className="price-room-detail">{"Giá thấp nhất mỗi đêm: " + formater.format(this.state.min_price) + " (VND)"}</div>
                                 <div className="convenient-room-detail">
-                                    <div className="title-room-detail">Các tiện nghi</div>
+                                    <div className="col-md-12 title-room-detail">Các tiện nghi</div>
                                     <div>
                                         {
                                             this.state.listAllConv.map((conv, index) =>
@@ -270,6 +270,7 @@ export default class DetailHost extends Component {
                                             )
                                         }
                                     </div>
+
                                 </div>
                             </div>
                             <div className="col-md-5">
@@ -308,6 +309,19 @@ export default class DetailHost extends Component {
                                         <div id="Noti-room-available" className="col-md-12"></div>
                                         <div id="btn-booking-room" className="col-md-12"><Link to={"/rooms/book?hostID=" + this.state.id_host + "&type=" + this.state.type_room + "&check_in=" + this.state.checkin_date + "&check_out=" + this.state.checkout_date + "&price=" + this.state.price_room}>Đặt phòng</Link></div>
                                     </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="col-md-12">
+                            <div className="col-md-12">
+                                <div className="col-md-12 title-room-detail">Chính sách đặt phòng và hủy phòng</div>
+                                <div className="col-md-12">
+                                    <p>- Bạn cần xem kỹ các thông tin trước khi xác nhận đặt phòng.</p>
+                                    <p>- Khi xác nhận đặt phòng bạn sẽ chọn 1 trong 2 phương thức thanh toán MoMo hoặc Paypal để đặt cọc và hoàn tất việc thanh toán.</p>
+                                    <p>- Sau khi đặt phòng bạn nên theo dõi lịch sử để theo dõi lịch đặt đã được xác nhận hay chưa.</p>
+                                    <p>- Trong trường hợp bạn hủy phòng thì tiền cọc sẽ không được hoàn lại. Mọi ngoại lệ bạn nên liên lạc trực tiếp với chủ khách sạn.</p>
+                                    <p>- Khi bạn chọn phương thức PAYPAL để thanh toán bạn sẽ được xác nhận đặt phòng ngay lập tức</p>
+                                    <p>- Khi bạn chọn phương thức CHUYỂN KHOẢN NGÂN HÀNG để thanh toán bạn sẽ phải đợi 15 - 30 phút để xác nhận</p>
                                 </div>
                             </div>
                         </div>
