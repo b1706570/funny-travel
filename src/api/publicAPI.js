@@ -162,4 +162,15 @@ export default class publicAPI {
                 console.log(error);
             })
     }
+
+    GetResponseMessage(params){
+        const api = axios.create({baseURL: 'http://localhost:5005'});
+        return api.post('/webhooks/rest/webhook', params, config)
+            .then(response =>{
+                return response.data[0].text;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
 }

@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import Footer from '../component/Footer';
 import Header from '../component/Header';
+import Chatbox from '../component/Chatbox';
 import { Link, Redirect } from 'react-router-dom';
 import publicAPI from '../api/publicAPI';
 import ShowInfo from '../component/ShowInfo';
@@ -337,6 +338,7 @@ export default class Home extends Component {
                         </div>
                     </div>
                     <div className="col-md-12 footer-home"><Footer /></div>
+                    <div><Chatbox /></div>
                 </div>
                 <div className="home-background"></div>
             </div>

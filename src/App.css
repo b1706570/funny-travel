@@ -2190,8 +2190,8 @@ h4{
 
 .btn-show-more-detail-img{
     position: absolute;
-    top: 500px;
-    left: 1050px;
+    top: 280px;
+    left: 800px;
     border: 1px solid gray;
     padding: 10px;
     background-color: white;
@@ -2733,4 +2733,117 @@ h4{
 .noti-cancel-booking-hidden{
     visibility: hidden;
     z-index: -5;
+}
+
+/*********************/
+/* Component Chatbox */
+/*********************/
+
+.chatbox{
+    position: fixed;
+    top: 300px;
+    left: 1075px;
+}
+
+#boxchat{
+    width: 350px;
+    height: 450px;
+    background: rgb(255, 28, 115);
+    border-radius: 10px;
+    padding: 5px;
+    position: absolute;
+    display: none;
+}
+
+#boxchat .col-md-12{
+    background: white;
+    padding: 8px;
+    border-top-left-radius: 7px;
+    border-top-right-radius: 7px;
+    font-size: 18px;
+    text-align: right;
+    color: rgb(255, 28, 115);
+}
+
+#boxchat .glyphicon-minus{
+    margin-left: 110px;
+    color: rgb(255, 28, 115);
+}
+
+#boxchat .content-boxchat{
+    display: inline-block;
+    width: 100%;
+    height: 75%;
+    overflow-y: scroll;
+    border: 1px solid white;
+}
+
+.content-boxchat::-webkit-scrollbar {
+    width: 10px;
+}
+
+.content-boxchat::-webkit-scrollbar-track {
+    box-shadow: white;
+}
+
+.content-boxchat::-webkit-scrollbar-thumb {
+    background: white; 
+}
+
+#icon-show-box-chat{
+    display: inline-block;
+    height: 100%;
+    position: absolute;
+    left: 350px;
+}
+
+#icon-show-box-chat img{
+    width: 50px;
+    height: 50px;
+    margin-top: 400px;
+}
+
+.content-boxchat .message-left{
+    margin-bottom: 5px;
+}
+
+.content-boxchat .message-left img{
+    width: 25px;
+    height: 25px;
+    margin: 0px 5px;
+}
+
+.content-boxchat .message-left span{
+    max-width: 70%;
+    display: inline-block;
+    background: white;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.content-boxchat .message-right{
+    text-align: right;
+    margin-bottom: 5px;
+}
+
+.content-boxchat .message-right span{
+    background: rgb(105, 250, 218);
+    max-width: 70%;
+    display: inline-block;
+    padding: 5px;
+    border-radius: 10px;
+}
+
+.input-chat textarea{
+    position: absolute;
+    width: 85%;
+}
+
+.input-chat img{
+    width: 40px;
+    height: 53px;
+    position: absolute;
+    left: 87%;
+    background: white;
+    border-radius: 3px;
 }

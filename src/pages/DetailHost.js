@@ -4,6 +4,7 @@ import publicAPI from '../api/publicAPI';
 import queryString from 'query-string';
 import logo from '../img/logo.png';
 import Comment from '../component/Comment';
+import Chatbox from '../component/Chatbox';
 import config from '../config.json';
 import { Link } from 'react-router-dom';
 import ShowAddressInMaps from '../component/ShowAddressInMaps';
@@ -245,6 +246,8 @@ export default class DetailHost extends Component {
                             <div className="col-md-6">
                                 <div className="large-image"><img src={config.ServerURL + "/" + this.state.litsImgRoom[4]} alt="Hình ảnh phòng" /></div>
                             </div>
+                            <div className="btn-show-more-detail-img" onClick={this.showMoreImage}>Xem thêm hình ảnh <span className="glyphicon glyphicon-th"></span></div>
+                        
                         </div>
                         <div className="col-md-12">
                             <div className="col-md-7">
@@ -355,8 +358,8 @@ export default class DetailHost extends Component {
                         }
                     </div>
                 </div>
-                <div className="btn-show-more-detail-img" onClick={this.showMoreImage}>Xem thêm hình ảnh <span className="glyphicon glyphicon-th"></span></div>
                 <div className="btn-show-comment" onClick={this.ShowORHideCmt}></div>
+                <div><Chatbox /></div>
             </div>
         )
     }
