@@ -2,32 +2,145 @@ version: "2.0"
 
 intents:
   - greet
+  - social_enquiry
   - goodbye
-  - affirm
-  - deny
   - mood_great
   - mood_unhappy
-  - bot_challenge
+  - ask_myself
+  - ask_gender
+  - ask_about_website
+  - ask_to_become_host
+  - ask_host_role
+  - ask_how_to_booking
+  - ask_for_checkout_policy
+  - ask_for_booking_history
+  - ask_for_room_confirmed
+  - ask_for_deposit
+  - ask_for_personal_infomation
+  - ask_for_login
+  - ask_for_register
+  - ask_booking_reject
 
 responses:
   utter_greet:
-  - text: "Hey! How are you?"
+  - text: "Xin chào! Tôi có thể giúp gì được cho bạn?"
+  - text: "Chào bạn! Bạn cần biết về thông tin gì?"
+  - text: "Chào bạn! Bạn cứ đặt câu hỏi tôi sẽ tư vấn cho bạn nhé"
+  - text: "Hi! Có thắc mắc gì cứ hỏi tôi nhé"
 
-  utter_cheer_up:
-  - text: "Here is something to cheer you up:"
-    image: "https://i.imgur.com/nGF1K8f.jpg"
-
-  utter_did_that_help:
-  - text: "Did that help you?"
-
-  utter_happy:
-  - text: "Great, carry on!"
+  utter_social_enquiry:
+  - text: "Oh! Tôi khỏe. Bạn cũng khỏe hả?"
+  - text: "Tôi vẫn ổn bạn!"
+  - text: "Cảm ơn bạn tôi ổn nhé"
+  - text: "Tôi cũng bình thường. Còn bạn thì sao?"
 
   utter_goodbye:
   - text: "Bye"
+  - text: "Gặp lại sau nhé"
+  - text: "Ok, có gì cứ kiếm tôi"
+  - text: "Tạm biệt"
+  - text: "Hẹn gặp lại"
+  - text: "Bái bai"
+  - text: "Chào tạm biệt"
 
-  utter_iamabot:
-  - text: "I am a bot, powered by Rasa."
+  utter_mood_great:
+  - text: "Rất vui vì giúp ích được cho bạn"
+  - text: "Cảm ơn bạn"
+  - text: "Rất vui vì sự hài lòng của bạn"
+
+  utter_mood_unhappy:
+  - text: "Rất xin lỗi vì điều này"
+  - text: "Xin lỗi vì tôi đã làm bạn không hài lòng"
+  - text: "Rất xin lỗi vì những thông tin không đáp ứng được nhu cầu của bạn"
+  - text: "Xin lỗi vì tôi đã không giúp ích được cho bạn"
+
+  utter_ask_myself:
+  - text: "Tôi là Robo, trợ lý ảo của website Funny Travel. Bạn cần biết thông tin gì cứ hỏi tôi nhé"
+  - text: "Tôi là trợ lý ảo của website Funny Travel, tên tôi là Robo"
+  - text: "Tên tôi là Robo. Tôi là trợ lý ảo của website Funny Travel"
+  - text: "Bạn có thể gọi tôi là Robo nhé. Tôi là trợ lý ảo của website Funny Travel"
+
+  utter_ask_gender:
+  - text: "Tôi là nữ nhé"
+  - text: "Tôi là phái yếu"
+  - text: "Tôi là con gái"
+  - text: "Tôi là nữ"
+  - text: "Tôi là con gái nha bạn"
+
+  utter_ask_about_website:
+  - text: "Funny Travel là website phục vụ mảng du lịch. Tại đây người dùng có thể đặt phòng du lịch trực tuyến thông qua trang web. Còn nếu bạn là chủ doanh nghiệp thì hãy liên hệ với chúng tôi để được tham gia vào hệ thống nhé."
+  - text: "Funny Travel sẽ hỗ trợ bạn đặt phòng tại các địa điểm du lịch khi bạn đi du lịch, thông qua website bạn sẽ được tìm hiểu nhiều địa điểm du lịch nổi tiếng cũng như đặt phòng nghỉ dưỡng."
+  - text: "Bạn có thể tìm hiểu về các địa điểm du lịch nổi tiếng thông qua website Funny Travel, bạn cũng có thể tự xem phòng tại các khách sạn, resorts qua hình ảnh và có thể tự book phòng thông qua trang web để thưởng cho mình chuyến nghỉ dưỡng tuyệt vời."
+
+  utter_ask_to_become_host:
+  - text: "Để trở thành host bạn hãy đăng kí vào form đăng kí tại trang chính website, đồng ý xác nhận đăng kí bạn sẽ nhận được thông tin xác nhận của website được gửi vào email đăng kí nhé, chào mừng bạn đến với Funny Travel."
+  - text: "Quay trở lại trang chính của website bạn sẽ thấy nơi đăng kí để trở thành host tại hệ thống Funny Travel, bạn vui lòng đăng kí, xác nhận thông tin sau đó bạn sẽ nhận được phản hồi xác nhận của hệ thống được gửi về email đăng kí, cảm ơn và chào mừng bạn đến với Funny Travel."
+  - text: "Bạn hãy đăng kí tại trang chính của Funny Travel để trở thành host của hệ thống nhé, sau khi đăng kí và xác thực, phản hồi xác nhận đăng kí thành công sẽ được gửi về email bạn đăng kí."
+
+  utter_ask_host_role:
+  - text: "Các chức năng của host bao gồm: quản lý phòng, checkin, checkout, quản lý doanh thu,... Bạn hãy liên lạc với chúng tôi qua số hotline 1900-2345 để biết thêm thông tin chi tiết nhé."
+  - text: "Khi được duyệt trở thành host bạn sẽ được cung cấp các chức năng như quản lý phòng, quản lý doanh thu, checkin, checkout thông qua hệ thống. Điều này sẽ giúp việc quản lý của bạn thuận tiện và hiệu quả hơn. Bạn hãy liên lạc với chúng tôi qua số hotline 1900-2345 để biết thêm thông tin chi tiết nhé."
+  - text: "Hệ thống sẽ cung cấp cho bạn các chức năng như quản lý phòng, quản lý doanh thu, checkin, checkout,... giúp cho việc quản lý kinh doanh của bạn thuận tiện và dễ dàng hơn. Bạn hãy liên lạc với chúng tôi qua số hotline 1900-2345 để biết thêm thông tin chi tiết nhé."
+
+  utter_ask_how_to_booking:
+  - text: "Bạn hãy chọn phòng mình muốn đặt, kiểm tra tình trạng còn phòng, đặt phòng và thanh toán tiền cọc. Sau khi hoàn thành hãy truy cập vào link http://funny-travel.com:3000/member/personalinfomation để kiểm tra tình trạng đặt phòng nhé."
+  - text: "Bạn hãy thực hiện các bước sau: chọn phòng mình muốn đặt, chọn thời gian và loại phòng, kiểm tra tình trạng còn phòng, đặt phòng và thanh toán tiền cọc. Sau khi hoàn thành bạn sẽ phải đợi phía khách sạn xác nhận, bạn có thể xem tình trạng đặt phòng tại link http://funny-travel.com:3000/member/personalinfomation"
+
+  utter_ask_for_checkout_policy:
+  - text: "Bạn cần xem kỹ các thông tin trước khi xác nhận đặt phòng. Khi xác nhận đặt phòng bạn sẽ chọn một trong ba phương thức thanh toán VNPay hoặc Paypal hoặc chuyển khoản ngân hàng để đặt cọc và hoàn tất việc thanh toán. Trong trường hợp bạn hủy phòng thì tiền cọc sẽ không được hoàn lại. Mọi ngoại lệ bạn nên liên lạc trực tiếp với chủ khách sạn. Khi bạn chọn phương thức PAYPAL để thanh toán bạn sẽ được xác nhận đặt phòng ngay lập tức. Khi bạn chọn phương thức CHUYỂN KHOẢN NGÂN HÀNG để thanh toán bạn sẽ phải đợi 15 - 30 phút để xác nhận."
+
+  utter_ask_for_booking_history:
+  - text: "Bạn có thể xem lịch sử đặt phòng và các giao dịch hiện tại ở link http://funny-travel.com:3000/member/personalinfomation"
+  - text: "Bạn hãy truy cập vào link http://funny-travel.com:3000/member/personalinfomation để xem lịch sử đặt phòng và các giao dịch hiện tại nhé"
+  - text: "Bạn có thể xem toàn bộ các giao dịch tại link http://funny-travel.com:3000/member/personalinfomation nhé"
+
+  utter_ask_for_deposit:
+  - text: "Đây là quy định của website. Khi xác nhận đặt phòng bạn sẽ phải thanh toán 10% tổng số tiền giao dịch được gọi là tiền đặt cọc. Đặt cọc để bảo đảm quyền lợi cho khách hàng cũng như cho phía nhà cung cấp dịch vụ"
+  - text: "Để đảm bảo quyền lợi cho khách hàng và nhà cung cấp dịch vụ thì bạn sẽ phải chuyển 10% tổng số tiền giao dịch để hoàn tất việc đặt phòng"
+
+  utter_ask_for_personal_infomation:
+  - text: "Bạn có thể chỉnh sử thông tin cá nhân của mình tại đây http://funny-travel.com:3000/member/personalinfomation nhé"
+  - text: "Hãy truy cập vào link http://funny-travel.com:3000/member/personalinfomation và chỉnh sửa thông tin cá nhân của mình nhé"
+  - text: "Bạn có thể tùy chỉnh các thông tin cá nhân của mình tại đường dẫn sau: http://funny-travel.com:3000/member/personalinfomation"
+
+  utter_ask_for_login:
+  - text: "Để đăng nhập vào hệ thống bạn hãy đăng kí tài khoản tại trang http://funny-trave.com:3000/register. Sau khi đăng kí tài khoản bạn có thể sử dụng tài khoản đó để đăng nhập vào hệ thống, ngoài ra cũng có thể đăng nhập bằng tài khoản facebook hay tài khoản google để đăng nhập."
+  - text: "Bạn có thể đăng nhập tại trang chính của Funny Travel, có ba cách để đăng nhập là bằng tài khoản google, bằng tài khoản facebook hoặc bằng tài khoản đã được đăng kí. Bấm vào link sau: http://funny-travel.com:3000/login để đăng nhập."
+  - text: "Bạn hãy truy cập vào link http://funny-travel.com:3000/login sau đó sử dụng tài khoản đã đăng kí với hệ thống hoặc tài khoản facebook cá nhân hoặc tài khoản google để đăng nhập vào hệ thống."
+
+  utter_ask_for_register:
+  - text: "Bạn có thể đăng kí tài khoản tại http://funny-travel.com:3000/register nhé"
+  - text: "Bạn hãy nhấp vào link http://funny-travel.com:3000/register để đăng kí tài khoản và trải nghiệm cùng với chúng tôi nhé"
+  - text: "Bạn hãy truy cập vào đường dẫn http://funny-travel.com:3000/register để đăng kí tài khoản và sử dụng dịch vụ của chúng tôi nhé."
+
+  utter_ask_booking_reject:
+  - text: "Nếu bạn đặt phòng mà không chuyển tiền cọc thì phía nhà cung cấp dịch vụ sẽ hủy yêu cầu nhé. Bạn vui lòng thực hiện lại giao dịch và chuyển tiền cọc nhé. Nếu bạn có vấn đề gì xảy ra trong quá trình giao dịch vui lòng liên hệ với chúng tôi qua số hotline 1900-2345 để được tư vấn nhé"
+  - text: "Có thể là phòng đã bị hủy do bạn không chuyển tiền cọc đó ạ. Bạn vui lòng thực hiện lại giao dịch và chuyển tiền cọc nhé. Nếu bạn có vấn đề gì xảy ra trong quá trình giao dịch vui lòng liên hệ với chúng tôi qua số hotline 1900-2345 để được tư vấn nhé"
+
+  utter_unclear:
+  - text: "Bạn có thể nói rõ hơn ý định của mình được không"
+  - text: "Xin lỗi bạn tôi chưa thể hiểu ý định của bạn"
+
+actions:
+  - utter_greet
+  - utter_social_enquiry
+  - utter_goodbye
+  - utter_mood_great
+  - utter_mood_unhappy
+  - utter_ask_myself
+  - utter_ask_gender
+  - utter_ask_about_website
+  - utter_ask_to_become_host
+  - utter_ask_host_role
+  - utter_ask_how_to_booking
+  - utter_ask_for_checkout_policy
+  - utter_ask_for_booking_history
+  - utter_ask_for_deposit
+  - utter_ask_for_personal_infomation
+  - utter_ask_for_login
+  - utter_ask_for_register
+  - utter_ask_booking_reject
+  - utter_unclear
 
 session_config:
   session_expiration_time: 60

@@ -2805,6 +2805,7 @@ h4{
 
 .content-boxchat .message-left{
     margin-bottom: 5px;
+    word-wrap: break-word;
 }
 
 .content-boxchat .message-left img{
@@ -2824,6 +2825,7 @@ h4{
 .content-boxchat .message-right{
     text-align: right;
     margin-bottom: 5px;
+    word-wrap: break-word;
 }
 
 .content-boxchat .message-right span{

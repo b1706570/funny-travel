@@ -6,87 +6,252 @@ nlu:
     - hey
     - hello
     - hi
-    - hello there
     - good morning
     - good evening
-    - moin
-    - hey there
-    - let's go
-    - hey dude
-    - goodmorning
-    - goodevening
     - good afternoon
+    - xin chào
+    - chào bạn
+    - xin chào bạn
+    - bạn ơi
+    - bạn ơi cho mình hỏi
+    - hello bạn
+    - ê
+    - cốc cốc cốc
+    - alo
+    - bạn ơi bạn
+    - bạn gì đó ơi
+    - có ai ở đây không
+    - bạn ơi mình cần tư vấn
+
+- intent: social_enquiry
+  examples: |
+    - khỏe hông bạn
+    - dạo này thế nào rồi
+    - ổn không bạn
+    - khỏe không
+    - cỡ này sao rồi bạn
 
 - intent: goodbye
   examples: |
-    - good afternoon
-    - cu
-    - good by
-    - cee you later
-    - good night
+    - see you
     - bye
-    - goodbye
-    - have a nice day
-    - see you around
+    - good bye
     - bye bye
     - see you later
-
-- intent: affirm
-  examples: |
-    - yes
-    - y
-    - indeed
-    - of course
-    - that sounds good
-    - correct
-
-- intent: deny
-  examples: |
-    - no
-    - n
-    - never
-    - I don't think so
-    - don't like that
-    - no way
-    - not really
+    - tạm biệt
+    - hẹn gặp lại
+    - gặp lại sau nhé
+    - bai bai
+    - chào tạm biệt
+    - chào nhé
+    - tui đi đây
+    - liên lạc sau nhé
+    - nếu có thắc mắc tui sẽ liên lạc sau nhé
 
 - intent: mood_great
   examples: |
     - perfect
     - great
-    - amazing
-    - feeling like a king
     - wonderful
-    - I am feeling very good
-    - I am great
-    - I am amazing
-    - I am going to save the world
-    - super stoked
-    - extremely good
-    - so so perfect
-    - so good
-    - so perfect
+    - tôi cảm thấy rất tốt
+    - tuyệt vời
+    - quá hay
+    - quá hoàn hảo
+    - chuẩn luôn
+    - rất rất tuyệt vời
+    - hoàn hảo
+    - số một
+    - number one
+    - tôi cảm thất rất ok
+    - that's good
+    - tôi cảm thấy rất phấn khích
+    - tôi cảm thấy rất tuyệt vời
 
 - intent: mood_unhappy
   examples: |
-    - my day was horrible
-    - I am sad
-    - I don't feel very well
-    - I am disappointed
-    - super sad
-    - I'm so sad
-    - sad
-    - very sad
-    - unhappy
-    - not good
-    - not very good
-    - extremly sad
-    - so saad
-    - so sad
+    - kết quả quá tệ
+    - tệ thật
+    - dở ẹc
+    - kết quả gì vậy
+    - sai rồi bạn ơi
+    - không đúng ý tôi
+    - bạn không hiểu ý tôi rồi
+    - bạn hiểu sai ý tôi rồi
+    - ý tôi không phải như vậy
 
-- intent: bot_challenge
+- intent: ask_myself
   examples: |
-    - are you a bot?
-    - are you a human?
-    - am I talking to a bot?
-    - am I talking to a human?
+    - are you a bot
+    - cho hỏi là tôi đang nói chuyện với ai vậy
+    - cho tôi hỏi bạn là ai
+    - cho tôi biết tên bạn là gì thế
+    - bạn là nhân viên của funny travel hả
+    - tên bạn là gì
+    - bạn là ai
+    - tôi đang nói chuyện với ai vậy
+    - bạn tên gì
+    - tên gì dạ
+    - who are you
+    - tên gì để dễ xưng hô nè
+    - cho mình hỏi tên bạn nha
+    - cho mình biết tên bạn là gì
+
+- intent: ask_gender
+  examples: |
+    - boy or girl
+    - bạn là nam hay nữ thế
+    - bạn là nam hả
+    - bạn là nữ hả
+    - bạn là nam à
+    - bạn là nữ à
+    - nam hay nữ
+    - nam
+    - nữ
+    - giới tính
+    - giới tính của bạn
+    - con trai
+    - con gái
+    - con trai hay con gái
+    - trai hay gái
+    - con trai hả
+    - con gái hả
+
+- intent: ask_about_website
+  examples: |
+    - trang web này là sao vậy
+    - trang web này là trang web gì vậy
+    - website này là gì
+    - website này là sao
+    - giới thiệu cho tôi về website này với
+    - tôi muốn biết thêm về trang web này
+    - website này dùng để làm gì
+    - hãy giải thích cho tôi về trang web này
+    - bạn có thể giới thiệu về trang web này cho tôi không
+    - hãy nói cho tôi biết đôi chút về trang web này
+
+- intent: ask_to_become_host
+  examples: |
+    - tôi phải làm gì để được trở thành host
+    - muốn trở thành host thì phải làm gì ạ
+    - tôi muốn trở thành host
+    - bạn hãy chỉ tôi cách đăng kí host đi
+    - tôi muốn tham gia vào hệ thống với vai trò host
+    - tôi là chủ khách sạn và tôi muốn tham gia vào hệ thống của bạn
+    - muốn tham gia vào hệ thống thì phải làm gì
+    - tôi đang là chủ khách sạn và tôi muốn đăng kí tham gia vào hệ thống này
+    - làm sao để được gia nhập vào hệ thống với vai trò host
+
+- intent: ask_host_role
+  examples: |
+    - tôi muốn biết sau khi trở thành host thì tôi có thể làm được gì với hệ thống của mình
+    - tôi muốn biết các chức năng của host
+    - trở thành host thì sẽ có những chức năng quản lý nào
+    - các chức năng của host là gì vậy
+    - nếu trở thành host thì tôi sẽ sử dụng được những chức năng nào
+    - cho tôi biết các chức năng tôi sẽ dùng để quản lý hệ thống sau khi trở thành host với
+    - tôi đang quan tâm các chức năng của host
+    - tôi sẽ được sử dụng các chức năng nào để quản lý hệ thống của mình
+    - tôi sẽ quản lý hệ thống của mình như thế nào sau khi trở thành host
+
+- intent: ask_how_to_booking
+  examples: |
+    - tôi muốn đặt phòng thì phải làm gì
+    - phải làm gì để đặt phòng trên website
+    - cách đặt phòng như thế nào vậy
+    - đặt phòng trên website phải thực hiện các bước nào
+    - làm sao để tôi đặt phòng
+    - tôi muốn đặt phòng
+    - bạn ơi chỉ tôi cách đặt phòng với
+    - cách đặt phòng
+    - muốn đặt phòng trên website thì phải làm sao
+
+- intent: ask_for_checkout_policy
+  examples: |
+    - chính sách đặt và hủy phòng của hệ thống là như thế nào
+    - chính sách đặt và hủy phòng của hệ thống
+    - đặt phòng rồi có được hủy không
+    - hủy phòng có được hoàn tiền cọc hay không
+    - quy định về đặt và hủy phòng như thế nào
+    - quy định về đặt phòng và hủy phòng
+    - chính sách đặt phòng như thế nào
+    - quy định về đặt phòng
+
+- intent: ask_for_booking_history
+  examples: |
+    - tôi có thể xem lịch sử đặt phòng hay không
+    - tôi có thểm xem lịch sử đặt phòng ở đâu
+    - tôi muốn xem lịch sử đặt phòng
+    - cách xem lịch sử đặt phòng
+    - xem lịch sử đặt phòng
+    - xem các giao dịch đã được thực hiện
+    - lịch sử các giao dịch
+    - tôi muốn xem lịch sử giao dịch
+    - xem các giao dịch đã thực hiện
+
+- intent: ask_for_room_confirmed
+  examples: |
+    - làm sao tôi biết được phòng đã được xác nhận hay chưa
+    - xem ở đâu để biết phòng đã được xác nhận hay chưa
+    - tôi muốn xem trạng thái của phòng đang được đặt
+    - cách kiểm tra phòng đã được xác nhận hay chưa
+    - phòng của tôi đã được xác nhận hay chưa
+    - tôi muốn xem giao dịch hiện tại
+    - kiểm tra giao dịch hiện tại
+    - coi các giao dịch hiện tại
+
+- intent: ask_for_deposit
+  examples: |
+    - tại sao phải đặt cọc khi đặt phòng
+    - có thể đặt phòng mà không chuyển cọc được không
+    - tại sao phải đặt cọc
+    - không đặt cọc có được không
+    - đặt phòng có cần phải đặt cọc không
+    - tiền cọc là gì
+    - đặt cọc là gì
+    - sao tôi phải đặt cọc
+
+- intent: ask_for_personal_infomation
+  examples: |
+    - tôi có thể thay đổi thông tin cá nhân không
+    - làm sao để tùy chỉnh thông tin cá nhân
+    - thông tin của tôi có thể sửa được không
+    - tôi muốn sửa thông tin cá nhân
+    - sửa thông tin cá nhân như thế nào
+    - làm sao để cập nhật thông tin cá nhân
+    - sửa thông tin cá nhân ở đâu
+    - cập nhật các thông tin cá nhân
+
+- intent: ask_for_login
+  examples: |
+    - làm cách nào để tôi đăng nhập vào hệ thống
+    - đăng nhập vào hệ thống như thế nào
+    - cách đăng nhập
+    - đăng nhập như thế nào
+    - làm sao để đăng nhập
+    - tôi muốn đăng nhập
+
+- intent: ask_for_register
+  examples: |
+    - tôi có thể đăng kí tài khoản ở đâu
+    - đăng kí tài khoản ở đâu
+    - trang nào dùng để đăng kí tài khoản vậy
+    - đăng kí tài khoản như thế nào
+    - làm sao để đăng kí tài khoản
+    - tôi muốn đăng kí tài khoản
+
+- intent: ask_booking_reject
+  examples: |
+    - sao tôi đặt phòng không được
+    - tại sao phòng tôi đặt lại bị hủy
+    - sao phòng của tôi bị hủy
+    - đặt phòng không được xác nhận
+    - sao phòng của tôi không được xác nhận
+
+- intent: ask_cannot_comment
+- intent: ask_cannot_vote
+- intent: ask_cannot_open_personal_infomation
+- intent: ask_cannot_check_room_available
+- intent: ask_to_checkin
+- intent: ask_cannot_login
+- intent: ask_cannot_register
+- intent: requirement_to_become_host

@@ -13,8 +13,6 @@ export default class Chatbox extends Component {
             story: [
                 ['bot', 'Xin chào bạn!'],
                 ['bot', 'Mời bạn để lại lời nhắn tôi sẽ giúp bạn trả lời những câu hỏi!'],
-                ['user', 'Xin chào bạn!'],
-                ['user', 'Mời bạn để lại lời nhắn tôi sẽ giúp bạn trả lời những câu hỏi!'],
             ],
             icon_box_chat: iconShow,
         }

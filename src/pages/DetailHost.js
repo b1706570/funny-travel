@@ -320,11 +320,11 @@ export default class DetailHost extends Component {
                                 <div className="col-md-12 title-room-detail">Chính sách đặt phòng và hủy phòng</div>
                                 <div className="col-md-12">
                                     <p>- Bạn cần xem kỹ các thông tin trước khi xác nhận đặt phòng.</p>
-                                    <p>- Khi xác nhận đặt phòng bạn sẽ chọn 1 trong 2 phương thức thanh toán MoMo hoặc Paypal để đặt cọc và hoàn tất việc thanh toán.</p>
+                                    <p>- Khi xác nhận đặt phòng bạn sẽ chọn một trong ba phương thức thanh toán VNPay hoặc Paypal hoặc chuyển khoản ngân hàng để đặt cọc và hoàn tất việc thanh toán.</p>
                                     <p>- Sau khi đặt phòng bạn nên theo dõi lịch sử để theo dõi lịch đặt đã được xác nhận hay chưa.</p>
                                     <p>- Trong trường hợp bạn hủy phòng thì tiền cọc sẽ không được hoàn lại. Mọi ngoại lệ bạn nên liên lạc trực tiếp với chủ khách sạn.</p>
-                                    <p>- Khi bạn chọn phương thức PAYPAL để thanh toán bạn sẽ được xác nhận đặt phòng ngay lập tức</p>
-                                    <p>- Khi bạn chọn phương thức CHUYỂN KHOẢN NGÂN HÀNG để thanh toán bạn sẽ phải đợi 15 - 30 phút để xác nhận</p>
+                                    <p>- Khi bạn chọn phương thức VNPAY hoặc PAYPAL để thanh toán bạn sẽ được xác nhận đặt phòng ngay lập tức.</p>
+                                    <p>- Khi bạn chọn phương thức CHUYỂN KHOẢN NGÂN HÀNG để thanh toán bạn sẽ phải đợi 15 - 30 phút để xác nhận.</p>
                                 </div>
                             </div>
                         </div>

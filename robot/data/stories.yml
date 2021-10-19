@@ -2,29 +2,127 @@ version: "2.0"
 
 stories:
 
-- story: happy path
+- story: story 1
   steps:
   - intent: greet
   - action: utter_greet
+  - intent: ask_myself
+  - action: utter_ask_myself
+  - intent: ask_gender
+  - action: utter_ask_gender
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 2
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_myself
+  - action: utter_ask_myself
+  - intent: ask_about_website
+  - action: utter_ask_about_website
+  - intent: ask_how_to_booking
+  - action: utter_ask_how_to_booking
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 3
+  steps:
+  - intent: ask_for_register
+  - action: utter_ask_for_register
+  - intent: ask_for_login
+  - action: utter_ask_for_login
+  - intent: ask_for_personal_infomation
+  - action: utter_ask_for_personal_infomation
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 4
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: social_enquiry
+  - action: utter_social_enquiry
+  - intent: ask_about_website
+  - action: utter_ask_about_website
+  - intent: ask_to_become_host
+  - action: utter_ask_to_become_host
+  - intent: ask_host_role
+  - action: utter_ask_host_role
   - intent: mood_great
-  - action: utter_happy
+  - action: utter_mood_great
+  - intent: goodbye
+  - action: utter_goodbye
 
-- story: sad path 1
+- story: story 5
+  steps:
+  - intent: social_enquiry
+  - action: utter_social_enquiry
+  - intent: ask_host_role
+  - action: utter_ask_host_role
+  - intent: ask_to_become_host
+  - action: utter_ask_to_become_host
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 6
   steps:
   - intent: greet
   - action: utter_greet
-  - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: affirm
-  - action: utter_happy
+  - intent: ask_how_to_booking
+  - action: utter_ask_how_to_booking
+  - intent: ask_for_checkout_policy
+  - action: utter_ask_for_checkout_policy
+  - intent: goodbye
+  - action: utter_goodbye
 
-- story: sad path 2
+- story: story 7
+  steps:
+  - intent: ask_for_deposit
+  - action: utter_ask_for_deposit
+  - intent: ask_booking_reject
+  - action: utter_ask_booking_reject
+  
+- story: story 8
   steps:
   - intent: greet
   - action: utter_greet
+  - intent: ask_for_personal_infomation
+  - action: utter_ask_for_personal_infomation
+  - intent: ask_for_booking_history
+  - action: utter_ask_for_booking_history
+  - intent: mood_great
+  - action: utter_mood_great
+  
+- story: story 9
+  steps:
+  - intent: social_enquiry
+  - action: utter_social_enquiry
+  - intent: ask_myself
+  - action: utter_ask_myself
+  - intent: ask_for_deposit
+  - action: utter_ask_for_deposit
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 10
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_for_checkout_policy
+  - action: utter_ask_for_checkout_policy
   - intent: mood_unhappy
-  - action: utter_cheer_up
-  - action: utter_did_that_help
-  - intent: deny
+  - action: utter_mood_unhappy
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 11
+  steps:
+  - intent: social_enquiry
+  - action: utter_social_enquiry
+  - intent: ask_for_room_confirmed
+  - action: utter_ask_for_booking_history
+  - intent: mood_great
+  - action: utter_mood_great
+  - intent: goodbye
   - action: utter_goodbye

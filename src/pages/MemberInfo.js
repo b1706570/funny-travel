@@ -8,7 +8,7 @@ import logout from '../icons/sigout-icon.png';
 import GoogleMaps from '../component/GoogleMaps';
 import Footer from '../component/Footer';
 import hotel from '../icons/icon-hotel.png';
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 
 export default class MemberInfo extends Component {
     constructor(props) {
@@ -202,6 +202,9 @@ export default class MemberInfo extends Component {
         var classAccount = "col-md-12 list-control";
         var classAwait = "col-md-12 list-control";
         var classTransaction = "col-md-12 list-control";
+        if (localStorage.getItem("iduser") === null){
+            return <Redirect to="/" />
+        }
         if (this.state.tab_active === 0)
             classAccount += " tab-active";
         else if (this.state.tab_active === 1)
