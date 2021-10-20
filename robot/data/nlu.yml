@@ -248,10 +248,74 @@ nlu:
     - sao phòng của tôi không được xác nhận
 
 - intent: ask_cannot_comment
+  examples: |
+    - sao tôi không nhập bình luận được
+    - sao tôi không thể bình luận vậy
+    - tôi không thể nhập bình luận
+    - vì sao tôi không được nhập bình luận
+    - tôi không thể viết bình luận
+
 - intent: ask_cannot_vote
+  examples: |
+    - tại sao tôi không thể đánh giá phòng
+    - sao tôi không thể đánh giá sao được
+    - vì sao tôi không thể đánh giá sao
+    - tôi không thể đánh giá sao được
+    - bạn hãy cho tôi biết sao tôi không thể đánh giá được
+    - vì sao tôi không để lại đánh giá cho phòng được
+
 - intent: ask_cannot_open_personal_infomation
+  examples: |
+    - tại sao tôi không thể truy cập thông tin cá nhân được
+    - vì sao tôi không thể mở thông tin cá nhân
+    - tôi không truy cập trang thông tin cá nhân được
+    - không thể truy cập trang thông tin cá nhân
+
 - intent: ask_cannot_check_room_available
-- intent: ask_to_checkin
+  examples: |
+    - tại sao tôi không thể kiểm tra tình trạng còn phòng
+    - tôi bấm vào nút kiếm tra tình trạng còn phòng nhưng không được
+    - tôi không thể kiểm tra tình trạng còn phòng
+    - không thể kiểm tra tình trạng còn phòng được bạn ơi
+    - vì sao tôi không thể kiếm tra tình trạng còn phòng vậy
+
+- intent: ask_to_checkin_vi
+  examples: |
+    - nhận phòng như thế nào sau khi được xác nhận
+    - cách để nhận phòng khi đến khách sạn
+    - làm sao để nhận phòng khi đến khách sạn
+    - nhận phòng như thế nào khi đến khách sạn
+    - tôi có thể làm thủ tục nhận phòng như thế nào
+
+- intent: ask_to_checkin_en
+  examples: |
+    - checkin phòng như thế nào sau khi được xác nhận
+    - cách để checkin phòng khi đến khách sạn
+    - làm sao để checkin phòng khi đến khách sạn
+    - checkin phòng như thế nào khi đến khách sạn
+    - tôi có thể làm thủ tục checkin phòng như thế nào
+
 - intent: ask_cannot_login
+  examples: |
+    - tại sao tôi không thể đăng nhập
+    - vì sao tôi không thể đăng nhập
+    - tôi không thể đăng nhập bạn ơi
+    - lý do tôi không thể đăng nhập vào website
+    - không thể đăng nhập vào trang web
+
 - intent: ask_cannot_register
+  examples: |
+    - tại sao tôi không thể đăng kí thành viên vậy
+    - vì sao tôi không thể đăng kí thành viên
+    - không thể đăng kí thành viên
+    - tôi không thể đăng kí thành viên
+    - lý do tôi không thể đăng kí
+
 - intent: requirement_to_become_host
+  examples: |
+    - các yêu cầu để trở thành host
+    - yêu cầu để trở thành host
+    - để trở thành host thì cần những yêu cầu gì
+    - cần những yêu cầu gì để trở thành host
+    - muốn trở thành host thì cần những gì
+    - muốn trở thành host thì có cần yêu cầu gì không

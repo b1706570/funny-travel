@@ -71,6 +71,8 @@ stories:
   - action: utter_greet
   - intent: ask_how_to_booking
   - action: utter_ask_how_to_booking
+  - intent: ask_to_checkin_en
+  - action: utter_ask_to_checkin
   - intent: ask_for_checkout_policy
   - action: utter_ask_for_checkout_policy
   - intent: goodbye
@@ -111,6 +113,8 @@ stories:
   - action: utter_greet
   - intent: ask_for_checkout_policy
   - action: utter_ask_for_checkout_policy
+  - intent: ask_to_checkin_vi
+  - action: utter_ask_to_checkin
   - intent: mood_unhappy
   - action: utter_mood_unhappy
   - intent: goodbye
@@ -126,3 +130,62 @@ stories:
   - action: utter_mood_great
   - intent: goodbye
   - action: utter_goodbye
+
+- story: story 12
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_cannot_comment
+  - action: utter_ask_cannot_comment
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 13
+  steps:
+  - intent: ask_cannot_comment
+  - action: utter_ask_cannot_comment
+  - intent: ask_cannot_vote
+  - action: utter_ask_cannot_vote
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 14
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_to_become_host
+  - action: utter_ask_to_become_host
+  - intent: requirement_to_become_host
+  - action: utter_requirement_to_become_host
+  - intent: mood_great
+  - action: utter_mood_great
+
+- story: story 15
+  steps:
+  - intent: ask_cannot_open_personal_infomation
+  - action: utter_ask_cannot_open_personal_infomation
+
+- story: story 16
+  steps:
+  - intent: social_enquiry
+  - action: utter_social_enquiry
+  - intent: ask_cannot_check_room_available
+  - action: utter_ask_cannot_check_room_available
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 17
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: ask_cannot_login
+  - action: utter_ask_cannot_login
+
+- story: story 18
+  steps:
+  - intent: ask_cannot_register
+  - action: utter_ask_cannot_register
+  - intent: ask_for_login
+  - action: utter_ask_for_login
+  - intent: mood_great
+  - action: utter_mood_great

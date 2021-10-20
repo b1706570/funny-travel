@@ -20,6 +20,15 @@ intents:
   - ask_for_login
   - ask_for_register
   - ask_booking_reject
+  - ask_cannot_comment
+  - ask_cannot_vote
+  - ask_cannot_open_personal_infomation
+  - ask_cannot_check_room_available
+  - ask_to_checkin_vi
+  - ask_to_checkin_en
+  - ask_cannot_login
+  - ask_cannot_register
+  - requirement_to_become_host
 
 responses:
   utter_greet:
@@ -117,6 +126,43 @@ responses:
   - text: "Nếu bạn đặt phòng mà không chuyển tiền cọc thì phía nhà cung cấp dịch vụ sẽ hủy yêu cầu nhé. Bạn vui lòng thực hiện lại giao dịch và chuyển tiền cọc nhé. Nếu bạn có vấn đề gì xảy ra trong quá trình giao dịch vui lòng liên hệ với chúng tôi qua số hotline 1900-2345 để được tư vấn nhé"
   - text: "Có thể là phòng đã bị hủy do bạn không chuyển tiền cọc đó ạ. Bạn vui lòng thực hiện lại giao dịch và chuyển tiền cọc nhé. Nếu bạn có vấn đề gì xảy ra trong quá trình giao dịch vui lòng liên hệ với chúng tôi qua số hotline 1900-2345 để được tư vấn nhé"
 
+  utter_ask_cannot_comment:
+  - text: "Bạn hãy đăng nhập và sau đó nhập bình luận nhé"
+  - text: "Để sử dụng chức năng bình luận bạn cần phải đăng nhập trước"
+  - text: "Bạn cần đăng nhập trước khi sử dụng chức năng bình luận nhé"
+
+  utter_ask_cannot_vote:
+  - text: "Bạn hãy đăng nhập và sau đó gửi đánh giá lại nhé"
+  - text: "Bạn cần đăng nhập trước khi sử dụng chức năng đánh giá nhé"
+  - text: "Để thực hiện chức năng đánh giá bạn cần phải đăng nhập trước nhé"
+
+  utter_ask_cannot_open_personal_infomation:
+  - text: "Bạn hãy thử ấn phím F5 để tải lại trang. Nếu vẫn chưa truy cập được thông tin cá nhân thì bạn hãy thử lại vào thời gian khác nhé"
+  - text: "Có thể hệ thống đang gặp trục trặc. Bạn hãy thử ấn phím F5 để tải lại trang hoặc thử lại và thời gian khác nhé"
+  - text: "Bạn hãy thử ấn phím F5 để tải lại trang. Nếu vẫn chưa truy cập được thông tin cá nhân thì có thể hệ thống đang gặp trục trặc bạn hãy thử lại vào thời gian khác nhé"
+
+  utter_ask_cannot_check_room_available:
+  - text: "Bạn hãy đăng nhập trước khi kiếm tra tình trạng còn phòng nhé"
+  - text: "Để kiểm tra tình trạng còn phòng bạn hãy đăng nhập trước nhé"
+  - text: "Bạn hãy đăng nhập và sau đó thử kiểm tra lại nhé"
+
+  utter_ask_to_checkin:
+  - text: "Bạn hãy sử dụng mã code trong thông tin giao dịch để làm thủ tục nhận phòng nhé"
+  - text: "Để nhận phòng, bạn hãy sử dụng mã code trong thông tin giao dịch để làm thủ tục nhận phòng nhé"
+  - text: "Bạn hãy đưa mã code trong phần thông tin giao dịch cho nhân viên để tiến hành làm thủ tục nhận phòng nhé"
+
+  utter_ask_cannot_login:
+  - text: "Có thể hệ thống đang gặp trục trặc. Bạn hãy ấn phím F5 để tải lại trạng hoặc quay lại vào thời gian khác nhé"
+  - text: "Bạn hãy thử tải lại trạng bằng các ấn phím F5. Nếu vẫn chưa đăng nhập được thì có thể hệ thống đang gặp trục trặc bạn hãy quay lại vào thời gian khác nhé"
+  
+  utter_ask_cannot_register:
+  - text: "Có thể hệ thống đang gặp trục trặc. Bạn hãy ấn phím F5 để tải lại trạng hoặc quay lại vào thời gian khác nhé"
+  - text: "Bạn hãy thử tải lại trạng bằng các ấn phím F5. Nếu vẫn chưa đăng kí được thì có thể hệ thống đang gặp trục trặc bạn hãy quay lại vào thời gian khác nhé"
+  
+  utter_requirement_to_become_host:
+  - text: "Để được duyệt trở thành host bạn cần cung cấp đầy đủ các giấp tờ pháp lý liên quan đến doanh nghiệp của mình"
+  - text: "Bạn cần cung cấp đầy đủ các giấy tờ pháp lý liên quan đến doanh nghiệp của mình để được duyệt trở thành host nhé"
+
   utter_unclear:
   - text: "Bạn có thể nói rõ hơn ý định của mình được không"
   - text: "Xin lỗi bạn tôi chưa thể hiểu ý định của bạn"
@@ -140,6 +186,14 @@ actions:
   - utter_ask_for_login
   - utter_ask_for_register
   - utter_ask_booking_reject
+  - utter_ask_cannot_comment
+  - utter_ask_cannot_vote
+  - utter_ask_cannot_open_personal_infomation
+  - utter_ask_cannot_check_room_available
+  - utter_ask_to_checkin
+  - utter_ask_cannot_login
+  - utter_ask_cannot_register
+  - utter_requirement_to_become_host
   - utter_unclear
 
 session_config:
