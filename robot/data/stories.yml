@@ -189,3 +189,8 @@ stories:
   - action: utter_ask_for_login
   - intent: mood_great
   - action: utter_mood_great
+
+- story: story 19
+  steps:
+  - intent: find_room_in_location
+  - action: action_find_room_in_location

@@ -319,3 +319,35 @@ nlu:
     - cần những yêu cầu gì để trở thành host
     - muốn trở thành host thì cần những gì
     - muốn trở thành host thì có cần yêu cầu gì không
+
+- intent: find_room_in_location
+  examples: |
+    - tìm phòng ở [sài gòn](location)
+    - tôi muốn tìm phòng ở khu vực [đà nẵng](location)
+    - tôi đang kiếm phòng ở [hà nội](location)
+    - kiếm cho tôi phòng tại [sapa](location)
+    - kiếm phòng ở [vũng tàu](location)
+    - phòng ở [phú quốc](location)
+    - khách sạn ở [huế](location)
+    - tôi muốn xem khách sạn ở [nha trang](location)
+    - xem các khách sạn tại [hội an](location)
+    - các khách sạn tại [nghệ an](location)
+    - tôi muốn tìm khách sạn ở [cà mau](location)
+    - tìm phòng ở [hải phòng](location)
+    - phòng khách sạn ở [kiên giang](location)
+    - ở [phú quốc](location) có những khách sạn nào
+    - những khách sạn ở [đà lạt](location)
+    - tìm phòng ở [đồng tháp](location)
+    - các khách sạn tại [vĩnh long](location)
+    - các khách sạn ở [tiền giang](location)
+    - tôi muốn tìm phòng ở [lào cai](location)
+    - hãy cho tôi biết các khách sạn ở [bình thuận](location)
+    - phòng khách sạn ở [cần thơ](location)
+    - ở [bến tre](location) có những phòng khách sạn nào
+    - tôi muốn xem các khách sạn ở [hải dương](location)
+    - tôi đang kiếm phòng ở [hội an](location)
+    - tôi muốn tìm phòng ở [bình dương](location)
+    - hãy cho tôi biết các khách sạn ở [long an](location)
+    - xem các khách sạn ở [nghệ an](location)
+    - xem các phòng ở [ninh bình](location)
+    - ở thành phố [hồ chí minh](location) có những khách sạn nào

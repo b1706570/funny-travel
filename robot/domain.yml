@@ -29,6 +29,15 @@ intents:
   - ask_cannot_login
   - ask_cannot_register
   - requirement_to_become_host
+  - find_room_in_location
+
+entities:
+  - location
+
+slots:
+  location:
+    auto_fill: true
+    type: text
 
 responses:
   utter_greet:
@@ -163,7 +172,7 @@ responses:
   - text: "Để được duyệt trở thành host bạn cần cung cấp đầy đủ các giấp tờ pháp lý liên quan đến doanh nghiệp của mình"
   - text: "Bạn cần cung cấp đầy đủ các giấy tờ pháp lý liên quan đến doanh nghiệp của mình để được duyệt trở thành host nhé"
 
-  utter_unclear:
+  utter_default:
   - text: "Bạn có thể nói rõ hơn ý định của mình được không"
   - text: "Xin lỗi bạn tôi chưa thể hiểu ý định của bạn"
 
@@ -194,7 +203,8 @@ actions:
   - utter_ask_cannot_login
   - utter_ask_cannot_register
   - utter_requirement_to_become_host
-  - utter_unclear
+  - action_find_room_in_location
+  - utter_default
 
 session_config:
   session_expiration_time: 60
