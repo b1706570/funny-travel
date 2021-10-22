@@ -194,3 +194,12 @@ stories:
   steps:
   - intent: find_room_in_location
   - action: action_find_room_in_location
+
+- story: story 20
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: find_room_hightest_rate
+  - action: action_find_room_hightest_rate
+  - intent: goodbye
+  - action: utter_goodbye

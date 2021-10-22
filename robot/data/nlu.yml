@@ -351,3 +351,20 @@ nlu:
     - xem các khách sạn ở [nghệ an](location)
     - xem các phòng ở [ninh bình](location)
     - ở thành phố [hồ chí minh](location) có những khách sạn nào
+
+- intent: find_room_hightest_rate
+  examples: |
+    - tôi muốn tìm phòng có đánh giá cao nhất
+    - tìm phòng có đánh giá cao nhất
+    - tìm các phòng có đánh giá cao
+    - bạn ơi hãy gợi ý cho tôi những phòng có đánh giá cai nhất đi
+    - các phòng có đánh giá cao
+    - phòng được đánh giá cao
+    - tôi đang tìm phòng được đánh giá cao
+    - hãy gợi ý cho tôi các phòng có đánh giá cao nhất đi
+    - mình muốn tìm các phòng có đánh giá cao
+
+- intent: find_room_lowest_price
+- intent: find_room_hightes_price
+- intent: find_room_with_price_from_to
+- intent: find_room_with_price_lower_than

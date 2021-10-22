@@ -2836,6 +2836,12 @@ h4{
     border-radius: 10px;
 }
 
+.content-boxchat .image-room{
+    width: 220px !important;
+    height: 150px !important;
+    margin: 0px !important;
+}
+
 .input-chat textarea{
     position: absolute;
     width: 85%;

@@ -30,6 +30,7 @@ intents:
   - ask_cannot_register
   - requirement_to_become_host
   - find_room_in_location
+  - find_room_hightest_rate
 
 entities:
   - location
@@ -204,6 +205,7 @@ actions:
   - utter_ask_cannot_register
   - utter_requirement_to_become_host
   - action_find_room_in_location
+  - action_find_room_hightest_rate
   - utter_default
 
 session_config:
