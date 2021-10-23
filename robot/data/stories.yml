@@ -203,3 +203,52 @@ stories:
   - action: action_find_room_hightest_rate
   - intent: goodbye
   - action: utter_goodbye
+
+- story: story 21
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: find_room_lowest_price
+  - action: action_find_room_lowest_price
+  - intent: find_room_in_location
+  - action: action_find_room_in_location
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 22
+  steps:
+  - intent: find_room_with_price_from_low_to_hight
+  - action: action_find_room_with_price_custom
+  - intent: find_room_with_price_lower_than
+  - action: action_find_room_with_price_lower_than
+  - intent: mood_great
+  - action: utter_mood_great
+
+- story: story 23
+  steps:
+  - intent: find_room_hightest_price
+  - action: action_find_room_hightest_price
+  - intent: ask_how_to_booking
+  - action: utter_ask_how_to_booking
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 24
+  steps:
+  - intent: find_room_lowest_price
+  - action: action_find_room_lowest_price
+  - intent: find_room_with_price_lower_than
+  - action: action_find_room_with_price_lower_than
+  - intent: find_room_with_price_from_hight_to_low
+  - action: action_find_room_with_price_custom
+
+- story: story 25
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: find_room_with_price_from_hight_to_low
+  - action: action_find_room_with_price_custom 
+  - intent: find_room_with_price_from_low_to_hight
+  - action: action_find_room_with_price_custom
+  - intent: mood_happy
+  - action: utter_mood_happy

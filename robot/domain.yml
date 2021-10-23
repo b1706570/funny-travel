@@ -31,12 +31,29 @@ intents:
   - requirement_to_become_host
   - find_room_in_location
   - find_room_hightest_rate
+  - find_room_lowest_price
+  - find_room_hightest_price
+  - find_room_with_price_from_low_to_hight
+  - find_room_with_price_from_hight_to_low
+  - find_room_with_price_lower_than
 
 entities:
   - location
+  - low_price
+  - hight_price
+  - price_lower
 
 slots:
   location:
+    auto_fill: true
+    type: text
+  from_price:
+    auto_fill: true
+    type: text
+  to_price:
+    auto_fill: true
+    type: text
+  price_lower:
     auto_fill: true
     type: text
 
@@ -206,6 +223,10 @@ actions:
   - utter_requirement_to_become_host
   - action_find_room_in_location
   - action_find_room_hightest_rate
+  - action_find_room_lowest_price
+  - action_find_room_hightest_price
+  - action_find_room_with_price_custom
+  - action_find_room_with_price_lower_than
   - utter_default
 
 session_config:

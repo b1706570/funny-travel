@@ -46,6 +46,7 @@ class ActionFindLocation(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
         try:
             entities = tracker.latest_message['entities']
+            print(entities)
             keyword = entities[0]['value']
             connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
             if connect.is_connected():
@@ -89,5 +90,124 @@ class ActionFindHightRate(Action):
                     dispatcher.utter_message(json_message=response)
                 cursor.close()
             connect.close()
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+class ActionFindLowestPrice(Action):
+    def name(self) -> Text:
+        return "action_find_room_lowest_price"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            entities = tracker.latest_message['entities']
+            if (len(entities) > 0):
+                location = entities[0]['value']
+            else:
+                location = ''
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, MIN(r.`price_room`) min FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` WHERE h.`address_host` LIKE '%" + str(location) +"%' GROUP BY r.`id_host` ORDER BY min LIMIT 0,3")
+                result = cursor.fetchall()
+                if location != '':
+                    dispatcher.utter_message("Bạn tham khảo các phòng có giá thấp nhất ở khu vực " + str(location) + " nhé")
+                else:
+                    dispatcher.utter_message("Bạn tham khảo các phòng có giá thấp nhất nhé")
+                for item in result:
+                    response = {}
+                    response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Giá phòng: " + "{:,}".format(item[4])
+                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                    response['image'] = str(item[0])
+                    dispatcher.utter_message(json_message=response)
+                cursor.close()
+            connect.close()
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+
+class ActionFindHightestPrice(Action):
+    def name(self) -> Text:
+        return "action_find_room_hightest_price"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            entities = tracker.latest_message['entities']
+            if (len(entities) > 0):
+                location = entities[0]['value']
+            else:
+                location = ''
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, MAX(r.`price_room`) max FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` WHERE h.`address_host` LIKE '%" + str(location) +"%' GROUP BY r.`id_host` ORDER BY max DESC LIMIT 0,3")
+                result = cursor.fetchall()
+                if location != '':
+                    dispatcher.utter_message("Bạn tham khảo các phòng có giá cao nhất ở khu vực " + str(location) + " nhé")
+                else:
+                    dispatcher.utter_message("Bạn tham khảo các phòng có giá cao nhất nhé")
+                for item in result:
+                    response = {}
+                    response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Giá phòng: " + "{:,}".format(item[4])
+                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                    response['image'] = str(item[0])
+                    dispatcher.utter_message(json_message=response)
+                cursor.close()
+            connect.close()
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+class ActionFindCustomPrice(Action):
+    def name(self) -> Text:
+        return "action_find_room_with_price_custom"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            entities = tracker.latest_message['entities']
+            print(entities)
+            dispatcher.utter_message("aaaaa")
+            '''connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
+                result = cursor.fetchall()
+                dispatcher.utter_message("Tôi gửi bạn danh sách các khách sạn có lượt đánh giá cao. Bạn tham khảo nhé")
+                for item in result:
+                    response = {}
+                    response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
+                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                    response['image'] = str(item[0])
+                    dispatcher.utter_message(json_message=response)
+                cursor.close()
+            connect.close()'''
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+class ActionFindLowerThanPrice(Action):
+    def name(self) -> Text:
+        return "action_find_room_with_price_lower_than"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            entities = tracker.latest_message['entities']
+            print(entities)
+            dispatcher.utter_message("bbbb")
+            '''connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
+                result = cursor.fetchall()
+                dispatcher.utter_message("Tôi gửi bạn danh sách các khách sạn có lượt đánh giá cao. Bạn tham khảo nhé")
+                for item in result:
+                    response = {}
+                    response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
+                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                    response['image'] = str(item[0])
+                    dispatcher.utter_message(json_message=response)
+                cursor.close()
+            connect.close()'''
         except Error as e:
             dispatcher.utter_message(e)
