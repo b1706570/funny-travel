@@ -250,5 +250,5 @@ stories:
   - action: action_find_room_with_price_custom 
   - intent: find_room_with_price_from_low_to_hight
   - action: action_find_room_with_price_custom
-  - intent: mood_happy
-  - action: utter_mood_happy
+  - intent: mood_great
+  - action: utter_mood_great

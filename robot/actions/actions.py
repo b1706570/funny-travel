@@ -166,22 +166,35 @@ class ActionFindCustomPrice(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
         try:
             entities = tracker.latest_message['entities']
-            print(entities)
-            dispatcher.utter_message("aaaaa")
-            '''connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            low_price = -1
+            hight_price = -1
+            location = ''
+            for i in range (0, len(entities)):
+                if entities[i]['entity'] == 'low_price' or entities[i]['entity'] == 'hight_price':
+                    if int(entities[i]['value']) > int(hight_price):
+                        low_price = hight_price
+                        hight_price = entities[i]['value']
+                    else:
+                        low_price = entities[i]['value']
+                else:
+                    location = entities[i]['value']
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
             if connect.is_connected():
                 cursor = connect.cursor()
-                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, MIN(r.`price_room`) min FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` WHERE h.`address_host` LIKE '%" + str(location) + "%' AND r.`price_room` >= " + str(low_price) + " AND r.`price_room` <= "+ str(hight_price) + " GROUP BY r.`id_host` ORDER BY min LIMIT 0,3")
                 result = cursor.fetchall()
-                dispatcher.utter_message("Tôi gửi bạn danh sách các khách sạn có lượt đánh giá cao. Bạn tham khảo nhé")
+                if len(result) == 0:
+                    dispatcher.utter_message("Tôi không tìm thấy khách sạn trùng khớp với ý của bạn cả.")
+                else:
+                    dispatcher.utter_message("Tôi gửi bạn danh sách các khách sạn có giá từ {:,} đến {:,} ở khu vực {} nhé".format(int(low_price), int(hight_price), str(location)))
                 for item in result:
                     response = {}
-                    response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
+                    response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Giá phòng: " + "{:,}".format(item[4])
                     response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
                     response['image'] = str(item[0])
                     dispatcher.utter_message(json_message=response)
                 cursor.close()
-            connect.close()'''
+            connect.close()
         except Error as e:
             dispatcher.utter_message(e)
 
@@ -194,20 +207,49 @@ class ActionFindLowerThanPrice(Action):
         try:
             entities = tracker.latest_message['entities']
             print(entities)
-            dispatcher.utter_message("bbbb")
-            '''connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            type = ['','đơn', 'đôi', 'tậpthể', 'giađình', 'minihouse', 'homestay']
+            type_room = -1
+            type_room_text = ''
+            for i in range(0, len(entities)):
+                if entities[i]['entity'] == 'price_lower':
+                    price_lower = entities[i]['value']
+                elif entities[i]['entity'] == 'type_room':
+                    type_room = type.index(str(entities[i]['value']).replace(" ",""))
+                    type_room_text = entities[i]['value']
+                else:
+                    location = entities[i]['value']
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
             if connect.is_connected():
-                cursor = connect.cursor()
-                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
-                result = cursor.fetchall()
-                dispatcher.utter_message("Tôi gửi bạn danh sách các khách sạn có lượt đánh giá cao. Bạn tham khảo nhé")
-                for item in result:
-                    response = {}
-                    response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
-                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
-                    response['image'] = str(item[0])
-                    dispatcher.utter_message(json_message=response)
-                cursor.close()
-            connect.close()'''
+                if type_room == -1:
+                    cursor = connect.cursor()
+                    cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, MIN(r.`price_room`) min FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` WHERE h.`address_host` LIKE '%" + str(location) + "%' AND r.`price_room` <= "+ str(price_lower) + " GROUP BY r.`id_host` ORDER BY min LIMIT 0,3")
+                    result = cursor.fetchall()
+                    if len(result) == 0:
+                        dispatcher.utter_message("Tôi không tìm thấy khách sạn trùng khớp với ý của bạn cả.")
+                    else:
+                        dispatcher.utter_message("Tôi gửi bạn danh sách các khách sạn có thấp hơn {:,} ở khu vực {} nhé".format(int(price_lower), str(location)))
+                    for item in result:
+                        response = {}
+                        response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Giá phòng: " + "{:,}".format(item[4])
+                        response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                        response['image'] = str(item[0])
+                        dispatcher.utter_message(json_message=response)
+                    cursor.close()
+                else:
+                    cursor = connect.cursor()
+                    cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, MIN(r.`price_room`) min FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` WHERE h.`address_host` LIKE '%" + str(location) + "%' AND r.`price_room` <= "+ str(price_lower) + " AND r.`type_room`=" + str(type_room) + " GROUP BY r.`id_host` ORDER BY min LIMIT 0,3")
+                    result = cursor.fetchall()
+                    if len(result) == 0:
+                        dispatcher.utter_message("Tôi không tìm thấy khách sạn trùng khớp với ý của bạn cả.")
+                    else:
+                        dispatcher.utter_message("Tôi gửi bạn danh sách các khách sạn có phòng {} và giá thấp hơn {:,} ở khu vực {} nhé".format(str(type_room_text) ,int(price_lower), str(location)))
+                    for item in result:
+                        response = {}
+                        response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Loại phòng: phòng" + str(type_room_text) + "|Giá phòng: " + "{:,}".format(item[4])
+                        response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=" + str(type_room)
+                        response['image'] = str(item[0])
+                        dispatcher.utter_message(json_message=response)
+                    cursor.close()
+            connect.close()
         except Error as e:
             dispatcher.utter_message(e)

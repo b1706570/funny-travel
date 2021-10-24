@@ -41,6 +41,7 @@ entities:
   - location
   - low_price
   - hight_price
+  - type_room
   - price_lower
 
 slots:
@@ -51,6 +52,9 @@ slots:
     auto_fill: true
     type: text
   to_price:
+    auto_fill: true
+    type: text
+  type_room:
     auto_fill: true
     type: text
   price_lower:
