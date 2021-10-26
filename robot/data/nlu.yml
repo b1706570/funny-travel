@@ -495,3 +495,44 @@ nlu:
     - tìm các phòng [gia đình](type_room) có giá thấp hơn [2000000](price_lower) tại [mũi né](location)
     - các phòng [home stay](type_room) mà giá nhỏ hơn [3000000](price_lower) tại [hà nội](location)
     - tôi đang kiếm phòng [homestay](type_room) có giá nhỏ hơn [1000000](price_lower) ở [cần thơ](location)
+
+- intent: find_room_with_name
+  examples: |
+    - tìm khách sạn tên [rex hotel](host_name)
+    - khách sạn [hotel holiday sapa](host_name)
+    - mình đang tìm khách sạn tên [hotel hanoi blue sky 2](host_name)
+    - bạn ơi mình muốn tìm khách sạn tên [haian beach](host_name) ấy
+    - mình muốn tìm khách sạn có tên là [coral_hotel](host_name)
+    - tôi muốn kiếm khách sạn [phoenix hotel](host_name)
+    - tìm khách sạn [kim ngan hotel](host_name)
+    - tôi đang tìm mini house [lua hong hotel](host_name)
+    - mình đang tìm home stay tên là [asia paradise](host_name)
+    - mình đang tìm mini house có tên [golden bee](host_name)
+    - tôi đang tìm khách sạn tên [novotel](host_name)
+    - em muốn tìm khách sạn tên là [garden view court](host_name) ạ
+    - bạn ơi giúp mình tìm mini house tên là [nice dream](host_name) với
+    - tìm giúp tôi homestay có tên [lan anh](host_name) nhé
+    - bạn ơi tìm dùm tôi mnini house [conifer grand](host_name) đi ạ
+    - tìm hộ mình [hội an reverside & resort](host_name)
+    - tìm giúp tôi [sunrise premium resort hội an](host_name)
+    - mình muốn tìm [full moon village](host_name)
+    - tôi đang tìm [alba](host_name)
+    - tìm giúp tôi khách sạn tên [Hotel Pavillon Garden & Spa](host_name)
+
+- intent: find_room_with_convenient
+  examples: |
+    - tìm phòng có [máy lạnh](convenient) ở [sài gòn](location)
+    - kiếm phòng có [máy giặt](convenient) ở [huế](location)
+    - tôi muốn tìm khách sạn có [hồ bơi](convenient) tại khu vực [đà nẵng](location)
+    - mình cần tìm phòng có [tủ lạnh](convenient) ở khu vực [hà nội](location)
+    - em đang kiếm khách sạn có [lò sưởi](convenient) ở [đà lạt](location)
+    - tìm khách sạn có [tivi](convenient) ở [bình dương](location)
+    - tìm giúp tôi khách sạn có [máy nước nóng](convenient) ở [nha trang](location)
+    - cần tìm phòng có [bếp](convenient) ở khu vực [phú quốc](location)
+    - tìm phòng có dịch vụ [giặt sấy](convenient) riêng ở [trà vinh](location)
+    - tôi cần tìm homestay có [view biển](convenient) ở [vũng tàu](location)
+    - mình cần tìm khách sạn có [ban công](convenient) ở [hội an](location)
+    - kiếm giúp mình khách sạn có phục [điểm tâm sáng](convenient) tại [bình thuận](location)
+    - tìm phòng có [bồn tắm](convenient) ở [quãng ngãi](location)
+    - tôi muốn tìm phòng có [bãi đỗ xe](convenient) ở [ninh thuận](location)
+    - kiếm phòng có [ấm đun siêu tốc](convenient) ở [hà nam](location)

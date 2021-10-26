@@ -36,6 +36,8 @@ intents:
   - find_room_with_price_from_low_to_hight
   - find_room_with_price_from_hight_to_low
   - find_room_with_price_lower_than
+  - find_room_with_name
+  - find_room_with_convenient
 
 entities:
   - location
@@ -43,6 +45,8 @@ entities:
   - hight_price
   - type_room
   - price_lower
+  - host_name
+  - convenient
 
 slots:
   location:
@@ -58,6 +62,12 @@ slots:
     auto_fill: true
     type: text
   price_lower:
+    auto_fill: true
+    type: text
+  host_name:
+    auto_fill: true
+    type: text
+  convenient:
     auto_fill: true
     type: text
 
@@ -231,6 +241,8 @@ actions:
   - action_find_room_hightest_price
   - action_find_room_with_price_custom
   - action_find_room_with_price_lower_than
+  - action_find_room_with_name
+  - action_find_room_with_convenient
   - utter_default
 
 session_config:

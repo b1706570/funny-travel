@@ -35,7 +35,7 @@ export default class Header extends Component {
             return (
                 <div>
                     <div className="logo col-md-1 col-md-offset-1"><img className="mainlogo" src={logo} alt="logo trang web"></img></div>
-                    <div className="btn col-md-1 entity">Gần bạn</div>
+                    <div className="btn col-md-1 entity"><Link to="/placesnearyou">Gần bạn</Link></div>
                     <div className="col-md-2 col-md-offset-6 entity">
                         <div className="col-md-5 col-md-offset-1">
                             <Link className="btn btn-primary" to='/login'>Đăng nhập</Link>

@@ -124,6 +124,8 @@ stories:
   steps:
   - intent: social_enquiry
   - action: utter_social_enquiry
+  - intent: find_room_with_convenient
+  - action: action_find_room_with_convenient
   - intent: ask_for_room_confirmed
   - action: utter_ask_for_booking_history
   - intent: mood_great
@@ -194,6 +196,8 @@ stories:
   steps:
   - intent: find_room_in_location
   - action: action_find_room_in_location
+  - intent: find_room_with_name
+  - action: action_find_room_with_name
 
 - story: story 20
   steps:
@@ -241,6 +245,8 @@ stories:
   - action: action_find_room_with_price_lower_than
   - intent: find_room_with_price_from_hight_to_low
   - action: action_find_room_with_price_custom
+  - intent: find_room_with_convenient
+  - action: action_find_room_with_convenient
 
 - story: story 25
   steps:
@@ -252,3 +258,25 @@ stories:
   - action: action_find_room_with_price_custom
   - intent: mood_great
   - action: utter_mood_great
+
+- story: story 26
+  steps:
+  - intent: social_enquiry
+  - action: utter_social_enquiry
+  - intent: find_room_with_name
+  - action: action_find_room_with_name
+  - intent: find_room_hightest_price
+  - action: action_find_room_hightest_price
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 27
+  steps:
+  - intent: greet
+  - action: utter_greet
+  - intent: find_room_with_convenient
+  - action: action_find_room_with_convenient
+  - intent: find_room_with_price_from_hight_to_low
+  - action: action_find_room_with_price_custom
+  - intent: goodbye
+  - action: utter_goodbye

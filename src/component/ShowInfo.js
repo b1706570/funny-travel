@@ -150,9 +150,9 @@ export default class ShowInfo extends Component {
                     <div className="col-md-5 col-md-offset-7 showinfo-tabs">
                         <div className="col-md-11">
                             <ul className="nav nav-tabs nav-justified">
-                                <li role="presentation" className={class_address}><Link onClick={this.ChangeTabHandler.bind(this, 0)} to="">Vị trí</Link></li>
-                                <li role="presentation" className={class_img}><Link onClick={this.ChangeTabHandler.bind(this, 1)} to="">Hình ảnh</Link></li>
-                                <li role="presentation" className={class_comment}><Link onClick={this.ChangeTabHandler.bind(this, 2)} to="">Nhận xét</Link></li>
+                                <li role="presentation" className={class_address}><Link onClick={this.ChangeTabHandler.bind(this, 0)} to="#">Vị trí</Link></li>
+                                <li role="presentation" className={class_img}><Link onClick={this.ChangeTabHandler.bind(this, 1)} to="#">Hình ảnh</Link></li>
+                                <li role="presentation" className={class_comment}><Link onClick={this.ChangeTabHandler.bind(this, 2)} to="#">Nhận xét</Link></li>
                             </ul>
                         </div>
                         <div className="col-md-1">

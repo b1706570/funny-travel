@@ -327,7 +327,7 @@ export default class HostSchedule extends Component {
                                         <div className="col-md-12 title">Xác nhận đặt phòng</div>
                                         <div className="col-md-5">Họ tên người đặt:</div><div className="col-md-7">{this.state.dataInFormConfirm['fullname']}</div>
                                         <div className="col-md-5">Số điện thoại:</div><div className="col-md-7">{this.state.dataInFormConfirm['phone']}</div>
-                                        <div className="col-md-5">Loại phòng</div><div className="col-md-7">{type_room[this.state.dataInFormConfirm['type_room']]}</div>
+                                        <div className="col-md-5">Loại phòng:</div><div className="col-md-7">{type_room[this.state.dataInFormConfirm['type_room']]}</div>
                                         <div className="col-md-5">Ngày nhận phòng:</div><div className="col-md-7">{this.state.dataInFormConfirm['checkin_date']}</div>
                                         <div className="col-md-5">Ngày trả phòng:</div><div className="col-md-7">{this.state.dataInFormConfirm['checkout_date']}</div>
                                         <div className="col-md-5">Đặt cọc:</div><div className="col-md-7">{formater.format(this.state.dataInFormConfirm['deposit'])}</div>

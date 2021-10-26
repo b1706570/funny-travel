@@ -1178,6 +1178,11 @@ h2{
     z-index: 10;
 }
 
+.form-confirm-booking-room-visible .col-md-7{
+    display: inline-block;
+    height: 30px;
+}
+
 .form-confirm-booking-room-hidden{
     z-index: -5;
     visibility: hidden;
@@ -2743,6 +2748,7 @@ h4{
     position: fixed;
     top: 300px;
     left: 1075px;
+    z-index: 10000;
 }
 
 #boxchat{
@@ -2854,4 +2860,18 @@ h4{
     left: 87%;
     background: white;
     border-radius: 3px;
+}
+
+/**********************/
+/* HOST NEAR LOCATION */
+/**********************/
+
+.content-near-location{
+    border: 1px solid;
+}
+
+.map-in-near-location{
+    border: 1px solid;
+    position: sticky;
+    top: 0;
 }

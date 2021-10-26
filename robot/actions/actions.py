@@ -46,7 +46,6 @@ class ActionFindLocation(Action):
     def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
         try:
             entities = tracker.latest_message['entities']
-            print(entities)
             keyword = entities[0]['value']
             connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
             if connect.is_connected():
@@ -61,7 +60,7 @@ class ActionFindLocation(Action):
                     for item in result:
                         response = {}
                         response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
-                        response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                        response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
                         response['image'] = str(item[0])
                         dispatcher.utter_message(json_message=response)
                 cursor.close()
@@ -85,7 +84,7 @@ class ActionFindHightRate(Action):
                 for item in result:
                     response = {}
                     response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
-                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                    response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
                     response['image'] = str(item[0])
                     dispatcher.utter_message(json_message=response)
                 cursor.close()
@@ -117,7 +116,7 @@ class ActionFindLowestPrice(Action):
                 for item in result:
                     response = {}
                     response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Giá phòng: " + "{:,}".format(item[4])
-                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                    response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
                     response['image'] = str(item[0])
                     dispatcher.utter_message(json_message=response)
                 cursor.close()
@@ -150,7 +149,7 @@ class ActionFindHightestPrice(Action):
                 for item in result:
                     response = {}
                     response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Giá phòng: " + "{:,}".format(item[4])
-                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                    response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
                     response['image'] = str(item[0])
                     dispatcher.utter_message(json_message=response)
                 cursor.close()
@@ -190,7 +189,7 @@ class ActionFindCustomPrice(Action):
                 for item in result:
                     response = {}
                     response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Giá phòng: " + "{:,}".format(item[4])
-                    response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                    response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
                     response['image'] = str(item[0])
                     dispatcher.utter_message(json_message=response)
                 cursor.close()
@@ -231,7 +230,7 @@ class ActionFindLowerThanPrice(Action):
                     for item in result:
                         response = {}
                         response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Giá phòng: " + "{:,}".format(item[4])
-                        response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                        response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
                         response['image'] = str(item[0])
                         dispatcher.utter_message(json_message=response)
                     cursor.close()
@@ -246,10 +245,77 @@ class ActionFindLowerThanPrice(Action):
                     for item in result:
                         response = {}
                         response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Loại phòng: phòng" + str(type_room_text) + "|Giá phòng: " + "{:,}".format(item[4])
-                        response['link'] = "rooms/" + str(item[3]) + "?check_in=&check_out=&type=" + str(type_room)
+                        response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=" + str(type_room)
                         response['image'] = str(item[0])
                         dispatcher.utter_message(json_message=response)
                     cursor.close()
+            connect.close()
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+class ActionFindWithName(Action):
+    def name(self) -> Text:
+        return "action_find_room_with_name"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            entities = tracker.latest_message['entities']
+            host_name = entities[0]['value']
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` WHERE h.`company_name` LIKE '%" + host_name + "%' GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
+                result = cursor.fetchall()
+                if len(result) == 0:
+                    dispatcher.utter_message("Tôi không tìm thấy khách sạn có tên tương tự bạn vừa tìm")
+                else:
+                    dispatcher.utter_message("Bạn tham khảo các khách sạn sau đây nhé:")
+                    for item in result:
+                        response = {}
+                        response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
+                        response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                        response['image'] = str(item[0])
+                        dispatcher.utter_message(json_message=response)
+                cursor.close()
+            connect.close()
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+class ActionFindWithConvenient(Action):
+    def name(self) -> Text:
+        return "action_find_room_with_convenient"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            conv = ''
+            location = ''
+            entities = tracker.latest_message['entities']
+            for i in range(0, len(entities)):
+                if entities[i]['entity'] == 'convenient':
+                    conv = entities[i]['value']
+                elif entities[i]['entity'] == 'location':
+                    location = entities[i]['value']
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT `id_conv` FROM `convenient` WHERE `name_conv` LIKE '%" + str(conv) + "%'")
+                result1 = cursor.fetchall()
+                id_conv = result1[0][0]
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` WHERE r.`convenients_room` LIKE '%" + str(id_conv) + "%' AND h.`address_host` LIKE '%" + str(location) + "%' GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
+                result = cursor.fetchall()
+                if len(result) == 0:
+                    dispatcher.utter_message("Tôi không tìm thấy khách sạn có tiện ích bạn vừa tìm")
+                else:
+                    dispatcher.utter_message("Bạn tham khảo các khách sạn sau đây nhé:")
+                    for item in result:
+                        response = {}
+                        response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
+                        response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                        response['image'] = str(item[0])
+                        dispatcher.utter_message(json_message=response)
+                cursor.close()
             connect.close()
         except Error as e:
             dispatcher.utter_message(e)

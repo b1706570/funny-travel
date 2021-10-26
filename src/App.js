@@ -12,6 +12,7 @@ import HostManage from './pages/HostManage';
 import DetailHost from './pages/DetailHost';
 import RoomBooking from './pages/RoomBooking';
 import MemberInfo from './pages/MemberInfo';
+import HostNearLocation from './pages/HostNearLocation';
 import { BrowserRouter as Router, Route, Switch} from 'react-router-dom';
 
 
@@ -23,6 +24,7 @@ function App() {
         <Route exact path="/" component={Home} />
         <Route exact path="/login" component={Login} />
         <Route exact path="/register" component={UserRegister} />
+        <Route exact path="/placesnearyou" component={HostNearLocation} />
         <Route exact path="/host/register" component={HostRegister} />
         <Route exact path="/admin" component={Admin} />
         <Route exact path={"/host/" + localStorage.getItem('username')} component={Host} />

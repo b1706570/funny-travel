@@ -122,7 +122,7 @@ export default class Chatbox extends Component {
                                                         </div>
                                                     )
                                                 ) : (
-                                                    <Link to={message[1]['link']} target="_blank">
+                                                    <Link to={message[1]['link']}target="_blank">
                                                         {
                                                             message[1]['image'] === null ? (
                                                                 message[1]['text'].split("|").map((item, index) => <div key={index}>{item}</div>)
