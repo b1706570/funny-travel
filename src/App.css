@@ -1528,7 +1528,7 @@ input[type=number]::-webkit-outer-spin-button {
 
 .home-image-info img{
     display: inline-block;
-    width: 280px;
+    width: 100%;
     height: 250px;
     border-radius: 20px;
 }
@@ -1544,7 +1544,11 @@ input[type=number]::-webkit-outer-spin-button {
     font-size: 17px;
     padding: 5px 20px;
     border-bottom: 0.1px solid rgba(211, 211, 211, 0.5);
+    overflow: hidden;
+    white-space: nowrap;
+    text-overflow: ellipsis;
 }
+
 
 .home-info-price img{
     width: 17px;
@@ -1721,7 +1725,7 @@ h4{
 }
 
 .home-add-comment button{
-    width: 85px;
+    width: 71px;
     height: 50px;
     margin: 0px;
     padding: 0px;
@@ -2866,12 +2870,21 @@ h4{
 /* HOST NEAR LOCATION */
 /**********************/
 
-.content-near-location{
-    border: 1px solid;
+.map-in-near-location{
+    position: fixed;
+    top: 150px;
+    width: 450px;
+    height: 600px;
+    border: 10px solid white;
+    border-radius: 20px;
 }
 
-.map-in-near-location{
-    border: 1px solid;
-    position: sticky;
-    top: 0;
+.content-near-location .home-more-info-content .ggmap{
+    width: 910px;
+    height: 400px;
+    padding: 0px;
+}
+
+.near-me-div-info{
+    display: inline-block;
 }

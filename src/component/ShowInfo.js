@@ -83,8 +83,10 @@ export default class ShowInfo extends Component {
     componentDidMount(){
         var listImgs = this.props.item.images;
         var arrImg = listImgs.split(";");
+        arrImg.pop();
         var listConvs = this.props.item.convenients;
         var arrConv = listConvs.split(";");
+        arrConv.pop();
         arrConv = Array.from(new Set(arrConv));
         this.setState({
             listImg: arrImg,
@@ -147,7 +149,7 @@ export default class ShowInfo extends Component {
                 </div>
                 </Link>
                 <div className={this.state.moreinfo_statement}>
-                    <div className="col-md-5 col-md-offset-7 showinfo-tabs">
+                    <div className="col-md-6 col-md-offset-6 showinfo-tabs">
                         <div className="col-md-11">
                             <ul className="nav nav-tabs nav-justified">
                                 <li role="presentation" className={class_address}><Link onClick={this.ChangeTabHandler.bind(this, 0)} to="#">Vị trí</Link></li>

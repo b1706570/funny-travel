@@ -17,6 +17,8 @@ export default class publicAPI {
         this.BookingRoom = this.BookingRoom.bind(this);
         this.ReportComment = this.ReportComment.bind(this);
         this.PaymentWithVNPay = this.PaymentWithVNPay.bind(this);
+        this.GetResponseMessage = this.GetResponseMessage.bind(this);
+        this.GetLocationNearMe = this.GetLocationNearMe.bind(this);
     }
 
     getRoom(params) {
@@ -155,6 +157,17 @@ export default class publicAPI {
     PaymentWithVNPay(params){
         const api = axios.create({baseURL: this.baseURL});
         return api.post('/paymentwithvnpay.php', params)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    GetLocationNearMe(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getlocationnearme.php', params)
             .then(response =>{
                 return response.data;
             })
