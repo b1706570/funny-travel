@@ -2888,3 +2888,13 @@ h4{
 .near-me-div-info{
     display: inline-block;
 }
+
+.near-location-title{
+    font-size: 25px;
+    font-style: italic;
+    font-weight: bolder;
+    text-decoration: underline;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    color: rgb(255, 28, 115);
+}

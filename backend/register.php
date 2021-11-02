@@ -1,9 +1,11 @@
 <?php
     include 'default.php';
     if($_POST['type']=='member'){
+        $res = $connect->query("SELECT max(`id_mem` + 1) id FROM `member` WHERE `id_mem` < 10000000");
+        $row = $res->fetch_assoc();
         $password=md5($_POST['txtPassword']);
-        $sql="INSERT INTO `member`(`username`, `password`, `fullname`, `phone`, `address`,`latitude`,`longtitude`) VALUES 
-        ('".$_POST['txtAccount']."','".$password."','".$_POST['txtFullname']."','".$_POST['txtPhone']."','".$_POST['txtAddress']."',".$_POST['lat'].",".$_POST['lng'].")";
+        $sql="INSERT INTO `member`(`id_mem`, `username`, `password`, `fullname`, `phone`, `address`,`latitude`,`longtitude`) VALUES 
+        (".$row['id'].",'".$_POST['txtAccount']."','".$password."','".$_POST['txtFullname']."','".$_POST['txtPhone']."','".$_POST['txtAddress']."',".$_POST['lat'].",".$_POST['lng'].")";
     }
     else{
         $sql="INSERT INTO `proposal`(`fullname`, `company`, `email`, `phone`, `address`, `state`, `latitude`,`longtitude`) VALUES 

@@ -300,7 +300,7 @@ export default class HostNearLocation extends Component {
             <div>
                 <div>
                     <div className="col-md-12 header-home"><Header /></div>
-                    <div className="col-md-12">Các địa điểm ở gần bạn</div>
+                    <div className="col-md-12 near-location-title">CÁC ĐỊA ĐIỂM Ở GẦN BẠN</div>
                     <div className="col-md-8 content-near-location">
                         {
                             listHost.map((item, index) =>
