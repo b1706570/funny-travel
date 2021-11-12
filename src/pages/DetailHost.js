@@ -231,7 +231,7 @@ export default class DetailHost extends Component {
                         </div>
                     </div>
                 </div>
-                <div className="col-md-12">
+                <div className="col-md-12 content-detail-host">
                     <div className={this.state.class_div_left}>
                         <div className="col-md-12 image-room-detail">
                             <div className="col-md-6">

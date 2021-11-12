@@ -23,7 +23,7 @@
         $startID = $_POST['start'] * 25 - 25;
         /* co dieu kien thi them vao sau 2 cho */
         if($_POST['order'] == 0){
-            $sql = "SELECT *, round(avg(e.`point`), 1) rate FROM `evaluate` e JOIN `host` h ON e.`id_host` = h.`id_host` WHERE h.`id_host` IN (".$sqlCondition.") GROUP BY e.`id_host` ORDER BY `rate` DESC  LIMIT ".$startID.",25";
+            $sql = "SELECT *, round(avg(e.`point`), 1) rate FROM `evaluate` e RIGHT JOIN `host` h ON e.`id_host` = h.`id_host` WHERE h.`id_host` IN (".$sqlCondition.") GROUP BY e.`id_host` ORDER BY `rate` DESC  LIMIT ".$startID.",25";
         }
         else if($_POST['order'] == 1){
             $sql="SELECT *, MIN(r.`price_room`) min FROM `rooms` r JOIN `host` h ON r.`id_host`=h.`id_host` WHERE h.`id_host` IN (".$sqlCondition.") GROUP BY r.`id_host` ORDER BY min LIMIT ".$startID.",25";

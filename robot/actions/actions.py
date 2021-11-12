@@ -50,8 +50,7 @@ class ActionFindLocation(Action):
             connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
             if connect.is_connected():
                 cursor = connect.cursor()
-                #cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` WHERE h.`address_host` LIKE '%" + keyword + "%' GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
-                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` WHERE h.`address_host` LIKE '%" + keyword + "%' GROUP BY r.`id_host` LIMIT 0,3")
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` WHERE h.`address_host` LIKE '%" + keyword + "%' GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
                 result = cursor.fetchall()
                 if len(result) == 0:
                     dispatcher.utter_message("Rất tiếc hệ thống không có khách sạn ở địa chỉ bạn vừa tìm")
@@ -315,6 +314,100 @@ class ActionFindWithConvenient(Action):
                         response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
                         response['image'] = str(item[0])
                         dispatcher.utter_message(json_message=response)
+                cursor.close()
+            connect.close()
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+class ActionFindWithNotConvenient(Action):
+    def name(self) -> Text:
+        return "action_find_room_with_not_convenient"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            conv = ''
+            location = ''
+            entities = tracker.latest_message['entities']
+            for i in range(0, len(entities)):
+                if entities[i]['entity'] == 'convenient':
+                    conv = entities[i]['value']
+                elif entities[i]['entity'] == 'location':
+                    location = entities[i]['value']
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT `id_conv` FROM `convenient` WHERE `name_conv` LIKE '%" + str(conv) + "%'")
+                result1 = cursor.fetchall()
+                id_conv = result1[0][0]
+                cursor.execute("SELECT r.`images_room`, h.`company_name`, h.`address_host`, h.`id_host`, ROUND(AVG(e.`point`), 1) point FROM `rooms` r JOIN `host` h ON r.`id_host` = h.`id_host` JOIN `evaluate` e ON e.`id_host` = h.`id_host` WHERE r.`convenients_room` NOT LIKE '%" + str(id_conv) + "%' AND h.`address_host` LIKE '%" + str(location) + "%' GROUP BY r.`id_host` ORDER BY point DESC LIMIT 0,3")
+                result = cursor.fetchall()
+                if len(result) == 0:
+                    dispatcher.utter_message("Tôi không tìm thấy khách sạn không có tiện ích bạn vừa tìm")
+                else:
+                    dispatcher.utter_message("Bạn tham khảo các khách sạn sau đây nhé:")
+                    for item in result:
+                        response = {}
+                        response['text'] = str(item[1]) + "|Địa chỉ: " + str(item[2]) + "|Đánh giá: " + str(item[4])
+                        response['link'] = "/rooms/" + str(item[3]) + "?check_in=&check_out=&type=0"
+                        response['image'] = str(item[0])
+                        dispatcher.utter_message(json_message=response)
+                cursor.close()
+            connect.close()
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+class ActionFindTypeWithName(Action):
+    def name(self) -> Text:
+        return "action_find_type_room_with_name"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            type_room = ["","Phòng đơn", "Phòng đôi", "Phòng tập thể", "Phòng gia đình", "Mini House", "Homestay"]
+            entities = tracker.latest_message['entities']
+            location = entities[0]['value']
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT DISTINCT r.`type_room` FROM `host` h JOIN `rooms` r ON h.`id_host` = r.`id_host` WHERE h.`company_name` LIKE '%" + str(location) + "%'")
+                result = cursor.fetchall()
+                if len(result) == 0:
+                    dispatcher.utter_message("Tôi không tìm thấy khách sạn mà bạn tìm")
+                else:
+                    dispatcher.utter_message("Tôi gửi bạn các loại phòng của {}, bạn tham khảo nhé:".format(str(location)))
+                    for item in result:
+                        dispatcher.utter_message(str(type_room[int(item[0])]))
+                cursor.close()
+            connect.close()
+        except Error as e:
+            dispatcher.utter_message(e)
+
+
+class CheckConvenientAvailableInRoom(Action):
+    def name(self) -> Text:
+        return "action_check_convenient_available_in_room"
+
+    def run(self, dispatcher: CollectingDispatcher, tracker: Tracker, domain):
+        try:
+            entities = tracker.latest_message['entities']
+            for entity in entities:
+                if entity['entity'] == 'host_name':
+                    host_name = entity['value']
+                elif entity['entity'] == 'convenient':
+                    conv = entity['value']
+            connect = mysql.connector.connect(host='127.0.0.1', user='root', password='', database='traveldb')
+            if connect.is_connected():
+                cursor = connect.cursor()
+                cursor.execute("SELECT `id_conv` FROM `convenient` WHERE `name_conv` LIKE '%" + str(conv) + "%'")
+                result1 = cursor.fetchall()
+                id_conv = result1[0][0]
+                cursor.execute("SELECT * FROM `host` h JOIN `rooms` r ON h.`id_host` = r.`id_host` WHERE h.`company_name` LIKE '%" + str(host_name) + "%' AND r.`convenients_room` LIKE '%" + str(id_conv) + "%'")
+                result = cursor.fetchall()
+                if len(result) == 0:
+                    dispatcher.utter_message("{} không có {} bạn nhé. Xin được thông tin đến bạn".format(str(host_name), str(conv)))
+                else:
+                    dispatcher.utter_message("{} có {} bạn nhé. Xin được thông tin đến bạn".format(str(host_name), str(conv)))
                 cursor.close()
             connect.close()
         except Error as e:

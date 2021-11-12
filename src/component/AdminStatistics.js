@@ -500,7 +500,7 @@ export default class AdminStatistics extends Component {
                                                 padding: '20',
                                             },
                                             legend: {
-                                                position: 'bottom',
+                                                display: false,
                                             }
                                         }
                                     }}
@@ -523,7 +523,7 @@ export default class AdminStatistics extends Component {
                                                 padding: '20',
                                             },
                                             legend: {
-                                                position: 'bottom',
+                                                display: false,
                                             }
                                         }
                                     }}
@@ -546,7 +546,7 @@ export default class AdminStatistics extends Component {
                                                 padding: '20',
                                             },
                                             legend: {
-                                                position: 'bottom',
+                                                display: false,
                                             }
                                         }
                                     }}

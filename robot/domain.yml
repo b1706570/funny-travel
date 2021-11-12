@@ -38,6 +38,9 @@ intents:
   - find_room_with_price_lower_than
   - find_room_with_name
   - find_room_with_convenient
+  - find_room_with_not_convenient
+  - check_convenient_available_in_room
+  - find_type_room_with_name
 
 entities:
   - location
@@ -168,14 +171,14 @@ responses:
   - text: "Có thể là phòng đã bị hủy do bạn không chuyển tiền cọc đó ạ. Bạn vui lòng thực hiện lại giao dịch và chuyển tiền cọc nhé. Nếu bạn có vấn đề gì xảy ra trong quá trình giao dịch vui lòng liên hệ với chúng tôi qua số hotline 1900-2345 để được tư vấn nhé"
 
   utter_ask_cannot_comment:
-  - text: "Bạn hãy đăng nhập và sau đó nhập bình luận nhé"
-  - text: "Để sử dụng chức năng bình luận bạn cần phải đăng nhập trước"
-  - text: "Bạn cần đăng nhập trước khi sử dụng chức năng bình luận nhé"
+  - text: "Bạn hãy truy cập vào chức năng xem lịch sử đặt phòng trong trang thông tin cá nhân của mình ở đường link: http://funny-travel:3000/member/personalinfomation để gửi bình luận nhé"
+  - text: "Bạn hãy truy cập vào đường link sau: http://funny-travel:3000/member/personalinfomation, và chuyển sang chức năng xem lịch sử đặt phòng để gửi bình luận nhé"
+  - text: "Bạn hãy đăng nhập, sau đó vào trang thông tin cá nhân theo đường link: http://funny-travel:3000/member/personalinfomation, vào chức lịch sử đặt phòng để gửi bình luận nhé"
 
   utter_ask_cannot_vote:
-  - text: "Bạn hãy đăng nhập và sau đó gửi đánh giá lại nhé"
-  - text: "Bạn cần đăng nhập trước khi sử dụng chức năng đánh giá nhé"
-  - text: "Để thực hiện chức năng đánh giá bạn cần phải đăng nhập trước nhé"
+  - text: "Bạn hãy truy cập vào chức năng xem lịch sử đặt phòng trong trang thông tin cá nhân của mình ở đường link: http://funny-travel:3000/member/personalinfomation để đánh giá nhé"
+  - text: "Bạn hãy truy cập vào đường link sau: http://funny-travel:3000/member/personalinfomation, và chuyển sang chức năng xem lịch sử đặt phòng để đánh giá nhé"
+  - text: "Bạn hãy đăng nhập, sau đó vào trang thông tin cá nhân theo đường link: http://funny-travel:3000/member/personalinfomation, vào chức lịch sử đặt phòng để đánh giá nhé"
 
   utter_ask_cannot_open_personal_infomation:
   - text: "Bạn hãy thử ấn phím F5 để tải lại trang. Nếu vẫn chưa truy cập được thông tin cá nhân thì bạn hãy thử lại vào thời gian khác nhé"
@@ -243,6 +246,9 @@ actions:
   - action_find_room_with_price_lower_than
   - action_find_room_with_name
   - action_find_room_with_convenient
+  - action_find_room_with_not_convenient
+  - action_find_type_room_with_name
+  - action_check_convenient_available_in_room
   - utter_default
 
 session_config:

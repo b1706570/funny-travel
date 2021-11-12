@@ -254,6 +254,11 @@ nlu:
     - tôi không thể nhập bình luận
     - vì sao tôi không được nhập bình luận
     - tôi không thể viết bình luận
+    - viết bình luận ở đây vậy
+    - nhập bình luận ở đâu
+    - làm sao để gửi bình luận
+    - gửi bình luận như thế nào
+    - tôi muốn nhập bình luận
 
 - intent: ask_cannot_vote
   examples: |
@@ -263,6 +268,13 @@ nlu:
     - tôi không thể đánh giá sao được
     - bạn hãy cho tôi biết sao tôi không thể đánh giá được
     - vì sao tôi không để lại đánh giá cho phòng được
+    - tôi muốn đánh giá phòng
+    - làm sao để tôi đánh giá phòng
+    - đánh giá phòng như thế nào
+    - đánh giá phòng ở đâu
+    - chỉ tôi cách đánh giá phòng với
+    - hãy hướng dẫn tôi cách đánh giá phòng đi
+    - chỗ nào đánh giá phòng
 
 - intent: ask_cannot_open_personal_infomation
   examples: |
@@ -322,13 +334,13 @@ nlu:
 
 - intent: find_room_in_location
   examples: |
-    - tìm phòng ở [sài gòn](location)
+    - tìm phòng [sài gòn](location)
     - tôi muốn tìm phòng ở khu vực [đà nẵng](location)
-    - tôi đang kiếm phòng ở [hà nội](location)
+    - tôi đang kiếm phòng [hà nội](location)
     - kiếm cho tôi phòng tại [sapa](location)
     - kiếm phòng ở [vũng tàu](location)
     - phòng ở [phú quốc](location)
-    - khách sạn ở [huế](location)
+    - khách sạn [huế](location)
     - tôi muốn xem khách sạn ở [nha trang](location)
     - xem các khách sạn tại [hội an](location)
     - các khách sạn tại [nghệ an](location)
@@ -336,20 +348,20 @@ nlu:
     - tìm phòng ở [hải phòng](location)
     - phòng khách sạn ở [kiên giang](location)
     - ở [phú quốc](location) có những khách sạn nào
-    - những khách sạn ở [đà lạt](location)
+    - những khách sạn [đà lạt](location)
     - tìm phòng ở [đồng tháp](location)
     - các khách sạn tại [vĩnh long](location)
     - các khách sạn ở [tiền giang](location)
     - tôi muốn tìm phòng ở [lào cai](location)
     - hãy cho tôi biết các khách sạn ở [bình thuận](location)
-    - phòng khách sạn ở [cần thơ](location)
+    - phòng khách sạn [cần thơ](location)
     - ở [bến tre](location) có những phòng khách sạn nào
     - tôi muốn xem các khách sạn ở [hải dương](location)
     - tôi đang kiếm phòng ở [hội an](location)
     - tôi muốn tìm phòng ở [bình dương](location)
     - hãy cho tôi biết các khách sạn ở [long an](location)
     - xem các khách sạn ở [nghệ an](location)
-    - xem các phòng ở [ninh bình](location)
+    - xem các phòng [ninh bình](location)
     - ở thành phố [hồ chí minh](location) có những khách sạn nào
 
 - intent: find_room_hightest_rate
@@ -536,3 +548,57 @@ nlu:
     - tìm phòng có [bồn tắm](convenient) ở [quãng ngãi](location)
     - tôi muốn tìm phòng có [bãi đỗ xe](convenient) ở [ninh thuận](location)
     - kiếm phòng có [ấm đun siêu tốc](convenient) ở [hà nam](location)
+
+- intent: find_room_with_not_convenient
+  examples: |
+    - tìm phòng không có [máy lạnh](convenient) ở [sài gòn](location)
+    - kiếm phòng không có [máy giặt](convenient) ở [huế](location)
+    - tôi muốn tìm khách sạn không có [hồ bơi](convenient) tại khu vực [đà nẵng](location)
+    - mình cần tìm phòng không có [tủ lạnh](convenient) ở khu vực [hà nội](location)
+    - em đang kiếm khách sạn không có [lò sưởi](convenient) ở [đà lạt](location)
+    - tìm khách sạn không có [tivi](convenient) ở [bình dương](location)
+    - tìm giúp tôi khách sạn không có [máy nước nóng](convenient) ở [nha trang](location)
+    - cần tìm phòng không có [bếp](convenient) ở khu vực [phú quốc](location)
+    - tìm phòng không có dịch vụ [giặt sấy](convenient) riêng ở [trà vinh](location)
+    - tôi cần tìm homestay không có [view biển](convenient) ở [vũng tàu](location)
+    - mình cần tìm khách sạn không có [ban công](convenient) ở [hội an](location)
+    - kiếm giúp mình khách sạn không có phục [điểm tâm sáng](convenient) tại [bình thuận](location)
+    - tìm phòng không có [bồn tắm](convenient) ở [quãng ngãi](location)
+    - tôi muốn tìm phòng không có [bãi đỗ xe](convenient) ở [ninh thuận](location)
+    - kiếm phòng không có [ấm đun siêu tốc](convenient) ở [hà nam](location)
+
+- intent: find_type_room_with_name
+  examples: |
+    - khách sạn [thiên thủy](host_name) có những loại phòng nào
+    - những loại phòng của [six senses con dao](host_name)
+    - mình muốn biết các loại phòng của hotel [hanoi emerald water & spa](host_name)
+    - tôi cần tìm các loại phòng của khách sạn [amazing sapa](host_name)
+    - [hanoi guesthouse](host_name) có những loại phòng nào
+    - những loại phòng ở [la sapinette đà lạt](host_name)
+    - loại phòng [ninh binh legend](host_name)
+    - loại phòng của [hotel sun and sea phu quoc](host_name)
+    - mình cần tìm các loại phòng [start](host_name)
+    - loại phòng ở [vinpearl hotel thanh hoa](host_name)
+    - các loại phòng của [serene river](host_name) villa
+    - loại phòng của [s villa hotel](host_name)
+    - loại phòng [delight](host_name)
+    
+- intent: check_convenient_available_in_room
+  examples: |
+    - khách sạn [êm](host_name) có [máy giặt](convenient) không
+    - [hanoi tirant](host_name) có [máy sấy](convenient) không vậy
+    - hotel [sapaly lào cai](host_name) có [kem đánh răng](convenient) không
+    - khách sạn [mường thanh grand đà nẵng](host_name) có [cho thuê xe máy](convenient) không
+    - [mekong rustic lodge](host_name) có [dịch vụ ăn sáng](convenient) không
+    - [alba](host_name) có [bồn tắm](convenient) không vậy
+    - khách sạn [golden bee](host_name) có [cho mang thú cưng](convenient) không dạ
+    - [cozy boutique](host_name) có [cho dẫn pet](convenient) theo không ạ
+    - hotel [terrace](host_name) có [hồ bơi](convenient) không ạ
+    - [coral](host_name) có [máy nước nóng](convenient) không
+    - khách sạn [romana](host_name) có [dịch vụ giặt sấy](convenient) không
+    - chỗ [asia paradise](host_name) có [dịch vụ đưa rước tại chỗ](convenient) không
+    - hotel [Sun city](host_name) có [bàn là](convenient) không ạ
+    - chỗ [fansipan view](host_name) có [lò sưởi](convenient) không
+    - hotel [richico](host_name) có [view biển](convenient) không vậy
+    - khách sạn [grand sunrise](host_name) có [bếp nấu ăn](convenient) không
+    - ở [hoàng minh](host_name) có [sân thượng](convenient) không

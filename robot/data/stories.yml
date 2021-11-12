@@ -166,6 +166,8 @@ stories:
   steps:
   - intent: ask_cannot_open_personal_infomation
   - action: utter_ask_cannot_open_personal_infomation
+  - intent: find_room_with_not_convenient
+  - action: action_find_room_with_not_convenient
 
 - story: story 16
   steps:
@@ -182,6 +184,8 @@ stories:
   - action: utter_greet
   - intent: ask_cannot_login
   - action: utter_ask_cannot_login
+  - intent: find_room_with_not_convenient
+  - action: action_find_room_with_not_convenient
 
 - story: story 18
   steps:
@@ -189,6 +193,8 @@ stories:
   - action: utter_ask_cannot_register
   - intent: ask_for_login
   - action: utter_ask_for_login
+  - intent: check_convenient_available_in_room
+  - action: action_check_convenient_available_in_room
   - intent: mood_great
   - action: utter_mood_great
 
@@ -198,6 +204,8 @@ stories:
   - action: action_find_room_in_location
   - intent: find_room_with_name
   - action: action_find_room_with_name
+  - intent: find_room_with_not_convenient
+  - action: action_find_room_with_not_convenient
 
 - story: story 20
   steps:
@@ -205,6 +213,8 @@ stories:
   - action: utter_greet
   - intent: find_room_hightest_rate
   - action: action_find_room_hightest_rate
+  - intent: find_room_with_not_convenient
+  - action: action_find_room_with_not_convenient
   - intent: goodbye
   - action: utter_goodbye
 
@@ -216,6 +226,8 @@ stories:
   - action: action_find_room_lowest_price
   - intent: find_room_in_location
   - action: action_find_room_in_location
+  - intent: check_convenient_available_in_room
+  - action: action_check_convenient_available_in_room
   - intent: goodbye
   - action: utter_goodbye
 
@@ -225,6 +237,8 @@ stories:
   - action: action_find_room_with_price_custom
   - intent: find_room_with_price_lower_than
   - action: action_find_room_with_price_lower_than
+  - intent: find_type_room_with_name
+  - action: action_find_type_room_with_name
   - intent: mood_great
   - action: utter_mood_great
 
@@ -234,6 +248,10 @@ stories:
   - action: action_find_room_hightest_price
   - intent: ask_how_to_booking
   - action: utter_ask_how_to_booking
+  - intent: find_type_room_with_name
+  - action: action_find_type_room_with_name
+  - intent: check_convenient_available_in_room
+  - action: action_check_convenient_available_in_room
   - intent: goodbye
   - action: utter_goodbye
 
@@ -265,8 +283,12 @@ stories:
   - action: utter_social_enquiry
   - intent: find_room_with_name
   - action: action_find_room_with_name
+  - intent: find_type_room_with_name
+  - action: action_find_type_room_with_name
   - intent: find_room_hightest_price
   - action: action_find_room_hightest_price
+  - intent: check_convenient_available_in_room
+  - action: action_check_convenient_available_in_room
   - intent: goodbye
   - action: utter_goodbye
 
@@ -278,5 +300,16 @@ stories:
   - action: action_find_room_with_convenient
   - intent: find_room_with_price_from_hight_to_low
   - action: action_find_room_with_price_custom
+  - intent: goodbye
+  - action: utter_goodbye
+
+- story: story 28
+  steps:
+  - intent: find_room_with_not_convenient
+  - action: action_find_room_with_not_convenient
+  - intent: find_type_room_with_name
+  - action: action_find_type_room_with_name
+  - intent: check_convenient_available_in_room
+  - action: action_check_convenient_available_in_room
   - intent: goodbye
   - action: utter_goodbye

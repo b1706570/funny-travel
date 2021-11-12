@@ -6,6 +6,7 @@ import history from '../icons/icon-transaction-history.png';
 import iconawait from '../icons/icon-transaction-await.png';
 import logout from '../icons/sigout-icon.png';
 import GoogleMaps from '../component/GoogleMaps';
+import Comment from '../component/Comment';
 import Footer from '../component/Footer';
 import hotel from '../icons/icon-hotel.png';
 import { Link, Redirect } from 'react-router-dom';
@@ -21,6 +22,7 @@ export default class MemberInfo extends Component {
             search: "",
             class_noti_cancel: "noti-cancel-booking-hidden",
             id_booking_cancel: "",
+            id_div_comment: -1,
         }
         this.ChangeTab = this.ChangeTab.bind(this);
         this.UpdateInfo = this.UpdateInfo.bind(this);
@@ -30,12 +32,13 @@ export default class MemberInfo extends Component {
         this.hiddenNotiCancel = this.hiddenNotiCancel.bind(this);
         this.CancelBooking = this.CancelBooking.bind(this);
         this.Logout = this.Logout.bind(this);
+        this.ShowMoreDetail = this.ShowMoreDetail.bind(this);
+        this.HideMoreDetail = this.HideMoreDetail.bind(this);
     }
 
     componentDidMount() {
         let params = new FormData();
         params.append("id_member", localStorage.getItem("iduser"));
-        console.log(localStorage.getItem("iduser"));
         const api = new userAPI();
         api.getInfoUserByID(params)
             .then(response => {
@@ -195,6 +198,19 @@ export default class MemberInfo extends Component {
         localStorage.removeItem("type");
     }
 
+    ShowMoreDetail = (e) => {
+        e.preventDefault();
+        if(this.state.id_div_comment !== -1)
+            document.getElementById("comment" + this.state.id_div_comment).style.display = "none";
+        document.getElementById("comment" + e.target.value).style.display = "block";
+        this.setState({id_div_comment: e.target.value});
+    }
+
+    HideMoreDetail = () =>{
+        document.getElementById("comment" + this.state.id_div_comment).style.display = "none";
+        this.setState({id_div_comment: -1});
+    }
+
     render() {
         var formatter = new Intl.NumberFormat();
         var keymap = Math.random();
@@ -299,7 +315,7 @@ export default class MemberInfo extends Component {
                                                             </Link>
                                                         </div>
                                                         <div className="col-md-2 state-transaction-yellow">
-                                                            {book.state}
+                                                            CHỜ XÁC NHẬN
                                                         </div>
                                                     </div>
                                                     <div className="col-md-12 bottom">
@@ -337,11 +353,11 @@ export default class MemberInfo extends Component {
                                                         {
                                                             book.state === "DAXACNHAN" ? (
                                                                 <div className="col-md-2 state-transaction-green">
-                                                                    {book.state}
+                                                                    ĐÃ XÁC NHẬN
                                                                 </div>
                                                             ) : (
                                                                 <div className="col-md-2 state-transaction">
-                                                                    {book.state}
+                                                                    ĐÃ NHẬN PHÒNG
                                                                 </div>
                                                             )
                                                         }
@@ -399,7 +415,13 @@ export default class MemberInfo extends Component {
                                                                 </Link>
                                                             </div>
                                                             <div className="col-md-2 state-transaction">
-                                                                {trans.state}
+                                                                {
+                                                                    trans.state === "DATHANHTOAN" ? (
+                                                                        <div>ĐÃ THANH TOÁN</div>
+                                                                    ) : (
+                                                                        <div>ĐÃ HỦY</div>
+                                                                    )
+                                                                }
                                                             </div>
                                                         </div>
                                                         <div className="col-md-12 bottom">
@@ -411,7 +433,12 @@ export default class MemberInfo extends Component {
                                                                 <div className="col-md-7">Ngày nhận phòng: {trans.checkin_date}</div>
                                                                 <div className="col-md-5">Ngày trả phòng: {trans.checkout_date}</div>
                                                             </div>
-                                                            <div className="col-md-4 col-md-offset-8 total-payment">Tổng số tiền {formatter.format(trans.total_payment)} (VND)</div>
+                                                            <div className="col-md-8"><button className="button" value={trans.id_host} onClick={this.ShowMoreDetail}>Thêm nhận xét & đánh giá</button></div>
+                                                            <div className="col-md-4 total-payment">Tổng số tiền {formatter.format(trans.total_payment)} (VND)</div>
+                                                        </div>
+                                                        <div className="col-md-12 home-more-detail-none" id={"comment" + trans.id_host}>
+                                                            <div className="col-md-1 col-md-offset-11"><span onClick={this.HideMoreDetail} className="glyphicon glyphicon-remove"></span></div>
+                                                            <Comment id_host={trans.id_host} />
                                                         </div>
                                                     </div>
                                                 )

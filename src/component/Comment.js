@@ -137,16 +137,28 @@ export default class Comment extends Component {
         }
         else {
             var old_id = this.state.id_comment_report;
-            if (old_id !== -1){
-                document.getElementById(old_id).style.visibility = "hidden";
-                document.getElementById(old_id).style.zIndex = "10";
+            if(old_id !== id_comment){
+                if (old_id !== -1){
+                    document.getElementById(old_id).style.visibility = "hidden";
+                    document.getElementById(old_id).style.zIndex = "10";
+                }
+                document.getElementById(id_comment).style.visibility = "visible";
+                document.getElementById(id_comment).style.zIndex = "20";
+                this.setState({
+                    id_comment_report: id_comment,
+                    content_report: "",
+                })
             }
-            document.getElementById(id_comment).style.visibility = "visible";
-            document.getElementById(id_comment).style.zIndex = "20";
-            this.setState({
-                id_comment_report: id_comment,
-                content_report: "",
-            })
+            else{
+                if (old_id !== -1){
+                    document.getElementById(old_id).style.visibility = "hidden";
+                    document.getElementById(old_id).style.zIndex = "10";
+                }
+                this.setState({
+                    id_comment_report: -1,
+                    content_report: "",
+                })
+            }
         }
     }
 
@@ -159,7 +171,7 @@ export default class Comment extends Component {
 
     ChangeContentReporSample = (value) => {
         this.setState({
-            content_report: this.state.content_report + " " + value,
+            content_report: this.state.content_report + value + " ",
         })
     }
 
@@ -271,7 +283,7 @@ export default class Comment extends Component {
                                             <div className="col-md-12 who-comment">{comment.fullname}<p className={class_of_evaluate}>{point}</p></div>
                                             <div className="col-md-12 date-comment">{comment.date_create}</div>
                                             <div className="col-md-12 content-comment">{comment.content}</div>
-                                            <div className="report-comment col-md-6 col-md-offset-6">
+                                            <div className="report-comment col-md-8 col-md-offset-4">
                                                 <div id={comment.id_comment} className="report-comment-content col-md-10">
                                                     <p>
                                                         <span onClick={this.ChangeContentReporSample.bind(this, "Nội dung không phù hợp")}>Nội dung không phù hợp</span>
@@ -293,7 +305,7 @@ export default class Comment extends Component {
                                             <div className="col-md-12 date-comment">{comment.date_create}</div>
                                             <div className="col-md-12 content-comment">{comment.content}</div>
                                             <img className="home-img-comment" src={config.ServerURL + "/" + comment.image} alt="Ảnh bình luận" />
-                                            <div className="report-comment col-md-6 col-md-offset-6">
+                                            <div className="report-comment col-md-8 col-md-offset-4">
                                                 <div id={comment.id_comment} className="report-comment-content col-md-10">
                                                     <p>
                                                         <span onClick={this.ChangeContentReporSample.bind(this, "Nội dung không phù hợp")}>Nội dung không phù hợp</span>
@@ -326,12 +338,12 @@ export default class Comment extends Component {
                         }
                     </div>
                     <form>
-                        <input className="col-md-10" name="content_comment" type="text" value={this.state.content_comment} onChange={this.ChangeHandler} />
+                        <input className="col-md-9" name="content_comment" type="text" value={this.state.content_comment} onChange={this.ChangeHandler} />
                         <input id={"image-comment" + this.props.id_host} name="image" type="file" onChange={this.ChangeImage} />
                         <label className="col-md-1" htmlFor={"image-comment" + this.props.id_host}>
                             <img src={this.state.image_preview} alt="Thêm ảnh bình luận" />
                         </label>
-                        <button className="col-md-1" onClick={this.submitComment} >Đồng ý</button>
+                        <button className="col-md-2" onClick={this.submitComment} >Đồng ý</button>
                     </form>
                 </div>
             </div>

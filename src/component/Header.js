@@ -34,8 +34,8 @@ export default class Header extends Component {
         if (this.state.userName === '') {
             return (
                 <div>
-                    <div className="logo col-md-1 col-md-offset-1"><img className="mainlogo" src={logo} alt="logo trang web"></img></div>
-                    <div className="btn col-md-1 entity"><Link to="/placesnearyou">Gần bạn</Link></div>
+                    <Link to="/"><div className="logo col-md-1 col-md-offset-1"><img className="mainlogo" src={logo} alt="logo trang web"></img></div></Link>
+                    <Link to="/placesnearyou"><div className="btn col-md-1 entity">Gần bạn</div></Link>
                     <div className="col-md-2 col-md-offset-6 entity">
                         <div className="col-md-5 col-md-offset-1">
                             <Link className="btn btn-primary" to='/login'>Đăng nhập</Link>
@@ -55,8 +55,8 @@ export default class Header extends Component {
         }
         return (
             <div>
-                <div className="logo col-md-1 col-md-offset-1"><img className="mainlogo" src={logo} alt="logo trang web"></img></div>
-                <div className="btn col-md-1 entity">Gần bạn</div>
+                <Link to="/"><div className="logo col-md-1 col-md-offset-1"><img className="mainlogo" src={logo} alt="logo trang web"></img></div></Link>
+                <Link to="/placesnearyou"><div className="btn col-md-1 entity">Gần bạn</div></Link>
                 <div className="col-md-2 col-md-offset-6 entity">
                     <div className="col-md-8 col-md-offset-4">
                         <div className="dropdown">
