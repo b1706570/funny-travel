@@ -19,6 +19,8 @@ export default class publicAPI {
         this.PaymentWithVNPay = this.PaymentWithVNPay.bind(this);
         this.GetResponseMessage = this.GetResponseMessage.bind(this);
         this.GetLocationNearMe = this.GetLocationNearMe.bind(this);
+        this.GetAnalystOfComment = this.GetAnalystOfComment.bind(this);
+        this.GetEvaluateOfMemberForHost = this.GetEvaluateOfMemberForHost.bind(this);
     }
 
     getRoom(params) {
@@ -179,6 +181,28 @@ export default class publicAPI {
     GetResponseMessage(params){
         const api = axios.create({baseURL: 'http://localhost:5005'});
         return api.post('/webhooks/rest/webhook', params, config)
+            .then(response =>{
+                return response.data;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    GetAnalystOfComment(params){
+        const api = axios.create({baseURL: 'http://localhost:5000'});
+        return api.post('/api/commentanalyst', params)
+            .then(response =>{
+                return response;
+            })
+            .catch(error =>{
+                console.log(error);
+            })
+    }
+
+    GetEvaluateOfMemberForHost(params){
+        const api = axios.create({baseURL: this.baseURL});
+        return api.post('/getevaluateofmemberforhost.php', params)
             .then(response =>{
                 return response.data;
             })

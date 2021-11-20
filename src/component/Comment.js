@@ -137,8 +137,8 @@ export default class Comment extends Component {
         }
         else {
             var old_id = this.state.id_comment_report;
-            if(old_id !== id_comment){
-                if (old_id !== -1){
+            if (old_id !== id_comment) {
+                if (old_id !== -1) {
                     document.getElementById(old_id).style.visibility = "hidden";
                     document.getElementById(old_id).style.zIndex = "10";
                 }
@@ -149,8 +149,8 @@ export default class Comment extends Component {
                     content_report: "",
                 })
             }
-            else{
-                if (old_id !== -1){
+            else {
+                if (old_id !== -1) {
                     document.getElementById(old_id).style.visibility = "hidden";
                     document.getElementById(old_id).style.zIndex = "10";
                 }
@@ -175,34 +175,34 @@ export default class Comment extends Component {
         })
     }
 
-    submitReport = (e) =>{
+    submitReport = (e) => {
         e.preventDefault();
-        if(localStorage.getItem("iduser") === null){
+        if (localStorage.getItem("iduser") === null) {
             alert("Bạn đã đăng xuất vui lòng đăng nhập lại!");
         }
-        else{
-            if(this.state.content_report === ""){
+        else {
+            if (this.state.content_report === "") {
                 alert("Bạn phải nhập lý do báo xấu!");
             }
-            else{
+            else {
                 let params = new FormData();
                 params.append("id_comment", this.state.id_comment_report);
                 params.append("id_reporter", localStorage.getItem("iduser"));
                 params.append("reason", this.state.content_report);
                 const api = new publicAPI();
                 api.ReportComment(params)
-                    .then(response =>{
-                        if(response === 200){
+                    .then(response => {
+                        if (response === 200) {
                             alert("Báo xấu của bạn đã được gửi. Xin cảm ơn!");
-                            document.getElementById(this.state.id_comment_report).style.visibility= "hidden";
-                            document.getElementById(this.state.id_comment_report).style.zIndex= "10";
+                            document.getElementById(this.state.id_comment_report).style.visibility = "hidden";
+                            document.getElementById(this.state.id_comment_report).style.zIndex = "10";
                             this.setState({
                                 id_comment: -1,
                                 content_comment: "",
                             })
                         }
                     })
-                    .catch(error =>{
+                    .catch(error => {
                         console.log(error);
                     })
             }
@@ -211,33 +211,130 @@ export default class Comment extends Component {
 
     submitComment = (e) => {
         e.preventDefault();
-        if (localStorage.getItem('iduser') && (this.state.content_comment !== "" || this.state.evaluate !== 0 || this.state.image_comment !== null)) {
-            let params = new FormData();
-            if (this.state.content_comment !== "")
-                params.append("content", this.state.content_comment);
-            if (this.state.evaluate !== 0)
-                params.append("evaluate", this.state.evaluate);
-            if (this.state.image_comment !== null)
-                params.append("image", this.state.image_comment);
-            params.append("id_host", this.state.host_id);
-            params.append("id_member", this.state.user_id);
-            const api = new publicAPI();
-            api.pushComment(params)
-                .then(response => {
-                    if (response.code === 200) {
-                        this.getComment(this.state.host_id);
-                        this.clearComment();
-                    }
-                    else {
-                        alert("Thêm bình luận thất bại!");
-                    }
-                })
-                .catch(error => {
-                    console.log(error);
-                })
+        if (this.state.content_comment !== "" || this.state.evaluate !== 0 || this.state.image_comment !== null) {
+            if (this.state.content_comment !== "" && this.state.evaluate !== 0) {
+                console.log(1);
+                const api = new publicAPI();
+                api.GetAnalystOfComment({ "text": this.state.content_comment })
+                    .then(response => {
+                        let ok = true;
+                        let label = response['data']['predict'];
+                        if ((label === "POS" && this.state.evaluate < 3) || (label === "NEG" && this.state.evaluate >= 3)) {
+                            let cf = window.confirm("Bình luận và đánh giá của bạn không khớp. Bạn muốn tiếp tục gửi bình luận không?");
+                            if (cf === false) {
+                                ok = false;
+                            }
+                        }
+                        if (ok === true) {
+                            let params = new FormData();
+                            if (this.state.content_comment !== "")
+                                params.append("content", this.state.content_comment);
+                            if (this.state.evaluate !== 0)
+                                params.append("evaluate", this.state.evaluate);
+                            if (this.state.image_comment !== null)
+                                params.append("image", this.state.image_comment);
+                            params.append("id_host", this.state.host_id);
+                            params.append("id_member", this.state.user_id);
+                            api.pushComment(params)
+                                .then(response => {
+                                    if (response.code === 200) {
+                                        this.getComment(this.state.host_id);
+                                        this.clearComment();
+                                    }
+                                    else {
+                                        alert("Thêm bình luận thất bại!");
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log(error);
+                                })
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error)
+                    })
+            }
+            else if (this.state.content_comment !== "") {
+                const api = new publicAPI();
+                let params1 = new FormData();
+                params1.append("id_host", this.state.host_id);
+                params1.append("id_member", this.state.user_id);
+                api.GetEvaluateOfMemberForHost(params1)
+                    .then(response => {
+                        let evaluate = response[0]['evaluate'];
+                        if (evaluate !== -1) {
+                            api.GetAnalystOfComment({ "text": this.state.content_comment })
+                                .then(response => {
+                                    let ok = true;
+                                    let label = response['data']['predict'];
+                                    if ((label === "POS" && evaluate < 3) || (label === "NEG" && evaluate >= 3)) {
+                                        let cf = window.confirm("Đánh giá hiện tại của bạn về khách sạn này là " + evaluate + " sao. Bạn có muốn đánh giá lại không?");
+                                        if (cf === true) {
+                                            ok = false;
+                                        }
+                                    }
+                                    if (ok === true) {
+                                        let params = new FormData();
+                                        if (this.state.content_comment !== "")
+                                            params.append("content", this.state.content_comment);
+                                        if (this.state.evaluate !== 0)
+                                            params.append("evaluate", this.state.evaluate);
+                                        if (this.state.image_comment !== null)
+                                            params.append("image", this.state.image_comment);
+                                        params.append("id_host", this.state.host_id);
+                                        params.append("id_member", this.state.user_id);
+                                        api.pushComment(params)
+                                            .then(response => {
+                                                if (response.code === 200) {
+                                                    this.getComment(this.state.host_id);
+                                                    this.clearComment();
+                                                }
+                                                else {
+                                                    alert("Thêm bình luận thất bại!");
+                                                }
+                                            })
+                                            .catch(error => {
+                                                console.log(error);
+                                            })
+                                    }
+                                })
+                                .catch(error => {
+                                    console.log(error)
+                                })
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
+            else {
+                let params = new FormData();
+                if (this.state.content_comment !== "")
+                    params.append("content", this.state.content_comment);
+                if (this.state.evaluate !== 0)
+                    params.append("evaluate", this.state.evaluate);
+                if (this.state.image_comment !== null)
+                    params.append("image", this.state.image_comment);
+                params.append("id_host", this.state.host_id);
+                params.append("id_member", this.state.user_id);
+                const api = new publicAPI();
+                api.pushComment(params)
+                    .then(response => {
+                        if (response.code === 200) {
+                            this.getComment(this.state.host_id);
+                            this.clearComment();
+                        }
+                        else {
+                            alert("Thêm bình luận thất bại!");
+                        }
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    })
+            }
         }
         else {
-            alert("Bạn phải đăng nhập hoặc thêm nội dung trước khi thêm bình luận.");
+            alert("Bạn hãy thêm nội dung hoặc đánh giá trước khi gửi nhé!");
         }
     }
 

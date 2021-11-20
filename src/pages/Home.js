@@ -337,7 +337,7 @@ export default class Home extends Component {
                             </div>
                         </div>
                     </div>
-                    <div className="col-md-12 footer-home"><Footer /></div>
+                    <div className="col-md-12 footer"><Footer /></div>
                     <div><Chatbox /></div>
                 </div>
                 <div className="home-background"></div>
